@@ -55,6 +55,6 @@ function highlightBonusSymbols() {
       cell.classList.add("highlight");
     }
   });
-}
+}pl
 
 document.getElementById("spin-btn").ad
