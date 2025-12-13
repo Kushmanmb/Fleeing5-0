@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Simple build script that copies files from source to dist
-const sourceDir = path.join(__dirname, 'Fleeing 5-0', 'fleeing_5_0_final_rebuild_animated_sound.zip (Unzipped Files)');
+const sourceDir = path.join(__dirname, 'src');
 const distDir = path.join(__dirname, 'dist');
 
 // Create dist directory if it doesn't exist

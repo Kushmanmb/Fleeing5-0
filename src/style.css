@@ -1,0 +1,49 @@
+body {
+  background: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+#slot-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(6, 100px);
+  gap: 5px;
+  justify-content: center;
+  margin: 20px auto;
+}
+.cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #444;
+  background: #222;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.3s;
+}
+.highlight {
+  background: gold !important;
+  color: black;
+  animation: flash 0.8s infinite alternate;
+  transform: scale(1.1);
+}
+@keyframes flash {
+  from { background: gold; }
+  to { background: red; color: white; }
+}
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+button:hover {
+  background: #218838;
+}
