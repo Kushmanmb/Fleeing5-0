@@ -1,60 +1,17 @@
 # fleeing-5-0
-const symbols = ["PRISONER", "ROBBER", "COP", "BAR", "7", "CHERRY", "BELL"];
 
-const rows = 6;
-const cols = 5;
-let board = [];
+A slot machine game with performance optimizations.
 
-// Preload siren sound
-const siren = new Audio("siren.mp3");
+## Performance Improvements
 
-function spin() {
-  board = [];
-  const grid = document.getElementById("slot-grid");
-  grid.innerHTML = "";
-  for (let r = 0; r < rows; r++) {
-    const row = [];
-    for (let c = 0; c < cols; c++) {
-      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-      row.push(symbol);
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      cell.textContent = symbol;
-      grid.appendChild(cell);
-    }
-    board.push(row);
-  }
+The code has been optimized with the following improvements:
 
-  if (checkBonusTrigger(board)) {
-    document.getElementById("status").textContent = "ðŸš¨ BONUS TRIGGERED!";
-    highlightBonusSymbols();
-    siren.currentTime = 0;
-    siren.play();
-  } else {
-    document.getElementById("status").textContent = "No bonus this spin.";
-  }
-}
+1. **DOM Element Caching** - Frequently accessed DOM elements are cached to avoid repeated `getElementById` calls
+2. **DocumentFragment Usage** - DOM operations are batched using DocumentFragment to reduce reflows and repaints
+3. **Cell Reference Caching** - Cell elements are stored during creation to avoid `querySelectorAll` calls
+4. **Optimized Loop Logic** - Single loop in `checkBonusTrigger` instead of multiple `some()` calls with early exit
+5. **Spin Debouncing** - Prevents multiple simultaneous spins with `isSpinning` flag
 
-function checkBonusTrigger(board) {
-  let prisonerOnReel1 = board.some(row => row[0] === "PRISONER");
-  let robberOnReel5   = board.some(row => row[4] === "ROBBER");
-  let copInMiddle     = board.some(row => row[1] === "COP" || 
-                                         row[2] === "COP" || 
-                                         row[3] === "COP");
-  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
-}
+## How to Run
 
-function highlightBonusSymbols() {
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell, index) => {
-    const col = index % cols;
-    const text = cell.textContent;
-    if ((col === 0 && text === "PRISONER") ||
-        (col === 4 && text === "ROBBER") ||
-        ((col === 1 || col === 2 || col === 3) && text === "COP")) {
-      cell.classList.add("highlight");
-    }
-  });
-}pl
-
-document.getElementById("spin-btn").ad
+Open `index.html` in a web browser to play the game.
