@@ -1,0 +1,18 @@
+{
+  "name": "fleeing-5-0",
+  "version": "1.0.0",
+  "description": "A slot machine game with performance optimizations",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node test.js",
+    "webpack": "webpack --mode production"
+  },
+  "keywords": ["game", "slot-machine"],
+  "author": "kushmanmb",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
