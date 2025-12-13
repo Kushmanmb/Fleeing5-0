@@ -54,7 +54,7 @@ function checkBonusTrigger(board) {
   for (let r = 0; r < rows; r++) {
     if (board[r][0] === "PRISONER") prisonerOnReel1 = true;
     if (board[r][4] === "ROBBER") robberOnReel5 = true;
-    if ([1, 2, 3].includes(board[r].indexOf("COP"))) copInMiddle = true;
+    if (board[r][1] === "COP" || board[r][2] === "COP" || board[r][3] === "COP") copInMiddle = true;
     
     // Early exit if all conditions met
     if (prisonerOnReel1 && robberOnReel5 && copInMiddle) break;
