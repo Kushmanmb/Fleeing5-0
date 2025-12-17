@@ -65,8 +65,8 @@ fleeing-5-0/
 ## Game Logic
 
 The bonus trigger requires:
-- PRISONER symbol on reel 1 (column 0)
-- ROBBER symbol on reel 5 (column 4)
+- PRISONER symbol on the leftmost reel (column 0)
+- ROBBER symbol on the rightmost reel (column 4)
 - COP symbol on any of the middle reels (columns 1, 2, or 3)
 
 All three conditions must be met in at least one row to trigger the bonus.
