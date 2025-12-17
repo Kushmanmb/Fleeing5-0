@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a slot machine game called "Fleeing 5-0" that features performance-optimized JavaScript code. The game displays a 6x5 grid of symbols and triggers a bonus when specific conditions are met (PRISONER on the leftmost column, ROBBER on the rightmost column, and COP in any middle column).
+This is a slot machine game called "Fleeing 5-0" that features performance-optimized JavaScript code. The game displays a 6-row by 5-column grid of symbols and triggers a bonus when specific conditions are met in any row: PRISONER on the leftmost column, ROBBER on the rightmost column, and COP in any middle column.
 
 ## Technology Stack
 
