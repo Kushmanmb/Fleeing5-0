@@ -84,14 +84,19 @@ Run `npm test` to verify changes don't break existing functionality.
 
 ### Adding a New Symbol
 1. Add the symbol name to the `symbols` array in `src/main.js`
-2. Update the bonus trigger logic in `checkBonusTrigger()` only if the new symbol should trigger bonuses (like PRISONER, ROBBER, or COP). Most new symbols are just decorative and won't need logic changes.
+2. Determine if the symbol affects game mechanics:
+   - **Decorative symbols** (like BAR, 7, CHERRY, BELL): No logic changes needed
+   - **Bonus-triggering symbols** (like PRISONER, ROBBER, COP): Update `checkBonusTrigger()` logic
 3. Add corresponding tests in `test.js` if the symbol affects game mechanics
 4. Run `npm test` to verify the changes
 
 ### Modifying Game Grid Size
 1. Update the `rows` and `cols` constants in `src/main.js`
 2. Adjust CSS grid layout in `src/style.css` if needed
-3. Update bonus trigger logic if column indices change (PRISONER on column 0, ROBBER on rightmost column, COP on middle columns)
+3. Update bonus trigger logic in `checkBonusTrigger()` if column count changes:
+   - Update `row[0]` check if leftmost column index changes
+   - Update `row[4]` check to match new rightmost column index
+   - Update `row[1]`, `row[2]`, `row[3]` checks if middle column indices change
 4. Update all test cases in `test.js` to reflect new grid dimensions and column positions
 
 ### Performance Optimization
