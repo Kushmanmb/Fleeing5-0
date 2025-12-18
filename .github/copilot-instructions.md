@@ -79,3 +79,56 @@ When modifying game logic, ensure all test cases in `test.js` pass:
 - Edge cases: Conditions met in different rows
 
 Run `npm test` to verify changes don't break existing functionality.
+
+## Common Development Tasks
+
+### Adding a New Symbol
+1. Add the symbol name to the `symbols` array in `src/main.js`
+2. Determine if the symbol affects game mechanics:
+   - **Decorative symbols** (like BAR, 7, CHERRY, BELL): No logic changes needed
+   - **Bonus-triggering symbols** (like PRISONER, ROBBER, COP): Update `checkBonusTrigger()` logic
+3. Add corresponding tests in `test.js` if the symbol affects game mechanics
+4. Run `npm test` to verify the changes
+
+### Modifying Game Grid Size
+1. Update the `rows` and `cols` constants in `src/main.js`
+2. Adjust CSS grid layout in `src/style.css` if needed
+3. Update bonus trigger logic in `checkBonusTrigger()` if column count changes:
+   - Update `row[0]` check if leftmost column index changes
+   - Update `row[4]` check to match new rightmost column index
+   - Update `row[1]`, `row[2]`, `row[3]` checks if middle column indices change
+4. Update all test cases in `test.js` to reflect new grid dimensions and column positions
+
+### Performance Optimization
+When optimizing code, always:
+- Profile before and after changes to measure impact
+- Maintain the existing optimization patterns (DOM caching, DocumentFragment, etc.)
+- Test that game logic remains correct after optimization
+- Document any new optimization techniques in code comments
+
+## Dependencies
+
+This project has minimal dependencies:
+- **webpack** and **webpack-cli**: Used for bundling (development dependency only)
+- No runtime dependencies - vanilla JavaScript only
+
+When adding dependencies:
+- Prefer vanilla JavaScript solutions over external libraries when possible
+- Keep the bundle size small to maintain performance
+- Document why the dependency is necessary
+- Update package.json appropriately
+
+## Debugging Tips
+
+- **Game Logic Issues**: Test with the test.js script first, which provides isolated unit tests
+- **DOM Issues**: Open dist/index.html in browser and use browser DevTools console
+- **Performance Issues**: Use browser Performance profiler to identify bottlenecks
+- **Build Issues**: Check that all files exist in src/ directory before running build
+- **Test Failures**: Run tests with node test.js directly to see detailed error messages
+
+## File Organization
+
+- **Source files** go in `src/` directory
+- **Build output** goes to `dist/` directory (gitignored)
+- **Test files** stay in root directory (test.js)
+- **Build scripts** stay in root directory (build.js, webpack.config.js)
