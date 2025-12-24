@@ -1,60 +1,24 @@
 # fleeing-5-0
-const symbols = ["PRISONER", "ROBBER", "COP", "BAR", "7", "CHERRY", "BELL"];
 
-const rows = 6;
-const cols = 5;
-let board = [];
+A slot machine game with a "fleeing" theme featuring prisoners, robbers, and cops.
 
-// Preload siren sound
-const siren = new Audio("siren.mp3");
+## Features
 
-function spin() {
-  board = [];
-  const grid = document.getElementById("slot-grid");
-  grid.innerHTML = "";
-  for (let r = 0; r < rows; r++) {
-    const row = [];
-    for (let c = 0; c < cols; c++) {
-      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-      row.push(symbol);
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      cell.textContent = symbol;
-      grid.appendChild(cell);
-    }
-    board.push(row);
-  }
+- 6x5 slot grid
+- 7 different symbols: PRISONER, ROBBER, COP, BAR, 7, CHERRY, BELL
+- Bonus trigger mechanic: Activated when a PRISONER appears on reel 1, a ROBBER on reel 5, and a COP in the middle reels (2, 3, or 4)
+- Visual highlighting of bonus symbols
+- Sound effects (siren sound when bonus is triggered)
 
-  if (checkBonusTrigger(board)) {
-    document.getElementById("status").textContent = "ðŸš¨ BONUS TRIGGERED!";
-    highlightBonusSymbols();
-    siren.currentTime = 0;
-    siren.play();
-  } else {
-    document.getElementById("status").textContent = "No bonus this spin.";
-  }
-}
+## Game Symbols
 
-function checkBonusTrigger(board) {
-  let prisonerOnReel1 = board.some(row => row[0] === "PRISONER");
-  let robberOnReel5   = board.some(row => row[4] === "ROBBER");
-  let copInMiddle     = board.some(row => row[1] === "COP" || 
-                                         row[2] === "COP" || 
-                                         row[3] === "COP");
-  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
-}
+- **PRISONER**: Must appear on the first reel for bonus trigger
+- **ROBBER**: Must appear on the fifth reel for bonus trigger  
+- **COP**: Must appear on reels 2, 3, or 4 for bonus trigger
+- **BAR, 7, CHERRY, BELL**: Standard slot symbols
 
-function highlightBonusSymbols() {
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell, index) => {
-    const col = index % cols;
-    const text = cell.textContent;
-    if ((col === 0 && text === "PRISONER") ||
-        (col === 4 && text === "ROBBER") ||
-        ((col === 1 || col === 2 || col === 3) && text === "COP")) {
-      cell.classList.add("highlight");
-    }
-  });
-}pl
+## How to Play
 
-document.getElementById("spin-btn").ad
+1. Click the "Spin" button to spin the reels
+2. Watch for the bonus trigger combination
+3. When triggered, enjoy the siren sound and highlighted symbols!
