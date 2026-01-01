@@ -30,7 +30,7 @@ async function exampleUsage() {
   }
 }
 
-// Uncomment the line below to run the example
+// Run the example
 exampleUsage();
 
-console.log('Example file loaded. Set your API key and uncomment exampleUsage() to run.');
+console.log('Example file loaded. Running exampleUsage()...');
