@@ -55,7 +55,7 @@ npm test
 
 ## USDC Faucet Server
 
-This repository also includes a USDC faucet server for dispensing testnet USDC tokens.
+This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
 
 ### Setup
 
@@ -67,6 +67,7 @@ cp .env.example .env
 2. Configure your `.env` file with:
    - `INFURA_PROJECT_ID`: Your Infura project ID
    - `PRIVATE_KEY`: Private key of the wallet that will dispense USDC
+   - `USDC_CONTRACT_ADDRESS`: Address of the USDC contract on your testnet (Sepolia, Goerli, etc.)
 
 ### Running the Faucet
 
@@ -98,14 +99,16 @@ Response (success):
 ```
 
 Responses (error):
+- `400`: Invalid or missing address
 - `429`: Cooldown in effect (1 hour between requests)
 - `500`: Faucet out of funds or transfer error
 
 ### Faucet Configuration
 
+- **Network**: Sepolia testnet (configurable via Infura)
 - **Dispense Amount**: 10 USDC per request
 - **Cooldown**: 1 hour between requests per address
-- **USDC Contract**: Mainnet USDC at `0xA0b86991c6218b36c1d19D4a2eF0b6A46FC1bC5e`
+- **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
 
 ## Performance Improvements
 
