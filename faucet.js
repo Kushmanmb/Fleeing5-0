@@ -11,9 +11,13 @@ const provider = new ethers.providers.InfuraProvider('sepolia', process.env.INFU
 // Create wallet instance
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-// USDC contract details - NOTE: This should be a testnet USDC contract address
-// Update this address to match your testnet USDC deployment
-const USDC_ADDRESS = process.env.USDC_CONTRACT_ADDRESS || '0xA0b86991c6218b36c1d19D4a2eF0b6A46FC1bC5e';
+// USDC contract details - NOTE: This must be a testnet USDC contract address
+// Configure via USDC_CONTRACT_ADDRESS environment variable
+if (!process.env.USDC_CONTRACT_ADDRESS) {
+  console.error('ERROR: USDC_CONTRACT_ADDRESS environment variable is required');
+  process.exit(1);
+}
+const USDC_ADDRESS = process.env.USDC_CONTRACT_ADDRESS;
 const USDC_ABI = [
   'function transfer(address to, uint256 value) public returns (bool)',
   'function balanceOf(address owner) view returns (uint256)',
@@ -27,6 +31,8 @@ const COOLDOWN = 3600; // 1 hour in seconds
 const DISPENSE_AMOUNT = ethers.utils.parseUnits('10', 6); // 10 USDC with 6 decimals
 
 // In-memory store for last request times
+// NOTE: This will reset on server restart and doesn't scale across multiple instances
+// For production, consider using Redis or a database
 const lastRequestTimes = {};
 
 app.use(express.json());
@@ -61,8 +67,10 @@ app.post('/faucet', async (req, res) => {
   // Transfer USDC to user
   try {
     const tx = await usdcContract.transfer(userAddress, DISPENSE_AMOUNT);
-    await tx.wait();
+    // Update cooldown timestamp immediately after transaction is sent
+    // to prevent abuse if tx.wait() takes a long time or fails
     lastRequestTimes[normalizedAddress] = now;
+    await tx.wait();
     res.json({ message: 'USDC dispensed successfully!' });
   } catch (error) {
     console.error(error);
