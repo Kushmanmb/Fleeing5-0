@@ -53,6 +53,63 @@ Run the test suite to verify game logic:
 npm test
 ```
 
+## USDC Faucet Server
+
+This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
+
+### Setup
+
+1. Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
+```
+
+2. Configure your `.env` file with:
+   - `INFURA_PROJECT_ID`: Your Infura project ID
+   - `PRIVATE_KEY`: Private key of the wallet that will dispense USDC
+   - `USDC_CONTRACT_ADDRESS`: Address of the USDC contract on your testnet (Sepolia, Goerli, etc.)
+
+### Running the Faucet
+
+Start the faucet server:
+```bash
+npm run faucet
+```
+
+The server will run at `http://localhost:3000`.
+
+### API Endpoints
+
+**POST /faucet**
+
+Request USDC tokens from the faucet.
+
+Request body:
+```json
+{
+  "address": "0x..."
+}
+```
+
+Response (success):
+```json
+{
+  "message": "USDC dispensed successfully!"
+}
+```
+
+Responses (error):
+- `400`: Invalid or missing address
+- `429`: Cooldown in effect (1 hour between requests)
+- `500`: Faucet out of funds or transfer error
+
+### Faucet Configuration
+
+- **Network**: Sepolia testnet (configurable via Infura)
+- **Dispense Amount**: 10 USDC per request
+- **Cooldown**: 1 hour between requests per address
+- **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
+
 ## Performance Improvements
 
 The code has been optimized with the following improvements:
@@ -73,6 +130,7 @@ fleeing-5-0/
 │   ├── style.css        # Styles
 │   └── siren.mp3        # Sound effect
 ├── dist/                # Build output (generated)
+├── faucet.js            # USDC faucet server
 ├── test.js              # Test suite
 ├── build.js             # Build script
 ├── webpack.config.js    # Webpack configuration
