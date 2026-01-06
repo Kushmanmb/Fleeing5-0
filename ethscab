@@ -1,0 +1,2 @@
+curl --request GET \
+  --url https://api.etherscan.io/v2/api
