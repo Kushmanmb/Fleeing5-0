@@ -109,7 +109,7 @@ function updateStatistics() {
   totalSpinsElement.textContent = totalSpins;
   totalBonusesElement.textContent = totalBonuses;
   
-  const winRate = totalSpins > 0 ? ((totalBonuses / totalSpins) * 100).toFixed(1) : 0;
+  const winRate = totalSpins > 0 ? ((totalBonuses / totalSpins) * 100).toFixed(1) : '0';
   winRateElement.textContent = `${winRate}%`;
 }
 
