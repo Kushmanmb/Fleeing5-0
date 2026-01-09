@@ -6,10 +6,18 @@ let board = [];
 let cellElements = [];
 let isSpinning = false;
 
+// Statistics tracking
+let totalSpins = 0;
+let totalBonuses = 0;
+
 // Cache DOM elements
 const grid = document.getElementById("slot-grid");
 const statusElement = document.getElementById("status");
 const spinButton = document.getElementById("spin-btn");
+const totalSpinsElement = document.getElementById("total-spins");
+const totalBonusesElement = document.getElementById("total-bonuses");
+const winRateElement = document.getElementById("win-rate");
+const notificationList = document.getElementById("notification-list");
 
 // Preload siren sound
 const siren = new Audio("siren.mp3");
@@ -52,9 +60,15 @@ function spin() {
     highlightBonusSymbols();
     siren.currentTime = 0;
     siren.play();
+    totalBonuses++;
+    addNotification("🚨 BONUS TRIGGERED! All conditions met!", true);
   } else {
     statusElement.textContent = "No bonus this spin.";
+    addNotification("No bonus this time. Keep spinning!", false);
   }
+  
+  totalSpins++;
+  updateStatistics();
   
   isSpinning = false;
 }
@@ -89,6 +103,28 @@ function highlightBonusSymbols() {
       cell.classList.add("highlight");
     }
   });
+}
+
+function updateStatistics() {
+  totalSpinsElement.textContent = totalSpins;
+  totalBonusesElement.textContent = totalBonuses;
+  
+  const winRate = totalSpins > 0 ? ((totalBonuses / totalSpins) * 100).toFixed(1) : 0;
+  winRateElement.textContent = `${winRate}%`;
+}
+
+function addNotification(message, isBonus) {
+  const li = document.createElement("li");
+  li.textContent = message;
+  li.className = isBonus ? "bonus" : "no-bonus";
+  
+  // Add to the top of the list
+  notificationList.insertBefore(li, notificationList.firstChild);
+  
+  // Keep only the last 5 notifications
+  while (notificationList.children.length > 5) {
+    notificationList.removeChild(notificationList.lastChild);
+  }
 }
 
 spinButton.addEventListener("click", spin);
