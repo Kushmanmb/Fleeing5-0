@@ -10,6 +10,29 @@
   <div id="slot-grid"></div>
   <button id="spin-btn">SPIN</button>
   <p id="status"></p>
+  
+  <div id="notification-panel">
+    <h2>Game Statistics</h2>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-label">Total Spins:</span>
+        <span id="total-spins" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Bonuses:</span>
+        <span id="total-bonuses" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Win Rate:</span>
+        <span id="win-rate" class="stat-value">0%</span>
+      </div>
+    </div>
+    <div id="notifications">
+      <h3>Recent Events</h3>
+      <ul id="notification-list"></ul>
+    </div>
+  </div>
+  
   <script src="main.js"></script>
 </body>
 </html>

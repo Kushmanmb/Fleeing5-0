@@ -130,6 +130,63 @@ if (checkBonusTrigger(testBoard5)) {
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 
+// Test notification statistics calculations
+console.log('Testing notification statistics...\n');
+
+// Test case 6: Win rate calculation with no spins
+let testTotalSpins = 0;
+let testTotalBonuses = 0;
+let expectedWinRate = '0';
+let actualWinRate = testTotalSpins > 0 ? ((testTotalBonuses / testTotalSpins) * 100).toFixed(1) : '0';
+if (actualWinRate === expectedWinRate) {
+  console.log('✓ Test 6: Win rate is 0% with no spins');
+  passed++;
+} else {
+  console.log(`✗ Test 6: FAILED - Expected ${expectedWinRate}%, got ${actualWinRate}%`);
+  failed++;
+}
+
+// Test case 7: Win rate calculation with 100% win rate
+testTotalSpins = 5;
+testTotalBonuses = 5;
+expectedWinRate = '100.0';
+actualWinRate = testTotalSpins > 0 ? ((testTotalBonuses / testTotalSpins) * 100).toFixed(1) : 0;
+if (actualWinRate === expectedWinRate) {
+  console.log('✓ Test 7: Win rate is 100% with all bonuses');
+  passed++;
+} else {
+  console.log(`✗ Test 7: FAILED - Expected ${expectedWinRate}%, got ${actualWinRate}%`);
+  failed++;
+}
+
+// Test case 8: Win rate calculation with partial wins
+testTotalSpins = 10;
+testTotalBonuses = 3;
+expectedWinRate = '30.0';
+actualWinRate = testTotalSpins > 0 ? ((testTotalBonuses / testTotalSpins) * 100).toFixed(1) : 0;
+if (actualWinRate === expectedWinRate) {
+  console.log('✓ Test 8: Win rate correctly calculates 30%');
+  passed++;
+} else {
+  console.log(`✗ Test 8: FAILED - Expected ${expectedWinRate}%, got ${actualWinRate}%`);
+  failed++;
+}
+
+// Test case 9: Win rate with 66.7% (like in the demo)
+testTotalSpins = 6;
+testTotalBonuses = 4;
+expectedWinRate = '66.7';
+actualWinRate = testTotalSpins > 0 ? ((testTotalBonuses / testTotalSpins) * 100).toFixed(1) : 0;
+if (actualWinRate === expectedWinRate) {
+  console.log('✓ Test 9: Win rate correctly calculates 66.7%');
+  passed++;
+} else {
+  console.log(`✗ Test 9: FAILED - Expected ${expectedWinRate}%, got ${actualWinRate}%`);
+  failed++;
+}
+
+console.log(`\n${passed} passed, ${failed} failed\n`);
+
 if (failed > 0) {
   process.exit(1);
 }
