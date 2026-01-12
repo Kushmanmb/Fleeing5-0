@@ -47,3 +47,76 @@ button {
 button:hover {
   background: #218838;
 }
+
+#notification-panel {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #1a1a1a;
+  border: 2px solid #444;
+  border-radius: 10px;
+}
+
+#notification-panel h2 {
+  margin-top: 0;
+  color: #28a745;
+  font-size: 20px;
+}
+
+#notification-panel h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #ffc107;
+  font-size: 16px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+#notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#notification-list li {
+  padding: 10px;
+  margin: 5px 0;
+  background: #222;
+  border-left: 3px solid #28a745;
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: left;
+}
+
+#notification-list li.bonus {
+  border-left-color: gold;
+  background: #2a2a00;
+}
+
+#notification-list li.no-bonus {
+  border-left-color: #666;
+}
