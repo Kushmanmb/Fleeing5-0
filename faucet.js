@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { ethers } = require('ethers');
+const IERC20 = require('@openzeppelin/contracts/build/contracts/IERC20.json');
 
 const app = express();
 const port = 3000;
@@ -18,13 +19,9 @@ if (!process.env.USDC_CONTRACT_ADDRESS) {
   process.exit(1);
 }
 const USDC_ADDRESS = process.env.USDC_CONTRACT_ADDRESS;
-const USDC_ABI = [
-  'function transfer(address to, uint256 value) public returns (bool)',
-  'function balanceOf(address owner) view returns (uint256)',
-];
 
-// Create USDC contract instance
-const usdcContract = new ethers.Contract(USDC_ADDRESS, USDC_ABI, wallet);
+// Create USDC contract instance using OpenZeppelin's IERC20 interface
+const usdcContract = new ethers.Contract(USDC_ADDRESS, IERC20.abi, wallet);
 
 // Cooldown and limits
 const COOLDOWN = 3600; // 1 hour in seconds

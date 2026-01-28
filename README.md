@@ -55,7 +55,7 @@ npm test
 
 ## USDC Faucet Server
 
-This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
+This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet. The faucet uses OpenZeppelin's audited ERC20 contract interface for secure token interactions.
 
 ### Setup
 
@@ -136,6 +136,18 @@ fleeing-5-0/
 ├── webpack.config.js    # Webpack configuration
 └── package.json         # Project dependencies
 ```
+
+## Dependencies
+
+### Production Dependencies
+- **@openzeppelin/contracts** (v5.4.0): Industry-standard, audited smart contract library providing secure ERC20 token interfaces
+- **dotenv**: Environment variable management
+- **ethers**: Ethereum wallet and provider library
+- **express**: Web framework for the faucet server
+
+### Development Dependencies
+- **webpack**: Module bundler
+- **webpack-cli**: Webpack command-line interface
 
 ## Development
 
