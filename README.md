@@ -125,7 +125,7 @@ Body:
 ```bash
 curl -X POST http://localhost:3000/faucet \
   -H "Content-Type: application/json" \
-  -d '{"address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"}'
+  -d '{"address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"}'
 ```
 
 **Example using JavaScript:**
@@ -136,7 +136,7 @@ fetch('http://localhost:3000/faucet', {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb'
+    address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0'
   })
 })
 .then(response => response.json())
@@ -150,7 +150,7 @@ fetch('http://localhost:3000/faucet', {
   "message": "USDC dispensed successfully!",
   "transactionHash": "0xabc123...",
   "amount": "10",
-  "recipient": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+  "recipient": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"
 }
 ```
 

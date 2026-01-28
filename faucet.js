@@ -46,7 +46,7 @@ app.get('/status', async (req, res) => {
     res.json({
       faucetAddress: wallet.address,
       balance: balanceFormatted,
-      dispenseAmount: '10',
+      dispenseAmount: ethers.utils.formatUnits(DISPENSE_AMOUNT, 6),
       cooldownSeconds: COOLDOWN,
       network: 'sepolia'
     });
@@ -97,7 +97,7 @@ app.post('/faucet', async (req, res) => {
     res.json({ 
       message: 'USDC dispensed successfully!',
       transactionHash: tx.hash,
-      amount: '10',
+      amount: ethers.utils.formatUnits(DISPENSE_AMOUNT, 6),
       recipient: userAddress
     });
   } catch (error) {
