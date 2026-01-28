@@ -57,38 +57,38 @@ app.get('/status', async (req, res) => {
 });
 
 app.post('/faucet', async (req, res) => {
-  // Validate request body
-  if (!req.body || !req.body.address) {
-    return res.status(400).json({ message: 'Address is required in request body.' });
-  }
-
-  const userAddress = req.body.address;
-
-  // Validate Ethereum address format
-  if (!ethers.utils.isAddress(userAddress)) {
-    return res.status(400).json({ message: 'Invalid Ethereum address format.' });
-  }
-
-  const normalizedAddress = userAddress.toLowerCase();
-  const now = Math.floor(Date.now() / 1000);
-  
-  // Check cooldown
-  if (lastRequestTimes[normalizedAddress] && now - lastRequestTimes[normalizedAddress] < COOLDOWN) {
-    const timeRemaining = COOLDOWN - (now - lastRequestTimes[normalizedAddress]);
-    return res.status(429).json({ 
-      message: 'Cooldown in effect. Please try again later.',
-      cooldownRemaining: timeRemaining
-    });
-  }
-
-  // Check faucet balance
-  const balance = await usdcContract.balanceOf(wallet.address);
-  if (balance.lt(DISPENSE_AMOUNT)) {
-    return res.status(500).json({ message: 'Faucet out of funds.' });
-  }
-
-  // Transfer USDC to user
   try {
+    // Validate request body
+    if (!req.body || !req.body.address) {
+      return res.status(400).json({ message: 'Address is required in request body.' });
+    }
+
+    const userAddress = req.body.address;
+
+    // Validate Ethereum address format
+    if (!ethers.utils.isAddress(userAddress)) {
+      return res.status(400).json({ message: 'Invalid Ethereum address format.' });
+    }
+
+    const normalizedAddress = userAddress.toLowerCase();
+    const now = Math.floor(Date.now() / 1000);
+    
+    // Check cooldown
+    if (lastRequestTimes[normalizedAddress] && now - lastRequestTimes[normalizedAddress] < COOLDOWN) {
+      const timeRemaining = Math.ceil(COOLDOWN - (now - lastRequestTimes[normalizedAddress]));
+      return res.status(429).json({ 
+        message: 'Cooldown in effect. Please try again later.',
+        cooldownRemainingSeconds: timeRemaining
+      });
+    }
+
+    // Check faucet balance
+    const balance = await usdcContract.balanceOf(wallet.address);
+    if (balance.lt(DISPENSE_AMOUNT)) {
+      return res.status(500).json({ message: 'Faucet out of funds.' });
+    }
+
+    // Transfer USDC to user
     const tx = await usdcContract.transfer(userAddress, DISPENSE_AMOUNT);
     // Update cooldown timestamp immediately after transaction is sent
     // to prevent abuse if tx.wait() takes a long time or fails

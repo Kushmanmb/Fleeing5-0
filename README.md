@@ -172,10 +172,10 @@ fetch('http://localhost:3000/faucet', {
   ```json
   {
     "message": "Cooldown in effect. Please try again later.",
-    "cooldownRemaining": 2400
+    "cooldownRemainingSeconds": 2400
   }
   ```
-  Note: `cooldownRemaining` is in seconds.
+  Note: `cooldownRemainingSeconds` is in seconds.
   
 - `500`: Faucet out of funds or transfer error
   ```json
