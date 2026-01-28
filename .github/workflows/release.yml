@@ -39,20 +39,26 @@ jobs:
     - name: Create distribution archive
       run: |
         cd dist
-        zip -r ../fleeing-5-0-${{ github.ref_name }}.zip .
+        zip -r ../kywmahmb-${{ github.ref_name }}.zip .
         cd ..
 
     - name: Generate changelog
       id: changelog
       run: |
         echo "## What's Changed" > CHANGELOG.md
-        git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s (%h)" >> CHANGELOG.md
+        # Check if there's a previous tag
+        if git describe --tags --abbrev=0 HEAD^ 2>/dev/null; then
+          git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s (%h)" >> CHANGELOG.md
+        else
+          # First release - show all commits
+          git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+        fi
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          fleeing-5-0-${{ github.ref_name }}.zip
+          kywmahmb-${{ github.ref_name }}.zip
         body_path: CHANGELOG.md
         draft: false
         prerelease: false

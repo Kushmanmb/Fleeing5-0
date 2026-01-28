@@ -23,8 +23,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Check for syntax errors
-      run: node -c src/main.js && node -c test.js && node -c build.js && node -c faucet.js
+    - name: Check for syntax errors in JavaScript files
+      run: |
+        find . -name "*.js" -not -path "./node_modules/*" -not -path "./dist/*" -exec node -c {} \;
 
     - name: Validate JSON files
       run: |
@@ -48,7 +49,9 @@ jobs:
       run: npm ci
 
     - name: Run npm audit
-      run: npm audit --audit-level=moderate || true
+      run: npm audit --audit-level=moderate
+      continue-on-error: true
 
     - name: Check for outdated dependencies
-      run: npm outdated || true
+      run: npm outdated
+      continue-on-error: true
