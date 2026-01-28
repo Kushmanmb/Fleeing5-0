@@ -38,6 +38,7 @@ const lastRequestTimes = {};
 // Cache for status endpoint to reduce on-chain calls
 let statusCache = null;
 let statusCacheTimestamp = 0;
+let statusCacheFetching = null; // Promise to prevent concurrent fetches
 const STATUS_CACHE_TTL = 30; // 30 seconds cache TTL
 
 app.use(express.json());
@@ -52,22 +53,41 @@ app.get('/status', async (req, res) => {
       return res.json(statusCache);
     }
     
-    // Fetch fresh data from blockchain
-    const balance = await usdcContract.balanceOf(wallet.address);
-    const balanceFormatted = ethers.utils.formatUnits(balance, 6);
+    // If another request is already fetching, wait for it
+    if (statusCacheFetching) {
+      await statusCacheFetching;
+      // After waiting, check if cache is now available
+      if (statusCache && (now - statusCacheTimestamp) < STATUS_CACHE_TTL) {
+        return res.json(statusCache);
+      }
+    }
     
-    const statusResponse = {
-      faucetAddress: wallet.address,
-      balance: balanceFormatted,
-      dispenseAmount: ethers.utils.formatUnits(DISPENSE_AMOUNT, 6),
-      cooldownSeconds: COOLDOWN,
-      network: 'sepolia'
-    };
+    // Create a promise for this fetch operation
+    statusCacheFetching = (async () => {
+      try {
+        // Fetch fresh data from blockchain
+        const balance = await usdcContract.balanceOf(wallet.address);
+        const balanceFormatted = ethers.utils.formatUnits(balance, 6);
+        
+        const statusResponse = {
+          faucetAddress: wallet.address,
+          balance: balanceFormatted,
+          dispenseAmount: ethers.utils.formatUnits(DISPENSE_AMOUNT, 6),
+          cooldownSeconds: COOLDOWN,
+          network: 'sepolia'
+        };
+        
+        // Update cache
+        statusCache = statusResponse;
+        statusCacheTimestamp = Math.floor(Date.now() / 1000);
+        
+        return statusResponse;
+      } finally {
+        statusCacheFetching = null;
+      }
+    })();
     
-    // Update cache
-    statusCache = statusResponse;
-    statusCacheTimestamp = now;
-    
+    const statusResponse = await statusCacheFetching;
     res.json(statusResponse);
   } catch (error) {
     console.error(error);
@@ -114,6 +134,10 @@ app.post('/faucet', async (req, res) => {
     // to prevent abuse if tx.wait() takes a long time or fails
     lastRequestTimes[normalizedAddress] = now;
     await tx.wait();
+    
+    // Invalidate status cache since balance has changed
+    statusCache = null;
+    
     res.json({ 
       message: 'USDC dispensed successfully!',
       transactionHash: tx.hash,
