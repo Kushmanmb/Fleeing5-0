@@ -35,7 +35,7 @@ jobs:
 
     - name: Create release archive
       run: |
-        tar -czf release.tar.gz dist/ bundle.js package.json README.md
+        tar -czf release.tar.gz dist/ package.json README.md
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
