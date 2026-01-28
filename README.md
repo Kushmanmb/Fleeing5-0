@@ -125,7 +125,7 @@ The code has been optimized with the following improvements:
 ## Project Structure
 
 ```
-fleeing-5-0/
+kywmahmb/
 ├── src/                 # Source files
 │   ├── main.js          # Main game logic
 │   ├── index.html       # HTML structure
