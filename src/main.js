@@ -22,10 +22,8 @@ function spin() {
   board = [];
   cellElements = [];
   
-  // Clear grid efficiently by removing children
-  while (grid.firstChild) {
-    grid.removeChild(grid.firstChild);
-  }
+  // Clear grid using replaceChildren() - fastest method
+  grid.replaceChildren();
   
   // Use DocumentFragment to batch DOM operations
   const fragment = document.createDocumentFragment();
@@ -64,18 +62,18 @@ function checkBonusTrigger(board) {
   let robberOnReel5 = false;
   let copInMiddle = false;
   
-  // Single loop through rows instead of multiple some() calls
+  // Single loop through rows - only check conditions that haven't been met yet
   for (let i = 0; i < board.length; i++) {
     const row = board[i];
-    if (row[0] === "PRISONER") prisonerOnReel1 = true;
-    if (row[4] === "ROBBER") robberOnReel5 = true;
-    if (row[1] === "COP" || row[2] === "COP" || row[3] === "COP") copInMiddle = true;
+    if (!prisonerOnReel1 && row[0] === "PRISONER") prisonerOnReel1 = true;
+    if (!robberOnReel5 && row[4] === "ROBBER") robberOnReel5 = true;
+    if (!copInMiddle && (row[1] === "COP" || row[2] === "COP" || row[3] === "COP")) copInMiddle = true;
     
     // Early exit if all conditions met
     if (prisonerOnReel1 && robberOnReel5 && copInMiddle) return true;
   }
   
-  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
+  return false;
 }
 
 function highlightBonusSymbols() {
