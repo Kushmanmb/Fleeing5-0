@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,14 +18,25 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
-    - name: Build
-      run: |
-        npm install
-        npx webpack
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build with Webpack
+      run: npm run webpack
+
+    - name: Upload webpack artifacts
+      uses: actions/upload-artifact@v4
+      if: success() && matrix.node-version == '20.x'
+      with:
+        name: webpack-bundle
+        path: dist/
+        retention-days: 7
