@@ -13,12 +13,12 @@ A slot machine game with performance optimizations.
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Kushmanmb/fleeing-5-0.git
+git clone https://github.com/Kushmanmb/kywmahmb.git
 ```
 
 2. Navigate to the project directory:
 ```bash
-cd fleeing-5-0
+cd kywmahmb
 ```
 
 3. Install dependencies:
@@ -145,3 +145,68 @@ To work on the project:
 2. Build the project with `npm run build`
 3. Run tests with `npm test` to verify functionality
 4. Open `dist/index.html` in a browser to test the game
+
+## CI/CD Workflows
+
+This project uses GitHub Actions for continuous integration and deployment. The following workflows are configured:
+
+### Node.js CI
+Runs on every push and pull request to the `main` branch.
+- Tests the project on Node.js versions 18.x, 20.x, and 22.x
+- Installs dependencies, builds the project, and runs tests
+- Uploads build artifacts for the Node.js 20.x build
+
+### Webpack Build
+Runs on every push and pull request to the `main` branch.
+- Builds the project using Webpack across multiple Node.js versions
+- Uploads webpack bundle artifacts for the Node.js 20.x build
+
+### Code Quality
+Runs on every push and pull request to the `main` branch.
+- Checks JavaScript files for syntax errors
+- Validates JSON configuration files
+- Runs security audits with `npm audit`
+- Checks for outdated dependencies
+
+### Release
+Triggered when a version tag (e.g., `v1.0.0`) is pushed.
+- Runs tests and builds the project
+- Creates a distribution archive
+- Generates a changelog from git commits
+- Creates a GitHub release with the built artifacts
+
+### Dependabot
+Automatically checks for dependency updates:
+- npm dependencies: Weekly on Mondays
+- GitHub Actions: Monthly
+- Creates pull requests for outdated dependencies
+
+## Contributing
+
+We welcome contributions! Please follow these guidelines:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request using our PR template
+
+### Reporting Issues
+
+- Use the [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md) template for bugs
+- Use the [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) template for new features
+- For questions, use [GitHub Discussions](https://github.com/Kushmanmb/kywmahmb/discussions)
+
+### Code Style
+
+- Follow existing code conventions
+- Maintain performance optimizations (DOM caching, DocumentFragment usage, etc.)
+- Add tests for new features
+- Update documentation as needed
+
+## Git Configuration
+
+This project uses:
+- `.gitattributes` for consistent line endings and binary file handling
+- `.gitignore` for excluding build artifacts, dependencies, and IDE files
+- Dependabot for automated dependency updates
