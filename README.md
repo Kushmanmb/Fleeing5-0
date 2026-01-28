@@ -1,6 +1,8 @@
 # kywmahmb
 
-A slot machine game with performance optimizations.
+A slot machine game with performance optimizations and Ethereum testnet integration.
+
+> **Note**: For ownership and attribution information, see [OWNERSHIP.md](OWNERSHIP.md)
 
 ## Getting Started
 
@@ -13,12 +15,12 @@ A slot machine game with performance optimizations.
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Kushmanmb/fleeing-5-0.git
+git clone https://github.com/Kushmanmb/kywmahmb.git
 ```
 
 2. Navigate to the project directory:
 ```bash
-cd fleeing-5-0
+cd kywmahmb
 ```
 
 3. Install dependencies:
@@ -145,3 +147,19 @@ To work on the project:
 2. Build the project with `npm run build`
 3. Run tests with `npm test` to verify functionality
 4. Open `dist/index.html` in a browser to test the game
+
+## CI/CD Workflows
+
+This repository uses GitHub Actions for continuous integration and deployment:
+
+- **Node.js CI**: Runs tests and builds on Node.js versions 18.x, 20.x, and 22.x
+- **Webpack Build**: Builds the project using Webpack
+- **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
+
+The game is available online at: `https://kushmanmb.github.io/kywmahmb/`
+
+## Ownership
+
+For information about project ownership, component attribution, and licensing, please see [OWNERSHIP.md](OWNERSHIP.md).
+
+Code ownership is managed through the [CODEOWNERS](CODEOWNERS) file.
