@@ -60,7 +60,7 @@ app.post('/faucet', async (req, res) => {
 
   // Check faucet balance
   const balance = await usdcContract.balanceOf(wallet.address);
-  if (balance.lt(DISPENSE_AMOUNT)) {
+  if (balance < DISPENSE_AMOUNT) {
     return res.status(500).json({ message: 'Faucet out of funds.' });
   }
 
