@@ -1,5 +1,8 @@
 # kywmahmb
 
+[![CI](https://github.com/Kushmanmb/kywmahmb/actions/workflows/ci.yml/badge.svg)](https://github.com/Kushmanmb/kywmahmb/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Kushmanmb/kywmahmb/actions/workflows/codeql.yml/badge.svg)](https://github.com/Kushmanmb/kywmahmb/actions/workflows/codeql.yml)
+
 A slot machine game with performance optimizations.
 
 ## Getting Started
@@ -138,6 +141,19 @@ fleeing-5-0/
 ```
 
 ## Development
+
+### GitHub Actions Workflows
+
+This project uses automated GitHub Actions workflows for continuous integration and deployment:
+
+- **CI Workflow**: Runs tests and builds across Node.js 18.x, 20.x, and 22.x
+- **CodeQL Analysis**: Automated security scanning for vulnerabilities
+- **Dependency Review**: Reviews dependency changes in pull requests
+- **Release Automation**: Creates releases when version tags are pushed
+
+See [.github/WORKFLOWS.md](.github/WORKFLOWS.md) for detailed workflow documentation.
+
+### Making Changes
 
 To work on the project:
 
