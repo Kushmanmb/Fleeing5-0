@@ -27,11 +27,12 @@ function spin() {
   
   // Use DocumentFragment to batch DOM operations
   const fragment = document.createDocumentFragment();
+  const symbolsLength = symbols.length; // Cache length to avoid repeated property access
   
   for (let r = 0; r < rows; r++) {
     const row = [];
     for (let c = 0; c < cols; c++) {
-      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+      const symbol = symbols[Math.floor(Math.random() * symbolsLength)];
       row.push(symbol);
       const cell = document.createElement("div");
       cell.classList.add("cell");
@@ -62,18 +63,18 @@ function checkBonusTrigger(board) {
   let robberOnReel5 = false;
   let copInMiddle = false;
   
-  // Single loop through rows - only check conditions that haven't been met yet
+  // Single loop through rows instead of multiple some() calls
   for (let i = 0; i < board.length; i++) {
     const row = board[i];
-    if (!prisonerOnReel1 && row[0] === "PRISONER") prisonerOnReel1 = true;
-    if (!robberOnReel5 && row[4] === "ROBBER") robberOnReel5 = true;
-    if (!copInMiddle && (row[1] === "COP" || row[2] === "COP" || row[3] === "COP")) copInMiddle = true;
+    if (row[0] === "PRISONER") prisonerOnReel1 = true;
+    if (row[4] === "ROBBER") robberOnReel5 = true;
+    if (row[1] === "COP" || row[2] === "COP" || row[3] === "COP") copInMiddle = true;
     
     // Early exit if all conditions met
     if (prisonerOnReel1 && robberOnReel5 && copInMiddle) return true;
   }
   
-  return false;
+  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
 }
 
 function highlightBonusSymbols() {

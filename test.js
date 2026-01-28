@@ -27,14 +27,14 @@ function checkBonusTrigger(board) {
   
   for (let i = 0; i < board.length; i++) {
     const row = board[i];
-    if (!prisonerOnReel1 && row[0] === "PRISONER") prisonerOnReel1 = true;
-    if (!robberOnReel5 && row[4] === "ROBBER") robberOnReel5 = true;
-    if (!copInMiddle && (row[1] === "COP" || row[2] === "COP" || row[3] === "COP")) copInMiddle = true;
+    if (row[0] === "PRISONER") prisonerOnReel1 = true;
+    if (row[4] === "ROBBER") robberOnReel5 = true;
+    if (row[1] === "COP" || row[2] === "COP" || row[3] === "COP") copInMiddle = true;
     
     if (prisonerOnReel1 && robberOnReel5 && copInMiddle) return true;
   }
   
-  return false;
+  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
 }
 
 // Test cases

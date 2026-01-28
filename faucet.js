@@ -38,11 +38,12 @@ const lastRequestTimes = {};
 app.use(express.json());
 
 app.post('/faucet', async (req, res) => {
-  // Validate request body - early return for invalid input
-  const userAddress = req.body?.address;
-  if (!userAddress) {
+  // Validate request body
+  if (!req.body || !req.body.address) {
     return res.status(400).json({ message: 'Address is required in request body.' });
   }
+
+  const userAddress = req.body.address;
 
   // Validate Ethereum address format
   if (!ethers.utils.isAddress(userAddress)) {
@@ -51,24 +52,20 @@ app.post('/faucet', async (req, res) => {
 
   const normalizedAddress = userAddress.toLowerCase();
   const now = Math.floor(Date.now() / 1000);
-  const lastRequestTime = lastRequestTimes[normalizedAddress];
   
-  // Check cooldown - optimized with early return
-  if (lastRequestTime) {
-    const timeSinceLastRequest = now - lastRequestTime;
-    if (timeSinceLastRequest < COOLDOWN) {
-      return res.status(429).json({ message: 'Cooldown in effect. Please try again later.' });
-    }
+  // Check cooldown
+  if (lastRequestTimes[normalizedAddress] && now - lastRequestTimes[normalizedAddress] < COOLDOWN) {
+    return res.status(429).json({ message: 'Cooldown in effect. Please try again later.' });
   }
 
-  // Transfer USDC to user - check balance during transaction error handling
+  // Check faucet balance
+  const balance = await usdcContract.balanceOf(wallet.address);
+  if (balance.lt(DISPENSE_AMOUNT)) {
+    return res.status(500).json({ message: 'Faucet out of funds.' });
+  }
+
+  // Transfer USDC to user
   try {
-    // Check balance only when needed (after validation)
-    const balance = await usdcContract.balanceOf(wallet.address);
-    if (balance.lt(DISPENSE_AMOUNT)) {
-      return res.status(500).json({ message: 'Faucet out of funds.' });
-    }
-    
     const tx = await usdcContract.transfer(userAddress, DISPENSE_AMOUNT);
     // Update cooldown timestamp immediately after transaction is sent
     // to prevent abuse if tx.wait() takes a long time or fails
