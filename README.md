@@ -100,14 +100,14 @@ Response (success):
 
 Responses (error):
 - `400`: Invalid or missing address
-- `429`: Cooldown in effect (1 hour between requests)
+- `429`: Cooldown in effect (48 hour between requests)
 - `500`: Faucet out of funds or transfer error
 
 ### Faucet Configuration
 
 - **Network**: Sepolia testnet (configurable via Infura)
-- **Dispense Amount**: 10 USDC per request
-- **Cooldown**: 1 hour between requests per address
+- **Dispense Amount**: 1 USDC per request
+- **Cooldown**: 12 hour between requests per address
 - **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
 
 ## Performance Improvements
