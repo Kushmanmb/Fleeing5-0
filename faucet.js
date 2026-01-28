@@ -37,6 +37,25 @@ const lastRequestTimes = {};
 
 app.use(express.json());
 
+// GET endpoint to check faucet status
+app.get('/status', async (req, res) => {
+  try {
+    const balance = await usdcContract.balanceOf(wallet.address);
+    const balanceFormatted = ethers.utils.formatUnits(balance, 6);
+    
+    res.json({
+      faucetAddress: wallet.address,
+      balance: balanceFormatted,
+      dispenseAmount: '10',
+      cooldownSeconds: COOLDOWN,
+      network: 'sepolia'
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching faucet status.' });
+  }
+});
+
 app.post('/faucet', async (req, res) => {
   // Validate request body
   if (!req.body || !req.body.address) {
@@ -55,7 +74,11 @@ app.post('/faucet', async (req, res) => {
   
   // Check cooldown
   if (lastRequestTimes[normalizedAddress] && now - lastRequestTimes[normalizedAddress] < COOLDOWN) {
-    return res.status(429).json({ message: 'Cooldown in effect. Please try again later.' });
+    const timeRemaining = COOLDOWN - (now - lastRequestTimes[normalizedAddress]);
+    return res.status(429).json({ 
+      message: 'Cooldown in effect. Please try again later.',
+      cooldownRemaining: timeRemaining
+    });
   }
 
   // Check faucet balance
@@ -71,7 +94,12 @@ app.post('/faucet', async (req, res) => {
     // to prevent abuse if tx.wait() takes a long time or fails
     lastRequestTimes[normalizedAddress] = now;
     await tx.wait();
-    res.json({ message: 'USDC dispensed successfully!' });
+    res.json({ 
+      message: 'USDC dispensed successfully!',
+      transactionHash: tx.hash,
+      amount: '10',
+      recipient: userAddress
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error dispensing USDC.' });
