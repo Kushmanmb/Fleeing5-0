@@ -84,6 +84,8 @@ The server will run at `http://localhost:3000`.
 
 Check the current status and balance of the faucet.
 
+**Note:** Responses are cached for 30 seconds to reduce blockchain queries and prevent rate limit abuse.
+
 **Request:**
 ```bash
 curl http://localhost:3000/status
@@ -175,7 +177,7 @@ fetch('http://localhost:3000/faucet', {
     "cooldownRemainingSeconds": 2400
   }
   ```
-  Note: `cooldownRemainingSeconds` is in seconds.
+  Note: `cooldownRemainingSeconds` is in seconds. The response also includes a `Retry-After` header (in seconds) for standard HTTP client retry logic.
   
 - `500`: Faucet out of funds or transfer error
   ```json

@@ -35,21 +35,40 @@ const DISPENSE_AMOUNT = ethers.utils.parseUnits('10', 6); // 10 USDC with 6 deci
 // For production, consider using Redis or a database
 const lastRequestTimes = {};
 
+// Cache for status endpoint to reduce on-chain calls
+let statusCache = null;
+let statusCacheTimestamp = 0;
+const STATUS_CACHE_TTL = 30; // 30 seconds cache TTL
+
 app.use(express.json());
 
 // GET endpoint to check faucet status
 app.get('/status', async (req, res) => {
   try {
+    const now = Math.floor(Date.now() / 1000);
+    
+    // Return cached response if within TTL
+    if (statusCache && (now - statusCacheTimestamp) < STATUS_CACHE_TTL) {
+      return res.json(statusCache);
+    }
+    
+    // Fetch fresh data from blockchain
     const balance = await usdcContract.balanceOf(wallet.address);
     const balanceFormatted = ethers.utils.formatUnits(balance, 6);
     
-    res.json({
+    const statusResponse = {
       faucetAddress: wallet.address,
       balance: balanceFormatted,
       dispenseAmount: ethers.utils.formatUnits(DISPENSE_AMOUNT, 6),
       cooldownSeconds: COOLDOWN,
       network: 'sepolia'
-    });
+    };
+    
+    // Update cache
+    statusCache = statusResponse;
+    statusCacheTimestamp = now;
+    
+    res.json(statusResponse);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching faucet status.' });
@@ -76,6 +95,7 @@ app.post('/faucet', async (req, res) => {
     // Check cooldown
     if (lastRequestTimes[normalizedAddress] && now - lastRequestTimes[normalizedAddress] < COOLDOWN) {
       const timeRemaining = Math.ceil(COOLDOWN - (now - lastRequestTimes[normalizedAddress]));
+      res.set('Retry-After', String(timeRemaining));
       return res.status(429).json({ 
         message: 'Cooldown in effect. Please try again later.',
         cooldownRemainingSeconds: timeRemaining
