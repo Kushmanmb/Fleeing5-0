@@ -80,28 +80,115 @@ The server will run at `http://localhost:3000`.
 
 ### API Endpoints
 
-**POST /faucet**
+#### GET /status
+
+Check the current status and balance of the faucet.
+
+**Request:**
+```bash
+curl http://localhost:3000/status
+```
+
+**Response (success):**
+```json
+{
+  "faucetAddress": "0x...",
+  "balance": "1000.0",
+  "dispenseAmount": "10",
+  "cooldownSeconds": 3600,
+  "network": "sepolia"
+}
+```
+
+**Response (error):**
+- `500`: Error fetching faucet status
+
+---
+
+#### POST /faucet
 
 Request USDC tokens from the faucet.
 
-Request body:
+**Request:**
+
+Headers:
+- `Content-Type: application/json`
+
+Body:
 ```json
 {
   "address": "0x..."
 }
 ```
 
-Response (success):
+**Example using curl:**
+```bash
+curl -X POST http://localhost:3000/faucet \
+  -H "Content-Type: application/json" \
+  -d '{"address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"}'
+```
+
+**Example using JavaScript:**
+```javascript
+fetch('http://localhost:3000/faucet', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0'
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+```
+
+**Response (success):**
 ```json
 {
-  "message": "USDC dispensed successfully!"
+  "message": "USDC dispensed successfully!",
+  "transactionHash": "0xabc123...",
+  "amount": "10",
+  "recipient": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"
 }
 ```
 
-Responses (error):
+**Responses (error):**
 - `400`: Invalid or missing address
+  ```json
+  {
+    "message": "Address is required in request body."
+  }
+  ```
+  or
+  ```json
+  {
+    "message": "Invalid Ethereum address format."
+  }
+  ```
+  
 - `429`: Cooldown in effect (1 hour between requests)
+  ```json
+  {
+    "message": "Cooldown in effect. Please try again later.",
+    "cooldownRemainingSeconds": 2400
+  }
+  ```
+  Note: `cooldownRemainingSeconds` is in seconds.
+  
 - `500`: Faucet out of funds or transfer error
+  ```json
+  {
+    "message": "Faucet out of funds."
+  }
+  ```
+  or
+  ```json
+  {
+    "message": "Error dispensing USDC."
+  }
+  ```
 
 ### Faucet Configuration
 
