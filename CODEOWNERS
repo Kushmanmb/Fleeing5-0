@@ -1,0 +1,18 @@
+# CODEOWNERS file
+# This file defines ownership for code in this repository
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default ownership - all files
+* @Kushmanmb
+
+# Ethereum-related components (faucet, etherscan integration)
+faucet.js @Kushmanmb
+ethscab @Kushmanmb
+.env.example @Kushmanmb
+
+# GitHub workflows
+.github/ @Kushmanmb
+
+# Core game logic
+src/ @Kushmanmb
+test.js @Kushmanmb
