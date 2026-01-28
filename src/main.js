@@ -27,12 +27,11 @@ function spin() {
   
   // Use DocumentFragment to batch DOM operations
   const fragment = document.createDocumentFragment();
-  const symbolsLength = symbols.length; // Cache length to avoid repeated property access
   
   for (let r = 0; r < rows; r++) {
     const row = [];
     for (let c = 0; c < cols; c++) {
-      const symbol = symbols[Math.floor(Math.random() * symbolsLength)];
+      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
       row.push(symbol);
       const cell = document.createElement("div");
       cell.classList.add("cell");
