@@ -1,5 +1,8 @@
 # kywmahmb
 
+[![CI](https://github.com/Kushmanmb/kywmahmb/actions/workflows/ci.yml/badge.svg)](https://github.com/Kushmanmb/kywmahmb/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Kushmanmb/kywmahmb/actions/workflows/codeql.yml/badge.svg)](https://github.com/Kushmanmb/kywmahmb/actions/workflows/codeql.yml)
+
 A slot machine game with performance optimizations.
 
 ## Getting Started
