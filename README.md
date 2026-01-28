@@ -156,7 +156,7 @@ This repository uses GitHub Actions for continuous integration and deployment:
 - **Webpack Build**: Builds the project using Webpack
 - **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
 
-The game is available online at: `https://kushmanmb.github.io/kywmahmb/`
+The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https://kushmanmb.github.io/kywmahmb/)
 
 ## Ownership
 
