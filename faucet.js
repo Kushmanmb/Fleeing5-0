@@ -53,15 +53,20 @@ app.post('/faucet', async (req, res) => {
   const normalizedAddress = userAddress.toLowerCase();
   const now = Math.floor(Date.now() / 1000);
   
-  // Check cooldown
+  // Check cooldown FIRST (cheap operation) before expensive blockchain calls
   if (lastRequestTimes[normalizedAddress] && now - lastRequestTimes[normalizedAddress] < COOLDOWN) {
     return res.status(429).json({ message: 'Cooldown in effect. Please try again later.' });
   }
 
-  // Check faucet balance
-  const balance = await usdcContract.balanceOf(wallet.address);
-  if (balance.lt(DISPENSE_AMOUNT)) {
-    return res.status(500).json({ message: 'Faucet out of funds.' });
+  // Check faucet balance (expensive operation - only done if cooldown passed)
+  try {
+    const balance = await usdcContract.balanceOf(wallet.address);
+    if (balance.lt(DISPENSE_AMOUNT)) {
+      return res.status(500).json({ message: 'Faucet out of funds.' });
+    }
+  } catch (error) {
+    console.error('Error checking balance:', error);
+    return res.status(500).json({ message: 'Error connecting to blockchain.' });
   }
 
   // Transfer USDC to user
@@ -73,7 +78,7 @@ app.post('/faucet', async (req, res) => {
     await tx.wait();
     res.json({ message: 'USDC dispensed successfully!' });
   } catch (error) {
-    console.error(error);
+    console.error('Error transferring USDC:', error);
     res.status(500).json({ message: 'Error dispensing USDC.' });
   }
 });

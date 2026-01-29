@@ -11,8 +11,14 @@ const grid = document.getElementById("slot-grid");
 const statusElement = document.getElementById("status");
 const spinButton = document.getElementById("spin-btn");
 
-// Preload siren sound
-const siren = new Audio("siren.mp3");
+// Lazy-load siren sound - only create when first needed
+let siren = null;
+function getSiren() {
+  if (!siren) {
+    siren = new Audio("siren.mp3");
+  }
+  return siren;
+}
 
 function spin() {
   // Debounce: prevent multiple simultaneous spins
@@ -22,10 +28,8 @@ function spin() {
   board = [];
   cellElements = [];
   
-  // Clear grid efficiently by removing children
-  while (grid.firstChild) {
-    grid.removeChild(grid.firstChild);
-  }
+  // Clear grid efficiently using replaceChildren (faster than loop)
+  grid.replaceChildren();
   
   // Use DocumentFragment to batch DOM operations
   const fragment = document.createDocumentFragment();
@@ -50,8 +54,12 @@ function spin() {
   if (checkBonusTrigger(board)) {
     statusElement.textContent = "🚨 BONUS TRIGGERED!";
     highlightBonusSymbols();
-    siren.currentTime = 0;
-    siren.play();
+    const sirenAudio = getSiren();
+    sirenAudio.currentTime = 0;
+    // Handle potential playback failures gracefully
+    sirenAudio.play().catch(err => {
+      console.warn('Audio playback failed:', err);
+    });
   } else {
     statusElement.textContent = "No bonus this spin.";
   }
