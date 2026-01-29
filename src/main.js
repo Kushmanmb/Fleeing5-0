@@ -12,7 +12,7 @@ const statusElement = document.getElementById("status");
 const spinButton = document.getElementById("spin-btn");
 const helpButton = document.getElementById("help-btn");
 const helpModal = document.getElementById("help-modal");
-const closeModal = document.getElementsByClassName("close")[0];
+const closeModal = document.querySelector(".close");
 
 // Preload siren sound
 const siren = new Audio("siren.mp3");
@@ -105,9 +105,24 @@ closeModal.addEventListener("click", function() {
   helpModal.style.display = "none";
 });
 
+// Keyboard support for close button
+closeModal.addEventListener("keydown", function(event) {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    helpModal.style.display = "none";
+  }
+});
+
 // Close modal when clicking outside of it
 window.addEventListener("click", function(event) {
   if (event.target === helpModal) {
+    helpModal.style.display = "none";
+  }
+});
+
+// Close modal with Escape key
+window.addEventListener("keydown", function(event) {
+  if (event.key === "Escape" && helpModal.style.display === "block") {
     helpModal.style.display = "none";
   }
 });

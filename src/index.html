@@ -7,16 +7,16 @@
 </head>
 <body>
   <h1>🎰 Fleeing 5-0 Final</h1>
-  <button id="help-btn">❓ Help</button>
+  <button id="help-btn" aria-label="Show game help and instructions">❓ Help</button>
   <div id="slot-grid"></div>
   <button id="spin-btn">SPIN</button>
   <p id="status"></p>
   
   <!-- Help Modal -->
-  <div id="help-modal" class="modal">
+  <div id="help-modal" class="modal" role="dialog" aria-labelledby="help-title" aria-modal="true">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>How to Play</h2>
+      <span class="close" role="button" aria-label="Close help dialog" tabindex="0">&times;</span>
+      <h2 id="help-title">How to Play</h2>
       <p>Click the <strong>SPIN</strong> button to spin the slot machine!</p>
       
       <h3>🎰 Game Grid</h3>
