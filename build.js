@@ -18,6 +18,21 @@ const filesToCopy = ['index.html', 'main.js', 'style.css', 'siren.mp3'];
 console.log('Building project...');
 
 // Use async operations and Promise.all for parallel copying
+async function shouldCopyFile(sourcePath, destPath) {
+  try {
+    const [sourceStat, destStat] = await Promise.all([
+      fs.stat(sourcePath),
+      fs.stat(destPath)
+    ]);
+    
+    // Skip copy if destination is newer or same age as source
+    return destStat.mtime < sourceStat.mtime;
+  } catch (err) {
+    // If destination doesn't exist (ENOENT) or any stat error, proceed with copy
+    return true;
+  }
+}
+
 async function build() {
   const copyPromises = filesToCopy.map(async file => {
     const sourcePath = path.join(sourceDir, file);
@@ -27,20 +42,12 @@ async function build() {
       // Check if source file exists
       await fs.access(sourcePath);
       
-      // Check if destination exists and compare modification times
-      try {
-        const [sourceStat, destStat] = await Promise.all([
-          fs.stat(sourcePath),
-          fs.stat(destPath)
-        ]);
-        
-        // Skip copy if destination is newer or same age as source
-        if (destStat.mtime >= sourceStat.mtime) {
-          console.log(`  ⏭ Skipped ${file} (up to date)`);
-          return;
-        }
-      } catch (err) {
-        // Destination doesn't exist, proceed with copy
+      // Check if we need to copy the file
+      const needsCopy = await shouldCopyFile(sourcePath, destPath);
+      
+      if (!needsCopy) {
+        console.log(`  ⏭ Skipped ${file} (up to date)`);
+        return;
       }
       
       // Copy the file

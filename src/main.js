@@ -56,7 +56,10 @@ function spin() {
     highlightBonusSymbols();
     const sirenAudio = getSiren();
     sirenAudio.currentTime = 0;
-    sirenAudio.play();
+    // Handle potential playback failures gracefully
+    sirenAudio.play().catch(err => {
+      console.warn('Audio playback failed:', err);
+    });
   } else {
     statusElement.textContent = "No bonus this spin.";
   }
