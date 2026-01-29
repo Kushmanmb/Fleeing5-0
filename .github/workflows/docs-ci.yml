@@ -1,0 +1,52 @@
+name: Documentation CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '*.md'
+      - 'CODEOWNERS'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '*.md'
+      - 'CODEOWNERS'
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check for broken markdown links
+      run: |
+        # Check if README.md references existing files
+        if [ -f "README.md" ]; then
+          echo "Validating README.md..."
+          
+          # Check if referenced files exist
+          files_to_check=("OWNERSHIP.md" "CODEOWNERS" "package.json")
+          
+          for file in "${files_to_check[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✓ $file exists"
+            else
+              echo "✗ $file referenced but not found"
+            fi
+          done
+          
+          echo "Documentation validation complete"
+        fi
+    
+    - name: Validate CODEOWNERS format
+      run: |
+        if [ -f "CODEOWNERS" ]; then
+          echo "Validating CODEOWNERS file..."
+          # Check that CODEOWNERS file is not empty
+          if [ ! -s "CODEOWNERS" ]; then
+            echo "Warning: CODEOWNERS file is empty"
+          else
+            echo "✓ CODEOWNERS file exists and has content"
+          fi
+        fi

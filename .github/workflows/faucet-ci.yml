@@ -1,0 +1,58 @@
+name: Faucet CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'faucet.js'
+      - '.env.example'
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'faucet.js'
+      - '.env.example'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Validate faucet.js syntax
+      run: node -c faucet.js
+    
+    - name: Check for required environment variables in .env.example
+      run: |
+        if [ ! -f ".env.example" ]; then
+          echo "Error: .env.example file not found"
+          exit 1
+        fi
+        
+        required_vars=("INFURA_PROJECT_ID" "PRIVATE_KEY" "USDC_CONTRACT_ADDRESS")
+        
+        for var in "${required_vars[@]}"; do
+          if ! grep -q "$var" .env.example; then
+            echo "Error: $var not found in .env.example"
+            exit 1
+          fi
+        done
+        
+        echo "All required environment variables found in .env.example"

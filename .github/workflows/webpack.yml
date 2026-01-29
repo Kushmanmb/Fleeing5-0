@@ -3,8 +3,19 @@ name: NodeJS with Webpack
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'src/**'
+      - 'webpack.config.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/webpack.yml'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'src/**'
+      - 'webpack.config.js'
+      - 'package.json'
+      - 'package-lock.json'
 
 jobs:
   build:
