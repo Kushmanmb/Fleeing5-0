@@ -97,12 +97,17 @@ function highlightBonusSymbols() {
 spinButton.addEventListener("click", spin);
 
 // Help modal event listeners
-helpButton.addEventListener("click", function() {
+helpButton.addEventListener("click", function(event) {
+  event.stopPropagation();
   helpModal.style.display = "block";
+  helpModal.setAttribute("aria-hidden", "false");
+  closeModal.focus();
 });
 
 closeModal.addEventListener("click", function() {
   helpModal.style.display = "none";
+  helpModal.setAttribute("aria-hidden", "true");
+  helpButton.focus();
 });
 
 // Keyboard support for close button
@@ -110,6 +115,8 @@ closeModal.addEventListener("keydown", function(event) {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     helpModal.style.display = "none";
+    helpModal.setAttribute("aria-hidden", "true");
+    helpButton.focus();
   }
 });
 
@@ -117,6 +124,8 @@ closeModal.addEventListener("keydown", function(event) {
 window.addEventListener("click", function(event) {
   if (event.target === helpModal) {
     helpModal.style.display = "none";
+    helpModal.setAttribute("aria-hidden", "true");
+    helpButton.focus();
   }
 });
 
@@ -124,5 +133,7 @@ window.addEventListener("click", function(event) {
 window.addEventListener("keydown", function(event) {
   if (event.key === "Escape" && helpModal.style.display === "block") {
     helpModal.style.display = "none";
+    helpModal.setAttribute("aria-hidden", "true");
+    helpButton.focus();
   }
 });
