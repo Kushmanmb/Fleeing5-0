@@ -1,3 +1,5 @@
+console.log("Hello, World!");
+
 const symbols = ["PRISONER", "ROBBER", "COP", "BAR", "7", "CHERRY", "BELL"];
 
 const rows = 6;
