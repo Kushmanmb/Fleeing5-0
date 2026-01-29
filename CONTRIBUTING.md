@@ -80,9 +80,9 @@ Write clear commit messages that explain what and why:
 ```
 Add bonus multiplier feature
 
-Implements a 2x multiplier for bonus rounds when all three
-bonus symbols align. Updates test suite to verify multiplier
-logic.
+Implements a 2x multiplier for bonus rounds when PRISONER,
+COP, and ROBBER symbols appear on their respective reels.
+Updates test suite to verify multiplier logic.
 ```
 
 **Avoid:**
