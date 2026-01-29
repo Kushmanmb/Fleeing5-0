@@ -15,6 +15,7 @@ on:
       - '.env.example'
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/faucet-ci.yml'
 
 jobs:
   lint-and-validate:

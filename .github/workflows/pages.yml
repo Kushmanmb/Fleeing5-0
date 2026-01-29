@@ -9,6 +9,14 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/pages.yml'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'src/**'
+      - 'build.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:

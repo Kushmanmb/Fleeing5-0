@@ -4,13 +4,15 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - '*.md'
+      - '**/*.md'
       - 'CODEOWNERS'
+      - '.github/workflows/docs-ci.yml'
   pull_request:
     branches: [ "main" ]
     paths:
-      - '*.md'
+      - '**/*.md'
       - 'CODEOWNERS'
+      - '.github/workflows/docs-ci.yml'
 
 jobs:
   validate-docs:

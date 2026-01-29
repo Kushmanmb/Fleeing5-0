@@ -4,25 +4,12 @@ This directory contains GitHub Actions workflows that are triggered based on fil
 
 ## Path-Based Workflows
 
-### Game CI (`game-ci.yml`)
-**Triggers on changes to:**
-- `src/**` - Game source files
-- `test.js` - Game tests
-- `build.js` - Build script
-- `package.json`, `package-lock.json` - Dependencies
-
-**What it does:**
-- Tests on Node.js 18.x, 20.x, 22.x
-- Installs dependencies with `npm ci`
-- Builds the game with `npm run build`
-- Runs tests with `npm test`
-- Verifies dist directory and output files
-
 ### Faucet CI (`faucet-ci.yml`)
 **Triggers on changes to:**
 - `faucet.js` - Faucet server code
 - `.env.example` - Environment configuration template
 - `package.json`, `package-lock.json` - Dependencies
+- `.github/workflows/faucet-ci.yml` - Workflow file itself
 
 **What it does:**
 - Tests on Node.js 18.x, 20.x, 22.x
@@ -30,21 +17,11 @@ This directory contains GitHub Actions workflows that are triggered based on fil
 - Checks for required environment variables in `.env.example`
 - Ensures INFURA_PROJECT_ID, PRIVATE_KEY, and USDC_CONTRACT_ADDRESS are documented
 
-### Webpack Build CI (`webpack-build-ci.yml`)
-**Triggers on changes to:**
-- `src/**` - Source files to bundle
-- `webpack.config.js` - Webpack configuration
-- `package.json`, `package-lock.json` - Dependencies
-
-**What it does:**
-- Tests on Node.js 18.x, 20.x, 22.x
-- Builds with Webpack using `npm run webpack`
-- Verifies webpack output bundle is created
-
 ### Documentation CI (`docs-ci.yml`)
 **Triggers on changes to:**
-- `*.md` - Markdown documentation files
+- `**/*.md` - Markdown documentation files (in any directory)
 - `CODEOWNERS` - Code ownership file
+- `.github/workflows/docs-ci.yml` - Workflow file itself
 
 **What it does:**
 - Validates markdown files reference existing files
@@ -60,9 +37,10 @@ This directory contains GitHub Actions workflows that are triggered based on fil
 - `.github/workflows/node.js.yml` - Workflow file itself
 
 **What it does:**
-- Original CI workflow with path filters added
-- Tests on Node.js 18.x, 20.x, 22.x
-- Runs build and test commands
+- Runs comprehensive CI tests on Node.js 18.x, 20.x, 22.x
+- Installs dependencies with `npm ci`
+- Builds the project with `npm run build`
+- Runs tests with `npm test`
 
 ### Webpack (`webpack.yml`)
 **Triggers on changes to:**
@@ -72,9 +50,8 @@ This directory contains GitHub Actions workflows that are triggered based on fil
 - `.github/workflows/webpack.yml` - Workflow file itself
 
 **What it does:**
-- Original webpack workflow with path filters added
 - Tests on Node.js 18.x, 20.x, 22.x
-- Builds with Webpack
+- Builds with Webpack using `npm install` and `npx webpack`
 
 ### GitHub Pages Deployment (`pages.yml`)
 **Triggers on changes to:**
@@ -87,7 +64,7 @@ This directory contains GitHub Actions workflows that are triggered based on fil
 **What it does:**
 - Builds the game
 - Deploys to GitHub Pages
-- Only deploys when game files change
+- Only deploys when game files change (or triggered manually)
 
 ### Workflow Validation (`workflow-validation.yml`)
 **Triggers on changes to:**
@@ -108,28 +85,25 @@ This directory contains GitHub Actions workflows that are triggered based on fil
 
 ## Workflow Triggers Summary
 
-| Workflow | Game Files | Faucet | Webpack Config | Docs | Dependencies |
-|----------|------------|--------|----------------|------|--------------|
-| game-ci.yml | ✓ | ✗ | ✗ | ✗ | ✓ |
-| faucet-ci.yml | ✗ | ✓ | ✗ | ✗ | ✓ |
-| webpack-build-ci.yml | ✓ | ✗ | ✓ | ✗ | ✓ |
-| docs-ci.yml | ✗ | ✗ | ✗ | ✓ | ✗ |
-| node.js.yml | ✓ | ✗ | ✗ | ✗ | ✓ |
-| webpack.yml | ✓ | ✗ | ✓ | ✗ | ✓ |
-| pages.yml | ✓ | ✗ | ✗ | ✗ | ✓ |
-| workflow-validation.yml | ✗ | ✗ | ✗ | ✗ | ✗ |
+| Workflow | Game Files | Faucet | Webpack Config | Docs | Dependencies | Workflow Files |
+|----------|------------|--------|----------------|------|--------------|----------------|
+| faucet-ci.yml | ✗ | ✓ | ✗ | ✗ | ✓ | ✓ (self) |
+| docs-ci.yml | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ (self) |
+| node.js.yml | ✓ | ✗ | ✗ | ✗ | ✓ | ✓ (self) |
+| webpack.yml | ✓ | ✗ | ✓ | ✗ | ✓ | ✓ (self) |
+| pages.yml | ✓ | ✗ | ✗ | ✗ | ✓ | ✓ (self) |
+| workflow-validation.yml | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ (all) |
 
 ## Examples
 
 ### Scenario 1: Changing Game Code
 If you modify `src/main.js`:
-- ✓ game-ci.yml runs
-- ✓ webpack-build-ci.yml runs
-- ✓ node.js.yml runs
-- ✓ webpack.yml runs
-- ✓ pages.yml runs (on push to main)
+- ✓ node.js.yml runs (builds and tests)
+- ✓ webpack.yml runs (webpack build)
+- ✓ pages.yml runs (on push to main - deploys to GitHub Pages)
 - ✗ faucet-ci.yml skipped
 - ✗ docs-ci.yml skipped
+- ✗ workflow-validation.yml skipped
 
 ### Scenario 2: Updating Faucet
 If you modify `faucet.js`:
@@ -137,14 +111,24 @@ If you modify `faucet.js`:
 - ✗ All other workflows skipped
 
 ### Scenario 3: Updating Documentation
-If you modify `README.md`:
+If you modify `README.md` or any markdown file:
 - ✓ docs-ci.yml runs
 - ✗ All other workflows skipped
 
 ### Scenario 4: Updating Workflows
-If you modify `.github/workflows/game-ci.yml`:
+If you modify `.github/workflows/node.js.yml`:
 - ✓ workflow-validation.yml runs
+- ✓ node.js.yml runs (validates its own changes)
 - ✗ All other workflows skipped
+
+### Scenario 5: Updating Dependencies
+If you modify `package.json`:
+- ✓ node.js.yml runs
+- ✓ webpack.yml runs
+- ✓ pages.yml runs (on push to main)
+- ✓ faucet-ci.yml runs
+- ✗ docs-ci.yml skipped
+- ✗ workflow-validation.yml skipped
 
 ## Testing Workflows Locally
 
@@ -173,7 +157,7 @@ When modifying workflows:
 
 Common patterns used:
 - `src/**` - All files in src directory and subdirectories
-- `*.md` - All markdown files in root directory
+- `**/*.md` - All markdown files in any directory (including subdirectories)
 - `package.json` - Specific file
 - `.github/workflows/**` - All workflow files
 

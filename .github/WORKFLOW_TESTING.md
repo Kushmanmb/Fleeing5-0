@@ -18,11 +18,9 @@ git push
 ```
 
 **Expected Workflows to Run:**
-- ✓ Game CI
-- ✓ Webpack Build CI
 - ✓ Node.js CI
-- ✓ NodeJS with Webpack
-- ✓ Deploy to GitHub Pages (on main branch)
+- ✓ Webpack
+- ✓ GitHub Pages (on main branch)
 
 **Expected Workflows to Skip:**
 - ✗ Faucet CI
@@ -42,11 +40,9 @@ git push
 - ✓ Faucet CI
 
 **Expected Workflows to Skip:**
-- ✗ Game CI
-- ✗ Webpack Build CI
 - ✗ Node.js CI
-- ✗ NodeJS with Webpack
-- ✗ Deploy to GitHub Pages
+- ✗ Webpack
+- ✗ GitHub Pages
 - ✗ Documentation CI
 - ✗ Workflow Validation
 
@@ -63,32 +59,28 @@ git push
 - ✓ Documentation CI
 
 **Expected Workflows to Skip:**
-- ✗ Game CI
-- ✗ Webpack Build CI
 - ✗ Node.js CI
-- ✗ NodeJS with Webpack
-- ✗ Deploy to GitHub Pages
+- ✗ Webpack
+- ✗ GitHub Pages
 - ✗ Faucet CI
 - ✗ Workflow Validation
 
 ### Test 4: Update Workflow Files
 ```bash
 # Make a change to workflow
-echo "# comment" >> .github/workflows/game-ci.yml
-git add .github/workflows/game-ci.yml
+echo "# comment" >> .github/workflows/node.js.yml
+git add .github/workflows/node.js.yml
 git commit -m "Test: Update workflow"
 git push
 ```
 
 **Expected Workflows to Run:**
 - ✓ Workflow Validation
+- ✓ Node.js CI (validates its own changes)
 
 **Expected Workflows to Skip:**
-- ✗ Game CI
-- ✗ Webpack Build CI
-- ✗ Node.js CI
-- ✗ NodeJS with Webpack
-- ✗ Deploy to GitHub Pages
+- ✗ Webpack
+- ✗ GitHub Pages
 - ✗ Faucet CI
 - ✗ Documentation CI
 
@@ -102,11 +94,9 @@ git push
 ```
 
 **Expected Workflows to Run:**
-- ✓ Game CI
-- ✓ Webpack Build CI
 - ✓ Node.js CI
-- ✓ NodeJS with Webpack
-- ✓ Deploy to GitHub Pages (on main branch)
+- ✓ Webpack
+- ✓ GitHub Pages (on main branch)
 - ✓ Faucet CI
 
 **Expected Workflows to Skip:**
@@ -126,16 +116,16 @@ Here's a reference of what triggers each workflow:
 
 | File Pattern | Triggered Workflows |
 |--------------|-------------------|
-| `src/**` | Game CI, Webpack Build CI, Node.js CI, NodeJS with Webpack, Pages |
+| `src/**` | Node.js CI, Webpack, GitHub Pages |
 | `faucet.js` | Faucet CI |
 | `.env.example` | Faucet CI |
-| `test.js` | Game CI, Node.js CI |
-| `build.js` | Game CI, Node.js CI, Pages |
-| `webpack.config.js` | Webpack Build CI, NodeJS with Webpack |
-| `*.md` | Documentation CI |
+| `test.js` | Node.js CI |
+| `build.js` | Node.js CI, GitHub Pages |
+| `webpack.config.js` | Webpack |
+| `**/*.md` | Documentation CI |
 | `CODEOWNERS` | Documentation CI |
 | `.github/workflows/**` | Workflow Validation |
-| `package.json` | All except Documentation CI and Workflow Validation |
+| `package.json` | Node.js CI, Webpack, GitHub Pages, Faucet CI |
 
 ## Benefits Verification
 

@@ -154,12 +154,11 @@ This repository uses GitHub Actions with **path-based triggers** for optimized c
 
 ### Available Workflows
 
-- **Game CI**: Tests and builds game code when `src/` files change
+- **Node.js CI**: Comprehensive testing and building on Node.js 18.x, 20.x, and 22.x when game code changes
+- **Webpack**: Builds project with Webpack when source or webpack config changes  
 - **Faucet CI**: Validates faucet server code when `faucet.js` changes
-- **Webpack Build CI**: Builds with Webpack when source or config changes
 - **Documentation CI**: Validates documentation when markdown files change
-- **Node.js CI**: Runs comprehensive tests on Node.js 18.x, 20.x, and 22.x
-- **GitHub Pages**: Automatically deploys the game when source files change
+- **GitHub Pages**: Automatically deploys the game when source files change (or manually triggered)
 - **Workflow Validation**: Validates workflow YAML syntax when workflows are modified
 
 For detailed information about workflows and path-based triggers, see [.github/workflows/README.md](.github/workflows/README.md)

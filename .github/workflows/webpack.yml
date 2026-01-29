@@ -16,6 +16,7 @@ on:
       - 'webpack.config.js'
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/webpack.yml'
 
 jobs:
   build:

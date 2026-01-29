@@ -19,6 +19,7 @@ on:
       - 'build.js'
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/node.js.yml'
 
 jobs:
   build:
