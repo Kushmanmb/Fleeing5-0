@@ -10,6 +10,9 @@ let isSpinning = false;
 const grid = document.getElementById("slot-grid");
 const statusElement = document.getElementById("status");
 const spinButton = document.getElementById("spin-btn");
+const helpButton = document.getElementById("help-btn");
+const helpModal = document.getElementById("help-modal");
+const closeModal = document.getElementsByClassName("close")[0];
 
 // Preload siren sound
 const siren = new Audio("siren.mp3");
@@ -92,3 +95,19 @@ function highlightBonusSymbols() {
 }
 
 spinButton.addEventListener("click", spin);
+
+// Help modal event listeners
+helpButton.addEventListener("click", function() {
+  helpModal.style.display = "block";
+});
+
+closeModal.addEventListener("click", function() {
+  helpModal.style.display = "none";
+});
+
+// Close modal when clicking outside of it
+window.addEventListener("click", function(event) {
+  if (event.target === helpModal) {
+    helpModal.style.display = "none";
+  }
+});
