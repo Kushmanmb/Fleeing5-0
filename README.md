@@ -55,6 +55,98 @@ Run the test suite to verify game logic:
 npm test
 ```
 
+## Contract Verification
+
+This repository includes a contract verification tool that allows you to verify smart contracts on Etherscan and other block explorers.
+
+### Prerequisites
+
+- Etherscan API key (get one from [https://etherscan.io/myapikey](https://etherscan.io/myapikey))
+- Contract source code
+- Deployment details (compiler version, optimization settings, constructor arguments)
+
+### Setup
+
+Add your Etherscan API key to the `.env` file:
+```bash
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
+```
+
+### Usage
+
+Verify a deployed contract:
+```bash
+npm run verify -- \
+  --address 0x1234567890abcdef1234567890abcdef12345678 \
+  --source ./contracts/MyContract.sol \
+  --name MyContract \
+  --compiler v0.8.20+commit.a1b79de6 \
+  --network sepolia \
+  --optimization 1 \
+  --runs 200
+```
+
+### Command Line Options
+
+- `--address` - Contract address (required)
+- `--source` - Path to source code file (required)
+- `--name` - Contract name (required)
+- `--compiler` - Solidity compiler version (required)
+- `--network` - Network name (default: sepolia)
+- `--optimization` - Optimization enabled: 0 or 1 (default: 1)
+- `--runs` - Number of optimization runs (default: 200)
+- `--constructor-args` - ABI-encoded constructor arguments (optional)
+- `--api-key` - Etherscan API key (optional, uses ETHERSCAN_API_KEY env var)
+
+### Supported Networks
+
+- Ethereum: `mainnet`, `sepolia`, `holesky`
+- Polygon: `polygon`, `amoy`
+- Arbitrum: `arbitrum`
+- Optimism: `optimism`
+- BSC: `bsc`, `bscTestnet`
+
+### Example with Constructor Arguments
+
+If your contract has constructor arguments, you'll need to ABI-encode them. The verification tool includes a helper function:
+
+```javascript
+const { encodeConstructorArgs } = require('./verify-contract.js');
+
+// For a constructor like: constructor(address _owner, uint256 _value)
+const encoded = encodeConstructorArgs(
+  ['address', 'uint256'],
+  ['0x1234...', '1000000000000000000']
+);
+
+console.log(encoded); // Use this value for --constructor-args
+```
+
+### Programmatic Usage
+
+You can also use the verification tool as a module in your Node.js scripts:
+
+```javascript
+const { verifyContract } = require('./verify-contract.js');
+
+const result = await verifyContract({
+  contractAddress: '0x1234567890abcdef1234567890abcdef12345678',
+  sourceCode: fs.readFileSync('./contracts/MyContract.sol', 'utf8'),
+  contractName: 'MyContract',
+  compilerVersion: 'v0.8.20+commit.a1b79de6',
+  optimizationUsed: 1,
+  runs: 200,
+  network: 'sepolia',
+  apiKey: process.env.ETHERSCAN_API_KEY,
+});
+
+if (result.success) {
+  console.log('Verified!', result.explorerUrl);
+} else {
+  console.error('Failed:', result.error);
+}
+```
+
 ## USDC Faucet Server
 
 This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
@@ -70,6 +162,7 @@ cp .env.example .env
    - `INFURA_PROJECT_ID`: Your Infura project ID
    - `PRIVATE_KEY`: Private key of the wallet that will dispense USDC
    - `USDC_CONTRACT_ADDRESS`: Address of the USDC contract on your testnet (Sepolia, Goerli, etc.)
+   - `ETHERSCAN_API_KEY`: Your Etherscan API key for contract verification (optional, only needed if using verification feature)
 
 ### Running the Faucet
 
