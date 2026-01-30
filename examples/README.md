@@ -5,6 +5,7 @@ This directory contains examples demonstrating how to use the contract verificat
 ## Files
 
 - **SimpleStorage.sol** - A simple example smart contract
+- **SimpleStorage.t.sol** - Foundry test suite for SimpleStorage contract
 - **verify-example.js** - Example script showing programmatic verification
 
 ## Using the Example

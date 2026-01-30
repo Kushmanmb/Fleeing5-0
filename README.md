@@ -139,7 +139,8 @@ forge create examples/SimpleStorage.sol:SimpleStorage \
 **Verify on Etherscan:**
 ```bash
 # Using Foundry
-forge verify-contract <CONTRACT_ADDRESS> SimpleStorage \
+forge verify-contract <CONTRACT_ADDRESS> \
+  examples/SimpleStorage.sol:SimpleStorage \
   --chain-id 11155111 \
   --etherscan-api-key $ETHERSCAN_API_KEY
 
@@ -152,15 +153,6 @@ npm run verify -- --address <CONTRACT_ADDRESS> \
 ```
 
 For more examples, see the [examples/README.md](examples/README.md) file.
-
-### Running Tests
-```bash
-# Using npm
-npm test
-
-# Or using yarn
-yarn test
-```
 
 ## Contract Verification
 

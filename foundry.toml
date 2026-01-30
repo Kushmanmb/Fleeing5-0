@@ -23,8 +23,8 @@ verbosity = 2
 gas_reports = ["*"]
 
 [rpc_endpoints]
-sepolia = "${INFURA_PROJECT_ID:+https://sepolia.infura.io/v3/${INFURA_PROJECT_ID}}"
-mainnet = "${INFURA_PROJECT_ID:+https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}}"
+sepolia = "https://sepolia.infura.io/v3/${INFURA_PROJECT_ID}"
+mainnet = "https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}"
 
 [etherscan]
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
