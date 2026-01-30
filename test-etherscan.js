@@ -5,6 +5,7 @@ console.log('=== Etherscan API v2 Query Tests ===\n');
 // Test counter
 let passed = 0;
 let failed = 0;
+let skipped = 0;
 
 /**
  * Test helper function
@@ -12,9 +13,14 @@ let failed = 0;
 async function runTest(name, testFn) {
   try {
     console.log(`Running: ${name}`);
-    await testFn();
-    console.log('✓ PASSED\n');
-    passed++;
+    const result = await testFn();
+    if (result === 'skipped') {
+      console.log('⊘ SKIPPED\n');
+      skipped++;
+    } else {
+      console.log('✓ PASSED\n');
+      passed++;
+    }
   } catch (error) {
     console.error(`✗ FAILED: ${error.message}\n`);
     failed++;
@@ -52,7 +58,7 @@ async function testChainIdMappings() {
 async function testGetBlockNumberWithNetworkName() {
   if (!process.env.ETHERSCAN_API_KEY) {
     console.log('⚠ Skipping (no API key set)');
-    return;
+    return 'skipped';
   }
 
   const result = await getBlockNumber('mainnet');
@@ -90,7 +96,7 @@ async function testGetBlockNumberWithNetworkName() {
 async function testGetBlockNumberWithChainId() {
   if (!process.env.ETHERSCAN_API_KEY) {
     console.log('⚠ Skipping (no API key set)');
-    return;
+    return 'skipped';
   }
 
   const result = await getBlockNumber(11155111); // Sepolia
@@ -147,7 +153,7 @@ async function testMissingApiKey() {
       throw error;
     }
   } finally {
-    if (originalApiKey) {
+    if (originalApiKey !== undefined) {
       process.env.ETHERSCAN_API_KEY = originalApiKey;
     }
   }
@@ -189,7 +195,8 @@ async function runAllTests() {
   console.log('=== Test Summary ===');
   console.log(`Passed: ${passed}`);
   console.log(`Failed: ${failed}`);
-  console.log(`Total: ${passed + failed}`);
+  console.log(`Skipped: ${skipped}`);
+  console.log(`Total: ${passed + failed + skipped}`);
 
   if (failed > 0) {
     process.exit(1);

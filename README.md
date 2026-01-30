@@ -267,13 +267,13 @@ The most common use case is getting the current block number for a chain:
 
 ```bash
 # Get current block number for mainnet
-npm run etherscan:block mainnet
+npm run etherscan:block -- mainnet
 
 # Get current block number for sepolia
-npm run etherscan:block sepolia
+npm run etherscan:block -- sepolia
 
 # Get current block number for holesky
-npm run etherscan:block holesky
+npm run etherscan:block -- holesky
 ```
 
 ### Advanced Queries
@@ -332,6 +332,8 @@ const response = await queryEtherscan({
 });
 console.log(response);
 ```
+
+For more examples and detailed usage, see [ETHERSCAN_EXAMPLES.md](ETHERSCAN_EXAMPLES.md).
 
 ## USDC Faucet Server
 

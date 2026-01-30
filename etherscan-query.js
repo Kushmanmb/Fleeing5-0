@@ -48,7 +48,7 @@ async function queryEtherscan(options) {
   if (!action) {
     throw new Error('Action is required');
   }
-  if (!apiKey) {
+  if (!apiKey || apiKey.trim() === '') {
     throw new Error('Etherscan API key is required. Set ETHERSCAN_API_KEY environment variable.');
   }
 
@@ -67,6 +67,7 @@ async function queryEtherscan(options) {
   console.log(`Chain ID: ${chainid} (${NETWORKS[chainid] || 'unknown'})`);
   console.log(`Module: ${module}`);
   console.log(`Action: ${action}`);
+  // Note: API key is included in URL but not logged for security
 
   try {
     const response = await makeGetRequest(url);
@@ -128,6 +129,12 @@ function makeGetRequest(url) {
   return new Promise((resolve, reject) => {
     https.get(url, (res) => {
       let data = '';
+      
+      // Check HTTP status code
+      if (res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode}: ${res.statusMessage}`));
+        return;
+      }
       
       res.on('data', (chunk) => {
         data += chunk;
