@@ -4,12 +4,18 @@ A slot machine game with performance optimizations and Ethereum testnet integrat
 
 > **Note**: For ownership and attribution information, see [OWNERSHIP.md](OWNERSHIP.md)
 
+## Documentation
+
+- 📋 [Coding Guidelines](CODING_GUIDELINES.md) - Comprehensive coding standards and best practices
+- 🏗️ [Development Infrastructure](.github/DEVELOPMENT_INFRASTRUCTURE.md) - CI/CD, templates, and tooling guide
+- 📝 [Configuration Templates](.github/) - Templates for roles, communication, and guidelines
+
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js (version 18.x, 20.x, or 22.x)
-- npm (comes with Node.js)
+- npm or yarn package manager
 
 ### Installation
 
@@ -25,21 +31,33 @@ cd kywmahmb
 
 3. Install dependencies:
 ```bash
+# Using npm
 npm install
+
+# Or using yarn
+yarn install
 ```
 
 ### Building the Project
 
 Build the project to create distribution files:
 ```bash
+# Using npm
 npm run build
+
+# Or using yarn
+yarn build
 ```
 
 This will copy all necessary files from `src/` to `dist/` directory.
 
 Alternatively, you can use Webpack to bundle the project:
 ```bash
+# Using npm
 npm run webpack
+
+# Or using yarn
+yarn webpack
 ```
 
 ### Running the Game
@@ -52,7 +70,11 @@ For development, you can also open `src/index.html` directly in a web browser.
 
 Run the test suite to verify game logic:
 ```bash
+# Using npm
 npm test
+
+# Or using yarn
+yarn test
 ```
 
 ## Contract Verification
