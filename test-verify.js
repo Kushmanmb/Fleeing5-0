@@ -1,11 +1,12 @@
 // Test script for verify-contract.js
-const { encodeConstructorArgs, NETWORKS } = require('./verify-contract.js');
+const { encodeConstructorArgs, NETWORKS, verifyContract } = require('./verify-contract.js');
 const { ethers } = require('ethers');
 
-console.log('Testing verify-contract.js module...\n');
+async function runTests() {
+  console.log('Testing verify-contract.js module...\n');
 
-let passed = 0;
-let failed = 0;
+  let passed = 0;
+  let failed = 0;
 
 // Test 1: Check NETWORKS configuration
 console.log('Test 1: NETWORKS configuration');
@@ -165,6 +166,58 @@ try {
   failed++;
 }
 
+// Test 8: Validate verifyContract input validation
+console.log('\nTest 8: verifyContract input validation');
+try {
+  // Test invalid optimization value
+  let errorCaught = false;
+  try {
+    await verifyContract({
+      contractAddress: '0x1234567890123456789012345678901234567890',
+      sourceCode: 'contract Test {}',
+      contractName: 'Test',
+      compilerVersion: 'v0.8.20',
+      optimizationUsed: 2, // Invalid - should be 0 or 1
+      apiKey: 'test',
+    });
+  } catch (error) {
+    if (error.message.includes('optimizationUsed must be 0')) {
+      errorCaught = true;
+    }
+  }
+  
+  if (!errorCaught) {
+    throw new Error('Should have caught invalid optimizationUsed value');
+  }
+  
+  // Test invalid runs value
+  errorCaught = false;
+  try {
+    await verifyContract({
+      contractAddress: '0x1234567890123456789012345678901234567890',
+      sourceCode: 'contract Test {}',
+      contractName: 'Test',
+      compilerVersion: 'v0.8.20',
+      runs: -1, // Invalid - should be positive
+      apiKey: 'test',
+    });
+  } catch (error) {
+    if (error.message.includes('runs must be a positive integer')) {
+      errorCaught = true;
+    }
+  }
+  
+  if (!errorCaught) {
+    throw new Error('Should have caught invalid runs value');
+  }
+  
+  console.log('✓ Input validation works correctly');
+  passed++;
+} catch (error) {
+  console.error('✗ Input validation test failed:', error.message);
+  failed++;
+}
+
 // Summary
 console.log('\n' + '='.repeat(50));
 console.log('Test Summary:');
@@ -179,3 +232,10 @@ if (failed > 0) {
   console.log('\n✓ All tests passed');
   process.exit(0);
 }
+}
+
+// Run tests
+runTests().catch(error => {
+  console.error('Test suite error:', error);
+  process.exit(1);
+});

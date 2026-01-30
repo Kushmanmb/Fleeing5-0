@@ -14,7 +14,14 @@ async function main() {
   // Example: Verify SimpleStorage contract
   
   // Step 1: Read the contract source code
-  const sourceCode = fs.readFileSync('./examples/SimpleStorage.sol', 'utf8');
+  let sourceCode;
+  try {
+    sourceCode = fs.readFileSync('./examples/SimpleStorage.sol', 'utf8');
+  } catch (error) {
+    console.error('Error: Could not read SimpleStorage.sol:', error.message);
+    console.log('Make sure you are running this script from the repository root directory.');
+    process.exit(1);
+  }
   
   // Step 2: Encode constructor arguments
   // SimpleStorage constructor takes uint256 initialValue

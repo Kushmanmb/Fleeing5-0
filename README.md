@@ -100,8 +100,8 @@ npm run verify -- \
 
 ### Supported Networks
 
-- Ethereum: `mainnet`, `sepolia`, `goerli`, `holesky`
-- Polygon: `polygon`, `mumbai`
+- Ethereum: `mainnet`, `sepolia`, `holesky`
+- Polygon: `polygon`, `amoy`
 - Arbitrum: `arbitrum`
 - Optimism: `optimism`
 - BSC: `bsc`, `bscTestnet`

@@ -6,10 +6,9 @@ const { ethers } = require('ethers');
 const NETWORKS = {
   mainnet: 'https://api.etherscan.io/api',
   sepolia: 'https://api-sepolia.etherscan.io/api',
-  goerli: 'https://api-goerli.etherscan.io/api',
   holesky: 'https://api-holesky.etherscan.io/api',
   polygon: 'https://api.polygonscan.com/api',
-  mumbai: 'https://api-testnet.polygonscan.com/api',
+  amoy: 'https://api-amoy.polygonscan.com/api',
   arbitrum: 'https://api.arbiscan.io/api',
   optimism: 'https://api-optimistic.etherscan.io/api',
   bsc: 'https://api.bscscan.com/api',
@@ -63,6 +62,14 @@ async function verifyContract(options) {
   if (!apiKey) {
     throw new Error('Etherscan API key is required. Set ETHERSCAN_API_KEY environment variable.');
   }
+  
+  // Validate optimization settings
+  if (optimizationUsed !== 0 && optimizationUsed !== 1) {
+    throw new Error('optimizationUsed must be 0 (disabled) or 1 (enabled)');
+  }
+  if (!Number.isInteger(runs) || runs < 1) {
+    throw new Error('runs must be a positive integer (typically 1-200)');
+  }
 
   const apiUrl = NETWORKS[network];
   if (!apiUrl) {
@@ -86,7 +93,10 @@ async function verifyContract(options) {
     compilerversion: compilerVersion,
     optimizationUsed: optimizationUsed.toString(),
     runs: runs.toString(),
-    constructorArguements: constructorArguments, // Note: Etherscan API uses "Arguements" (with typo)
+    // Note: Etherscan API intentionally uses the misspelling "constructorArguements"
+    // (with 'ue' instead of 'u'). This is not a typo in our code - it's required by the API.
+    // See: https://docs.etherscan.io/api-endpoints/contracts#verify-source-code
+    constructorArguements: constructorArguments,
   }).toString();
 
   // Submit verification request
@@ -211,10 +221,9 @@ function getExplorerUrl(network, address) {
   const explorers = {
     mainnet: 'https://etherscan.io',
     sepolia: 'https://sepolia.etherscan.io',
-    goerli: 'https://goerli.etherscan.io',
     holesky: 'https://holesky.etherscan.io',
     polygon: 'https://polygonscan.com',
-    mumbai: 'https://mumbai.polygonscan.com',
+    amoy: 'https://amoy.polygonscan.com',
     arbitrum: 'https://arbiscan.io',
     optimism: 'https://optimistic.etherscan.io',
     bsc: 'https://bscscan.com',
@@ -293,12 +302,23 @@ Environment Variables:
     const key = args[i].replace('--', '');
     const value = args[i + 1];
     
+    // Validate that value exists for this flag
+    if (value === undefined || value.startsWith('--')) {
+      console.error(`Error: Missing value for --${key}`);
+      process.exit(1);
+    }
+    
     switch (key) {
       case 'address':
         options.contractAddress = value;
         break;
       case 'source':
-        options.sourceCode = require('fs').readFileSync(value, 'utf8');
+        try {
+          options.sourceCode = require('fs').readFileSync(value, 'utf8');
+        } catch (error) {
+          console.error(`Error: Could not read source file '${value}': ${error.message}`);
+          process.exit(1);
+        }
         break;
       case 'name':
         options.contractName = value;
