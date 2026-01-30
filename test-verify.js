@@ -138,24 +138,21 @@ try {
 // Test 7: Verify ethers integration
 console.log('\nTest 7: Verify ethers.js integration');
 try {
-  if (!ethers.utils) {
-    throw new Error('ethers.utils not available');
+  if (!ethers.isAddress) {
+    throw new Error('ethers.isAddress not available');
   }
-  if (!ethers.utils.isAddress) {
-    throw new Error('ethers.utils.isAddress not available');
-  }
-  if (!ethers.utils.defaultAbiCoder) {
-    throw new Error('ethers.utils.defaultAbiCoder not available');
+  if (!ethers.AbiCoder) {
+    throw new Error('ethers.AbiCoder not available');
   }
   
   // Test address validation
   const validAddress = '0x1234567890123456789012345678901234567890';
   const invalidAddress = '0xinvalid';
   
-  if (!ethers.utils.isAddress(validAddress)) {
+  if (!ethers.isAddress(validAddress)) {
     throw new Error('Valid address not recognized');
   }
-  if (ethers.utils.isAddress(invalidAddress)) {
+  if (ethers.isAddress(invalidAddress)) {
     throw new Error('Invalid address incorrectly validated');
   }
   
