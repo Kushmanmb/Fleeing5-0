@@ -246,6 +246,93 @@ if (result.success) {
 }
 ```
 
+## Etherscan API v2 Queries
+
+This repository includes a tool for querying Etherscan API v2, which allows you to retrieve blockchain data such as block numbers, account balances, and more.
+
+### Prerequisites
+
+- Etherscan API key (get one from [https://etherscan.io/myapikey](https://etherscan.io/myapikey))
+
+### Setup
+
+Add your Etherscan API key to the `.env` file:
+```bash
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
+```
+
+### Getting Current Block Number
+
+The most common use case is getting the current block number for a chain:
+
+```bash
+# Get current block number for mainnet
+npm run etherscan:block mainnet
+
+# Get current block number for sepolia
+npm run etherscan:block sepolia
+
+# Get current block number for holesky
+npm run etherscan:block holesky
+```
+
+### Advanced Queries
+
+For more advanced queries, use the full query interface:
+
+```bash
+# Get block number using chain ID
+node etherscan-query.js --chainid 1 --module proxy --action eth_blockNumber
+
+# Query with custom API key
+node etherscan-query.js --chainid 11155111 --module proxy --action eth_blockNumber --api-key YOUR_API_KEY
+```
+
+### Supported Networks
+
+- **Mainnet** (Chain ID: 1)
+- **Sepolia** (Chain ID: 11155111)
+- **Holesky** (Chain ID: 17000)
+
+### Using cURL (Direct API Access)
+
+You can also query the Etherscan API v2 directly using cURL:
+
+```bash
+# Get current block number for mainnet
+curl "https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken"
+
+# Response format:
+# {"status":"1","message":"OK","result":"0x..."}
+```
+
+The result is returned in hexadecimal format. To convert to decimal:
+```bash
+# Example: 0x1234567 = 19088743
+echo $((0x1234567))
+```
+
+### Programmatic Usage
+
+You can also use the query tool as a module in your Node.js scripts:
+
+```javascript
+const { getBlockNumber, queryEtherscan } = require('./etherscan-query.js');
+
+// Get block number for a network
+const result = await getBlockNumber('mainnet');
+console.log(`Current block: ${result.blockNumber}`);
+
+// Advanced query
+const response = await queryEtherscan({
+  chainid: 1,
+  module: 'proxy',
+  action: 'eth_blockNumber',
+  apiKey: process.env.ETHERSCAN_API_KEY,
+});
+console.log(response);
+```
+
 ## USDC Faucet Server
 
 This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
