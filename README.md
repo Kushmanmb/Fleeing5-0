@@ -16,6 +16,7 @@ A slot machine game with performance optimizations and Ethereum testnet integrat
 
 - Node.js (version 18.x, 20.x, or 22.x)
 - npm or yarn package manager
+- Foundry (for smart contract development and deployment)
 
 ### Installation
 
@@ -36,6 +37,16 @@ npm install
 
 # Or using yarn
 yarn install
+```
+
+4. (Optional) Install Foundry for smart contract development:
+```bash
+# Run the setup script
+./setup-foundry.sh
+
+# Or install manually
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
 ```
 
 ### Building the Project
@@ -69,6 +80,80 @@ For development, you can also open `src/index.html` directly in a web browser.
 ### Running Tests
 
 Run the test suite to verify game logic:
+```bash
+# Using npm
+npm test
+
+# Or using yarn
+yarn test
+```
+
+## Smart Contract Development with Foundry
+
+This project includes Solidity smart contracts and supports Foundry for development and testing.
+
+### Installing Foundry
+
+Foundry is a fast, portable, and modular toolkit for Ethereum application development. To install:
+
+**Option 1: Use the setup script (recommended)**
+```bash
+./setup-foundry.sh
+```
+
+**Option 2: Manual installation**
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+After installation, verify with:
+```bash
+forge --version
+cast --version
+anvil --version
+```
+
+### Working with Smart Contracts
+
+The repository includes example contracts in the `examples/` directory. Foundry configuration is provided in `foundry.toml`.
+
+**Compile contracts:**
+```bash
+forge build
+```
+
+**Run contract tests:**
+```bash
+forge test
+```
+
+**Deploy a contract:**
+```bash
+forge create examples/SimpleStorage.sol:SimpleStorage \
+  --rpc-url $RPC_URL \
+  --private-key $PRIVATE_KEY \
+  --constructor-args 42
+```
+
+**Verify on Etherscan:**
+```bash
+# Using Foundry
+forge verify-contract <CONTRACT_ADDRESS> SimpleStorage \
+  --chain-id 11155111 \
+  --etherscan-api-key $ETHERSCAN_API_KEY
+
+# Or using the built-in verification tool
+npm run verify -- --address <CONTRACT_ADDRESS> \
+  --source ./examples/SimpleStorage.sol \
+  --name SimpleStorage \
+  --compiler v0.8.20+commit.a1b79de6 \
+  --network sepolia
+```
+
+For more examples, see the [examples/README.md](examples/README.md) file.
+
+### Running Tests
 ```bash
 # Using npm
 npm test
