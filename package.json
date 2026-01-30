@@ -11,12 +11,15 @@
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
   },
-  "keywords": ["game", "slot-machine"],
+  "keywords": [
+    "game",
+    "slot-machine"
+  ],
   "author": "kushmanmb",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
-    "ethers": "^5.7.2",
+    "ethers": "^6.16.0",
     "express": "^4.18.2"
   },
   "devDependencies": {

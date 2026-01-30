@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 // Set up Ethereum provider (using Sepolia testnet)
-const provider = new ethers.providers.InfuraProvider('sepolia', process.env.INFURA_PROJECT_ID);
+const provider = new ethers.InfuraProvider('sepolia', process.env.INFURA_PROJECT_ID);
 
 // Create wallet instance
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
@@ -28,7 +28,7 @@ const usdcContract = new ethers.Contract(USDC_ADDRESS, USDC_ABI, wallet);
 
 // Cooldown and limits
 const COOLDOWN = 3600; // 1 hour in seconds
-const DISPENSE_AMOUNT = ethers.utils.parseUnits('10', 6); // 10 USDC with 6 decimals
+const DISPENSE_AMOUNT = ethers.parseUnits('10', 6); // 10 USDC with 6 decimals
 
 // In-memory store for last request times
 // NOTE: This will reset on server restart and doesn't scale across multiple instances
@@ -46,7 +46,7 @@ app.post('/faucet', async (req, res) => {
   const userAddress = req.body.address;
 
   // Validate Ethereum address format
-  if (!ethers.utils.isAddress(userAddress)) {
+  if (!ethers.isAddress(userAddress)) {
     return res.status(400).json({ message: 'Invalid Ethereum address format.' });
   }
 
@@ -60,7 +60,7 @@ app.post('/faucet', async (req, res) => {
 
   // Check faucet balance
   const balance = await usdcContract.balanceOf(wallet.address);
-  if (balance.lt(DISPENSE_AMOUNT)) {
+  if (balance < DISPENSE_AMOUNT) {
     return res.status(500).json({ message: 'Faucet out of funds.' });
   }
 
