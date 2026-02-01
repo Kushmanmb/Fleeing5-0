@@ -12,17 +12,18 @@ const COINBASE_AUTH_URL = 'https://login.coinbase.com/oauth2/auth';
 const COINBASE_TOKEN_URL = 'https://login.coinbase.com/oauth2/token';
 const COINBASE_API_URL = 'https://api.coinbase.com/v2/user';
 
-// Validate OAuth2 configuration
-if (!process.env.COINBASE_CLIENT_ID || !process.env.COINBASE_CLIENT_SECRET) {
-  console.error('ERROR: COINBASE_CLIENT_ID and COINBASE_CLIENT_SECRET environment variables are required');
-  process.exit(1);
-}
-if (!process.env.JWT_SECRET) {
-  console.error('ERROR: JWT_SECRET environment variable is required');
-  process.exit(1);
-}
-if (!process.env.COINBASE_REDIRECT_URI) {
-  console.error('ERROR: COINBASE_REDIRECT_URI environment variable is required');
+// Validate required environment variables
+const requiredEnvVars = [
+  'COINBASE_CLIENT_ID',
+  'COINBASE_CLIENT_SECRET',
+  'COINBASE_REDIRECT_URI',
+  'JWT_SECRET',
+  'USDC_CONTRACT_ADDRESS'
+];
+
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+if (missingEnvVars.length > 0) {
+  console.error(`ERROR: Missing required environment variables: ${missingEnvVars.join(', ')}`);
   process.exit(1);
 }
 
@@ -32,12 +33,7 @@ const provider = new ethers.providers.InfuraProvider('sepolia', process.env.INFU
 // Create wallet instance
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-// USDC contract details - NOTE: This must be a testnet USDC contract address
-// Configure via USDC_CONTRACT_ADDRESS environment variable
-if (!process.env.USDC_CONTRACT_ADDRESS) {
-  console.error('ERROR: USDC_CONTRACT_ADDRESS environment variable is required');
-  process.exit(1);
-}
+// USDC contract details
 const USDC_ADDRESS = process.env.USDC_CONTRACT_ADDRESS;
 const USDC_ABI = [
   'function transfer(address to, uint256 value) public returns (bool)',
@@ -53,7 +49,8 @@ const DISPENSE_AMOUNT = ethers.utils.parseUnits('10', 6); // 10 USDC with 6 deci
 
 // In-memory store for last request times
 // NOTE: This will reset on server restart and doesn't scale across multiple instances
-// For production, consider using Redis or a database
+// For production, consider using Redis or a database for persistent cooldown tracking
+// to prevent users from bypassing the cooldown by restarting the server
 const lastRequestTimes = {};
 
 app.use(express.json());

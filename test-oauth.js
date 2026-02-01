@@ -9,8 +9,12 @@ process.env.COINBASE_CLIENT_SECRET = 'test_client_secret';
 process.env.COINBASE_REDIRECT_URI = 'http://localhost:3000/auth/coinbase/callback';
 process.env.JWT_SECRET = 'test_jwt_secret_for_testing_only';
 process.env.INFURA_PROJECT_ID = 'test_infura_id';
-process.env.PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001';
-process.env.USDC_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
+// TEST_ONLY: Using a test private key (never use in production)
+const TEST_PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001';
+process.env.PRIVATE_KEY = TEST_PRIVATE_KEY;
+// TEST_ONLY: Using a test USDC contract address
+const TEST_USDC_ADDRESS = '0x0000000000000000000000000000000000000000';
+process.env.USDC_CONTRACT_ADDRESS = TEST_USDC_ADDRESS;
 
 const jwt = require('jsonwebtoken');
 
