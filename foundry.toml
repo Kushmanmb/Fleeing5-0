@@ -1,0 +1,31 @@
+[profile.default]
+src = "examples"
+out = "out"
+libs = ["lib"]
+solc = "0.8.20"
+
+# Optimizer settings
+optimizer = true
+optimizer_runs = 200
+
+# EVM version
+evm_version = "paris"
+
+# Formatting
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+
+# Test settings
+verbosity = 2
+
+# Gas reports
+gas_reports = ["*"]
+
+[rpc_endpoints]
+sepolia = "https://sepolia.infura.io/v3/${INFURA_PROJECT_ID}"
+mainnet = "https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}"
+
+[etherscan]
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
+mainnet = { key = "${ETHERSCAN_API_KEY}" }

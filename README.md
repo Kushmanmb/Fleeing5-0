@@ -16,6 +16,7 @@ A slot machine game with performance optimizations and Ethereum testnet integrat
 
 - Node.js (version 18.x, 20.x, or 22.x)
 - npm or yarn package manager
+- Foundry (for smart contract development and deployment)
 
 ### Installation
 
@@ -36,6 +37,16 @@ npm install
 
 # Or using yarn
 yarn install
+```
+
+4. (Optional) Install Foundry for smart contract development:
+```bash
+# Run the setup script
+./setup-foundry.sh
+
+# Or install manually
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
 ```
 
 ### Building the Project
@@ -76,6 +87,72 @@ npm test
 # Or using yarn
 yarn test
 ```
+
+## Smart Contract Development with Foundry
+
+This project includes Solidity smart contracts and supports Foundry for development and testing.
+
+### Installing Foundry
+
+Foundry is a fast, portable, and modular toolkit for Ethereum application development. To install:
+
+**Option 1: Use the setup script (recommended)**
+```bash
+./setup-foundry.sh
+```
+
+**Option 2: Manual installation**
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+After installation, verify with:
+```bash
+forge --version
+cast --version
+anvil --version
+```
+
+### Working with Smart Contracts
+
+The repository includes example contracts in the `examples/` directory. Foundry configuration is provided in `foundry.toml`.
+
+**Compile contracts:**
+```bash
+forge build
+```
+
+**Run contract tests:**
+```bash
+forge test
+```
+
+**Deploy a contract:**
+```bash
+forge create examples/SimpleStorage.sol:SimpleStorage \
+  --rpc-url $RPC_URL \
+  --private-key $PRIVATE_KEY \
+  --constructor-args 42
+```
+
+**Verify on Etherscan:**
+```bash
+# Using Foundry
+forge verify-contract <CONTRACT_ADDRESS> \
+  examples/SimpleStorage.sol:SimpleStorage \
+  --chain-id 11155111 \
+  --etherscan-api-key $ETHERSCAN_API_KEY
+
+# Or using the built-in verification tool
+npm run verify -- --address <CONTRACT_ADDRESS> \
+  --source ./examples/SimpleStorage.sol \
+  --name SimpleStorage \
+  --compiler v0.8.20+commit.a1b79de6 \
+  --network sepolia
+```
+
+For more examples, see the [examples/README.md](examples/README.md) file.
 
 ## Contract Verification
 
@@ -168,6 +245,95 @@ if (result.success) {
   console.error('Failed:', result.error);
 }
 ```
+
+## Etherscan API v2 Queries
+
+This repository includes a tool for querying Etherscan API v2, which allows you to retrieve blockchain data such as block numbers, account balances, and more.
+
+### Prerequisites
+
+- Etherscan API key (get one from [https://etherscan.io/myapikey](https://etherscan.io/myapikey))
+
+### Setup
+
+Add your Etherscan API key to the `.env` file:
+```bash
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
+```
+
+### Getting Current Block Number
+
+The most common use case is getting the current block number for a chain:
+
+```bash
+# Get current block number for mainnet
+npm run etherscan:block -- mainnet
+
+# Get current block number for sepolia
+npm run etherscan:block -- sepolia
+
+# Get current block number for holesky
+npm run etherscan:block -- holesky
+```
+
+### Advanced Queries
+
+For more advanced queries, use the full query interface:
+
+```bash
+# Get block number using chain ID
+node etherscan-query.js --chainid 1 --module proxy --action eth_blockNumber
+
+# Query with custom API key
+node etherscan-query.js --chainid 11155111 --module proxy --action eth_blockNumber --api-key YOUR_API_KEY
+```
+
+### Supported Networks
+
+- **Mainnet** (Chain ID: 1)
+- **Sepolia** (Chain ID: 11155111)
+- **Holesky** (Chain ID: 17000)
+
+### Using cURL (Direct API Access)
+
+You can also query the Etherscan API v2 directly using cURL:
+
+```bash
+# Get current block number for mainnet
+curl "https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken"
+
+# Response format:
+# {"status":"1","message":"OK","result":"0x..."}
+```
+
+The result is returned in hexadecimal format. To convert to decimal:
+```bash
+# Example: 0x1234567 = 19088743
+echo $((0x1234567))
+```
+
+### Programmatic Usage
+
+You can also use the query tool as a module in your Node.js scripts:
+
+```javascript
+const { getBlockNumber, queryEtherscan } = require('./etherscan-query.js');
+
+// Get block number for a network
+const result = await getBlockNumber('mainnet');
+console.log(`Current block: ${result.blockNumber}`);
+
+// Advanced query
+const response = await queryEtherscan({
+  chainid: 1,
+  module: 'proxy',
+  action: 'eth_blockNumber',
+  apiKey: process.env.ETHERSCAN_API_KEY,
+});
+console.log(response);
+```
+
+For more examples and detailed usage, see [ETHERSCAN_EXAMPLES.md](ETHERSCAN_EXAMPLES.md).
 
 ## USDC Faucet Server
 
