@@ -1,0 +1,19 @@
+{
+  "name": "eas-signature-example",
+  "version": "1.0.0",
+  "description": "Example demonstrating EAS attestation signing with OnChainKit",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@coinbase/onchainkit": "^0.30.0",
+    "viem": "^2.0.0",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,11 +1,27 @@
-# Contract Verification Examples
+# Examples
 
-This directory contains examples demonstrating how to use the contract verification tool.
+This directory contains examples demonstrating various tools and integrations available in this repository.
 
-## Files
+## Contract Verification
+
+Examples for verifying smart contracts on block explorers.
+
+### Files
 
 - **SimpleStorage.sol** - A simple example smart contract
 - **verify-example.js** - Example script showing programmatic verification
+
+## EAS Signature with OnChainKit
+
+Example demonstrating how to use OnChainKit's Signature component for signing Ethereum Attestation Service (EAS) attestations.
+
+### Files
+
+- **eas-signature/data.ts** - EIP-712 typed data structure for EAS attestations
+- **eas-signature/SignatureExample.tsx** - React component showing Signature usage
+- **eas-signature/README.md** - Detailed documentation and usage guide
+
+See [eas-signature/README.md](./eas-signature/README.md) for more details.
 
 ## Using the Example
 
