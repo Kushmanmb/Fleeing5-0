@@ -21,6 +21,7 @@ The examples demonstrate:
 
 - **SignatureExample.tsx** - React component demonstrating EIP-712 signature (EAS attestations)
 - **PersonalSignExample.tsx** - React component demonstrating personal message signing
+- **index.ts** - Convenient exports for easy importing of examples
 
 ## Prerequisites
 
@@ -113,6 +114,8 @@ Import and use either example component in your React application:
 
 ```tsx
 import PersonalSignExample from './examples/eas-signature/PersonalSignExample';
+// Or using the index file
+import { PersonalSignExample } from './examples/eas-signature';
 
 function App() {
   return (
@@ -128,6 +131,8 @@ function App() {
 
 ```tsx
 import SignatureExample from './examples/eas-signature/SignatureExample';
+// Or using the index file
+import { SignatureExample } from './examples/eas-signature';
 
 function App() {
   return (
@@ -176,6 +181,51 @@ import { domain, types, message } from './data';
   }}
 />
 ```
+
+## Component Features
+
+The OnChainKit Signature component provides several powerful features:
+
+### Core Capabilities
+
+- **Dual Signature Support**: Handles both EIP-712 typed data and personal_sign (with fallback to eth_sign)
+- **Full Signature Flow**: Manages user prompts, status tracking, and result handlers automatically
+- **User-Friendly UI**: Provides a polished, accessible interface for signing operations
+- **Error Handling**: Built-in error states and user feedback
+
+### Customizable Subcomponents
+
+For advanced use cases, you can use individual subcomponents for custom UI:
+
+- **SignatureButton** - Triggers the signature flow
+- **SignatureStatus** - Displays current status and progress
+- **SignatureToast** - Shows toast notifications for signature events
+
+Example of using subcomponents:
+
+```tsx
+import { 
+  Signature,
+  SignatureButton,
+  SignatureStatus,
+  SignatureToast
+} from '@coinbase/onchainkit/signature';
+
+// Custom layout using subcomponents
+<Signature message="Custom message">
+  <SignatureButton />
+  <SignatureStatus />
+  <SignatureToast />
+</Signature>
+```
+
+### Callback Handlers
+
+The component supports various callback handlers:
+
+- `onSuccess` - Called when signature is successfully generated
+- `onError` - Called when signing fails
+- `onStatusChange` - Called when signing status changes
 
 ## EIP-712 Structure
 
@@ -277,11 +327,20 @@ The `onSuccess` callback receives the signature string:
 
 ## Resources
 
-- [OnChainKit Documentation](https://onchainkit.xyz/)
-- [Ethereum Attestation Service](https://attest.sh/)
-- [EIP-712: Typed structured data hashing and signing](https://eips.ethereum.org/EIPS/eip-712)
-- [Viem Documentation](https://viem.sh/)
-- [EAS on Base](https://base.easscan.org/)
+### OnChainKit & Base Documentation
+- [OnChainKit Signature Component Quick Start](https://docs.base.org/onchainkit/latest/components/signature/signature#quick-start) - Official quick start guide
+- [OnChainKit Documentation](https://onchainkit.xyz/) - Full OnChainKit documentation
+- [Base Blockchain](https://base.org/) - Information about Base L2
+
+### Related Technologies
+- [Ethereum Attestation Service (EAS)](https://attest.sh/) - Learn about EAS attestations
+- [EAS on Base](https://base.easscan.org/) - EAS explorer for Base network
+- [EIP-712: Typed structured data hashing and signing](https://eips.ethereum.org/EIPS/eip-712) - EIP-712 specification
+- [Viem Documentation](https://viem.sh/) - TypeScript interface for Ethereum
+
+### Getting Started with OnChainKit
+- [Create Onchain App](https://github.com/coinbase/onchainkit#getting-started) - Quickly scaffold an app with OnChainKit
+- [OnChainKit GitHub Repository](https://github.com/coinbase/onchainkit) - Source code and examples
 
 ## Notes
 
