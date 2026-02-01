@@ -2,15 +2,6 @@
 
 This directory contains examples demonstrating various tools and integrations available in this repository.
 
-## Contract Verification
-
-Examples for verifying smart contracts on block explorers.
-
-### Files
-
-- **SimpleStorage.sol** - A simple example smart contract
-- **verify-example.js** - Example script showing programmatic verification
-
 ## OnChainKit Signature Component - Quick Start
 
 Examples demonstrating how to use OnChainKit's Signature component for signing messages and typed data. These examples follow the [OnChainKit Quick Start guide](https://docs.base.org/onchainkit/latest/components/signature/signature#quick-start).
