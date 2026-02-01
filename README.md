@@ -185,6 +185,15 @@ cp .env.example .env
    - `PRIVATE_KEY`: Private key of the wallet that will dispense USDC
    - `USDC_CONTRACT_ADDRESS`: Address of the USDC contract on your testnet (Sepolia, Goerli, etc.)
    - `ETHERSCAN_API_KEY`: Your Etherscan API key for contract verification (optional, only needed if using verification feature)
+   - `COINBASE_CLIENT_ID`: Your Coinbase OAuth2 client ID (get from https://www.coinbase.com/settings/api)
+   - `COINBASE_CLIENT_SECRET`: Your Coinbase OAuth2 client secret
+   - `COINBASE_REDIRECT_URI`: OAuth2 callback URL (default: http://localhost:3000/auth/coinbase/callback)
+   - `JWT_SECRET`: A random secret string for signing JWT tokens
+
+3. Install dependencies:
+```bash
+npm install
+```
 
 ### Running the Faucet
 
@@ -195,11 +204,62 @@ npm run faucet
 
 The server will run at `http://localhost:3000`.
 
+### Authentication
+
+The faucet requires OAuth2 authentication with Coinbase to prevent abuse. Users must authenticate before they can request USDC tokens.
+
+#### OAuth Flow
+
+1. **Start Authentication**: Navigate to `GET /auth/coinbase/start`
+   - This redirects to Coinbase's OAuth2 authorization page
+   - User logs in and authorizes the application
+
+2. **Handle Callback**: Coinbase redirects back to `GET /auth/coinbase/callback`
+   - Server exchanges authorization code for access token
+   - Server retrieves user information from Coinbase
+   - Server generates a JWT token for the authenticated session
+   - Returns JWT token to the client
+
+3. **Access Protected Endpoints**: Use the JWT token in subsequent requests
+   - Include in Authorization header: `Authorization: Bearer <token>`
+   - Token expires after 24 hours
+
 ### API Endpoints
+
+**GET /auth/coinbase/start**
+
+Initiates the OAuth2 authentication flow with Coinbase.
+
+Response: Redirects to `https://login.coinbase.com/oauth2/auth`
+
+**GET /auth/coinbase/callback**
+
+Handles the OAuth2 callback from Coinbase.
+
+Query parameters:
+- `code`: Authorization code from Coinbase
+- `error`: Error message if authorization failed
+
+Response (success):
+```json
+{
+  "message": "Authentication successful!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "coinbase-user-id",
+    "name": "User Name"
+  }
+}
+```
 
 **POST /faucet**
 
-Request USDC tokens from the faucet.
+Request USDC tokens from the faucet. Requires authentication.
+
+Headers:
+```
+Authorization: Bearer <jwt-token>
+```
 
 Request body:
 ```json
@@ -217,15 +277,18 @@ Response (success):
 
 Responses (error):
 - `400`: Invalid or missing address
-- `429`: Cooldown in effect (48 hour between requests)
+- `401`: Authentication required or invalid token
+- `429`: Cooldown in effect (1 hour between requests per Coinbase user)
 - `500`: Faucet out of funds or transfer error
 
 ### Faucet Configuration
 
 - **Network**: Sepolia testnet (configurable via Infura)
-- **Dispense Amount**: 1 USDC per request
-- **Cooldown**: 12 hour between requests per address
+- **Dispense Amount**: 10 USDC per request
+- **Cooldown**: 1 hour between requests per Coinbase user
 - **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
+- **Authentication**: OAuth2 with Coinbase (required)
+- **Token Expiration**: JWT tokens expire after 24 hours
 
 ## Performance Improvements
 
