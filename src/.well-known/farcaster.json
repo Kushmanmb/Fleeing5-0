@@ -1,5 +1,6 @@
 {
   "accountAssociation": {
+    "_comment": "IMPORTANT: Replace these placeholder values with actual cryptographic signatures generated for your Farcaster account before production deployment. Use the Base Build Account Association Tool to generate valid credentials.",
     "header": "eyJmaWQiOjEyMzQ1LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4MTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3OCJ9",
     "payload": "eyJkb21haW4iOiJrdXNobWFubWIuZ2l0aHViLmlvIn0",
     "signature": "MHg1ZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZGVmMTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZGVmMTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODk"

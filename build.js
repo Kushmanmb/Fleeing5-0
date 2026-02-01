@@ -41,8 +41,10 @@ if (fs.existsSync(wellKnownSrcDir)) {
   wellKnownFiles.forEach(file => {
     const sourcePath = path.join(wellKnownSrcDir, file);
     const destPath = path.join(wellKnownDistDir, file);
-    fs.copyFileSync(sourcePath, destPath);
-    console.log(`  ✓ Copied .well-known/${file}`);
+    if (fs.statSync(sourcePath).isFile()) {
+      fs.copyFileSync(sourcePath, destPath);
+      console.log(`  ✓ Copied .well-known/${file}`);
+    }
   });
 }
 
