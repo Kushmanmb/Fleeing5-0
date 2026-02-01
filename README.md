@@ -227,6 +227,51 @@ Responses (error):
 - **Cooldown**: 12 hour between requests per address
 - **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
 
+## Coinbase OAuth2 Integration
+
+This repository includes a Coinbase OAuth2 server that demonstrates authentication with Coinbase API.
+
+### Features
+
+- OAuth2 Authorization Code Flow with PKCE
+- Secure state management for CSRF protection
+- Token exchange and management
+- User authentication with Coinbase accounts
+
+### Setup
+
+1. Create a Coinbase OAuth2 application at [Coinbase API Settings](https://www.coinbase.com/settings/api)
+2. Configure your `.env` file with Coinbase credentials:
+   - `COINBASE_CLIENT_ID`: Your Coinbase OAuth2 client ID
+   - `COINBASE_CLIENT_SECRET`: Your Coinbase OAuth2 client secret
+   - `COINBASE_REDIRECT_URI`: OAuth2 redirect URI (default: `http://localhost:8000/callback`)
+
+### Running the OAuth Server
+
+Start the Coinbase OAuth server:
+```bash
+npm run coinbase-oauth
+```
+
+The server will run at `http://localhost:8000`.
+
+### Usage
+
+1. Navigate to `http://localhost:8000` in your browser
+2. Click "Login with Coinbase"
+3. Authenticate with your Coinbase account
+4. View the obtained access and refresh tokens
+
+For detailed documentation and examples, see [Coinbase OAuth Example](examples/coinbase-oauth-example.md).
+
+### Security Notes
+
+- Uses PKCE (Proof Key for Code Exchange) for enhanced security
+- Implements state parameter for CSRF protection
+- Demo uses in-memory session storage (use Redis or similar in production)
+- Never expose tokens client-side in production
+- Always use HTTPS in production environments
+
 ## Performance Improvements
 
 The code has been optimized with the following improvements:

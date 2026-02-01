@@ -9,7 +9,8 @@
     "test:verify": "node test-verify.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
-    "verify": "node verify-contract.js"
+    "verify": "node verify-contract.js",
+    "coinbase-oauth": "node coinbase-oauth.js"
   },
   "keywords": ["game", "slot-machine"],
   "author": "kushmanmb",
