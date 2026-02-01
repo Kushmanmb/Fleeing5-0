@@ -6,6 +6,27 @@ This directory contains examples demonstrating how to use the contract verificat
 
 - **SimpleStorage.sol** - A simple example smart contract
 - **verify-example.js** - Example script showing programmatic verification
+- **create-project.js** - Script to create a new base project with verification tools
+- **setup-new-project.md** - Comprehensive guide for setting up a new project
+
+## Quick Start: Create a New Project
+
+To quickly scaffold a new project with all the verification tools:
+
+```bash
+# Run from the repository root
+node examples/create-project.js my-base-project
+cd my-base-project
+npm install
+```
+
+Or manually:
+
+```bash
+mkdir my-base-project && cd my-base-project
+```
+
+Then follow the detailed guide in [setup-new-project.md](./setup-new-project.md).
 
 ## Using the Example
 
