@@ -7,6 +7,7 @@
     "build": "node build.js",
     "test": "node test.js",
     "test:verify": "node test-verify.js",
+    "test:faucet": "node test-faucet.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
