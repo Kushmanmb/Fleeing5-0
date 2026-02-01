@@ -12,7 +12,10 @@
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
   },
-  "keywords": ["game", "slot-machine"],
+  "keywords": [
+    "game",
+    "slot-machine"
+  ],
   "author": "kushmanmb",
   "license": "ISC",
   "dependencies": {
@@ -20,6 +23,7 @@
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
     "express": "^4.18.2",
+    "express-rate-limit": "^7.5.1",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2"
   },

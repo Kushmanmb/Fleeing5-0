@@ -289,6 +289,7 @@ Responses (error):
 - **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
 - **Authentication**: OAuth2 with Coinbase (required)
 - **Token Expiration**: JWT tokens expire after 24 hours
+- **Rate Limiting**: 10 authentication attempts per IP per 15 minutes
 
 ## Performance Improvements
 

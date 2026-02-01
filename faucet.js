@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 const { ethers } = require('ethers');
 
 const app = express();
@@ -54,6 +55,18 @@ const DISPENSE_AMOUNT = ethers.utils.parseUnits('10', 6); // 10 USDC with 6 deci
 const lastRequestTimes = {};
 
 app.use(express.json());
+
+// Rate limiting for OAuth endpoints to prevent abuse
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 requests per windowMs
+  message: 'Too many authentication attempts from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiting to auth endpoints
+app.use('/auth/', authLimiter);
 
 // Middleware to verify JWT token
 const verifyAuth = (req, res, next) => {
