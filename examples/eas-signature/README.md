@@ -118,6 +118,11 @@ An example attestation message:
 }
 ```
 
+**Note**: The example values above are for demonstration purposes:
+- `recipient`: Replace with the actual Ethereum address that should receive the attestation
+- `time`: Set to the current timestamp (e.g., `BigInt(Math.floor(Date.now() / 1000))`) when creating real attestations
+- `schema`: Use the appropriate schema ID for your attestation type
+
 ## Customization
 
 ### Modifying the Attestation Data

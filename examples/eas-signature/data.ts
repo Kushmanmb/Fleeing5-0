@@ -22,8 +22,8 @@ export const types = {
 
 export const message = {
   schema: '0xf58b8b212ef75ee8cd7e8d803c37c03e0519890502d5e99ee2412aae1456cafe',
-  recipient: '0x123000000000000000000000000000000000000000',
-  time: BigInt(0),
+  recipient: '0x123000000000000000000000000000000000000000', // Example recipient address
+  time: BigInt(0), // Attestation timestamp - set to current time in production
   revocable: false,
   refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
   data: encodeAbiParameters([{ type: 'string' }], ['test attestation']),
