@@ -217,7 +217,7 @@ Response (success):
 
 Responses (error):
 - `400`: Invalid or missing address
-- `429`: Cooldown in effect (48 hour between requests)
+- `429`: Cooldown in effect (12 hour between requests)
 - `500`: Faucet out of funds or transfer error
 
 ### Faucet Configuration
