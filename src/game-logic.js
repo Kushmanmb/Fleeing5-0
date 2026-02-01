@@ -14,22 +14,22 @@
  * @returns {boolean} - True if bonus should trigger, false otherwise
  */
 function checkBonusTrigger(board) {
-  let prisonerOnReel1 = false;
-  let robberOnReel5 = false;
+  let prisonerOnLeftmost = false;
+  let robberOnRightmost = false;
   let copInMiddle = false;
   
   // Single loop through rows instead of multiple some() calls
   for (let i = 0; i < board.length; i++) {
     const row = board[i];
-    if (row[0] === "PRISONER") prisonerOnReel1 = true;
-    if (row[4] === "ROBBER") robberOnReel5 = true;
+    if (row[0] === "PRISONER") prisonerOnLeftmost = true;
+    if (row[4] === "ROBBER") robberOnRightmost = true;
     if (row[1] === "COP" || row[2] === "COP" || row[3] === "COP") copInMiddle = true;
     
     // Early exit if all conditions met
-    if (prisonerOnReel1 && robberOnReel5 && copInMiddle) return true;
+    if (prisonerOnLeftmost && robberOnRightmost && copInMiddle) return true;
   }
   
-  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
+  return prisonerOnLeftmost && robberOnRightmost && copInMiddle;
 }
 
 // Export for Node.js (CommonJS)

@@ -48,7 +48,7 @@ async function verifyContract(options) {
   if (!contractAddress) {
     throw new Error('Contract address is required');
   }
-  validateEthereumAddress(contractAddress, 'contract address');
+  validateEthereumAddress(contractAddress, 'Contract address');
   if (!sourceCode) {
     throw new Error('Source code is required');
   }
