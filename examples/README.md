@@ -11,19 +11,48 @@ Examples for verifying smart contracts on block explorers.
 - **SimpleStorage.sol** - A simple example smart contract
 - **verify-example.js** - Example script showing programmatic verification
 
-## EAS Signature with OnChainKit
+## OnChainKit Signature Component - Quick Start
 
-Example demonstrating how to use OnChainKit's Signature component for signing Ethereum Attestation Service (EAS) attestations.
+Examples demonstrating how to use OnChainKit's Signature component for signing messages and typed data. These examples follow the [OnChainKit Quick Start guide](https://docs.base.org/onchainkit/latest/components/signature/signature#quick-start).
+
+### Quick Start Examples
+
+The `eas-signature` directory contains two complete examples:
+
+1. **Personal Message Signing** - Simple text message signing
+   - File: `eas-signature/PersonalSignExample.tsx`
+   - Use case: Basic message signatures
+
+2. **EIP-712 Typed Data Signing** - Structured data signing for EAS attestations
+   - Files: `eas-signature/SignatureExample.tsx`, `eas-signature/data.ts`
+   - Use case: Ethereum Attestation Service (EAS) attestations on Base
+
+### Getting Started
+
+```bash
+# Install dependencies
+npm install @coinbase/onchainkit viem
+
+# Navigate to the example directory
+cd examples/eas-signature
+
+# Check out the example components
+cat PersonalSignExample.tsx  # Simple message signing
+cat SignatureExample.tsx     # EIP-712 attestation signing
+```
+
+See [eas-signature/README.md](./eas-signature/README.md) for detailed documentation and usage instructions.
+
+## Contract Verification
+
+Examples for verifying smart contracts on block explorers.
 
 ### Files
 
-- **eas-signature/data.ts** - EIP-712 typed data structure for EAS attestations
-- **eas-signature/SignatureExample.tsx** - React component showing Signature usage
-- **eas-signature/README.md** - Detailed documentation and usage guide
+- **SimpleStorage.sol** - A simple example smart contract
+- **verify-example.js** - Example script showing programmatic verification
 
-See [eas-signature/README.md](./eas-signature/README.md) for more details.
-
-## Using the Example
+### Using the Example
 
 1. **Review the example contract:**
    ```bash
