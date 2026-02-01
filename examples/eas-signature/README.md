@@ -1,10 +1,16 @@
-# EAS Signature Example
+# OnChainKit Signature Component Examples
 
-This example demonstrates how to use the OnChainKit `Signature` component for signing Ethereum Attestation Service (EAS) attestations using EIP-712 typed data signing.
+This directory contains examples demonstrating how to use the OnChainKit `Signature` component for both EIP-712 typed data signing and personal message signing.
+
+## Quick Start
+
+The OnChainKit Signature component provides an easy, UI-driven way to let users sign messages and typed data in React applications. This directory includes examples for both signature methods.
 
 ## Overview
 
-The Ethereum Attestation Service (EAS) is a standard for creating on-chain and off-chain attestations. This example shows how to integrate EAS attestations with OnChainKit's Signature component to enable users to sign attestations in a user-friendly way.
+The examples demonstrate:
+1. **EIP-712 Typed Data Signing** - For structured data like EAS attestations
+2. **Personal Message Signing** - For simple text message signing
 
 ## Files
 
@@ -13,7 +19,9 @@ The Ethereum Attestation Service (EAS) is a standard for creating on-chain and o
   - `types`: The EAS Attest type definition
   - `message`: An example attestation message
 
-- **SignatureExample.tsx** - A React component demonstrating the Signature component usage
+- **SignatureExample.tsx** - React component demonstrating EIP-712 signature (EAS attestations)
+- **PersonalSignExample.tsx** - React component demonstrating personal message signing
+- **index.ts** - Convenient exports for easy importing of examples
 
 ## Prerequisites
 
@@ -29,14 +37,102 @@ Or with yarn:
 yarn add @coinbase/onchainkit viem
 ```
 
+## Quick Start Examples
+
+### Example 1: Personal Message Signing
+
+The simplest way to use the Signature component is for personal message signing:
+
+```tsx
+import { Signature } from '@coinbase/onchainkit/signature';
+
+<Signature
+  message="Hello, OnchainKit!"
+  label="Personal Sign"
+  onSuccess={(signature: string) => console.log(signature)}
+/>
+```
+
+This example is implemented in **PersonalSignExample.tsx**.
+
+### Example 2: EIP-712 Typed Data Signing (EAS Attestations)
+
+For more complex structured data like EAS attestations, use the full EIP-712 signing:
+
+```tsx
+import { Signature } from '@coinbase/onchainkit/signature';
+import { base } from 'viem/chains';
+
+const domain = {
+  name: 'EAS Attestation',
+  version: '1.0.0',
+  chainId: base.id,
+  verifyingContract: '0x4200000000000000000000000000000000000021',
+};
+
+const types = {
+  Attest: [
+    { name: 'schema', type: 'bytes32' },
+    { name: 'recipient', type: 'address' },
+    { name: 'time', type: 'uint64' },
+    { name: 'revocable', type: 'bool' },
+    { name: 'refUID', type: 'bytes32' },
+    { name: 'data', type: 'bytes' },
+    { name: 'value', type: 'uint256' },
+  ],
+};
+
+const message = {
+  schema: '0x...',
+  recipient: '0x123...',
+  time: BigInt(0),
+  revocable: false,
+  refUID: '0x0...',
+  data: '0x...',
+  value: BigInt(0),
+};
+
+<Signature
+  domain={domain}
+  types={types}
+  primaryType="Attest"
+  message={message}
+  label="Sign EIP712"
+  onSuccess={(signature: string) => console.log(signature)}
+/>
+```
+
+This example is implemented in **SignatureExample.tsx** and **data.ts**.
+
 ## Usage
 
 ### In a React Application
 
-Import and use the `SignatureExample` component in your React application:
+Import and use either example component in your React application:
+
+#### Using Personal Sign:
+
+```tsx
+import PersonalSignExample from './examples/eas-signature/PersonalSignExample';
+// Or using the index file
+import { PersonalSignExample } from './examples/eas-signature';
+
+function App() {
+  return (
+    <div>
+      <h1>Personal Message Signing</h1>
+      <PersonalSignExample />
+    </div>
+  );
+}
+```
+
+#### Using EIP-712 (EAS Attestation):
 
 ```tsx
 import SignatureExample from './examples/eas-signature/SignatureExample';
+// Or using the index file
+import { SignatureExample } from './examples/eas-signature';
 
 function App() {
   return (
@@ -48,7 +144,24 @@ function App() {
 }
 ```
 
-### Standalone Usage
+### Standalone Usage - Personal Sign
+
+For simple message signing, use:
+
+```tsx
+import { Signature } from '@coinbase/onchainkit/signature';
+
+<Signature
+  message="Your message here"
+  label="Sign Message"
+  onSuccess={(signature: string) => {
+    console.log('Signature received:', signature);
+    // Handle the signature
+  }}
+/>
+```
+
+### Standalone Usage - EIP-712
 
 You can also use the Signature component directly in your code:
 
@@ -68,6 +181,51 @@ import { domain, types, message } from './data';
   }}
 />
 ```
+
+## Component Features
+
+The OnChainKit Signature component provides several powerful features:
+
+### Core Capabilities
+
+- **Dual Signature Support**: Handles both EIP-712 typed data and personal_sign (with fallback to eth_sign)
+- **Full Signature Flow**: Manages user prompts, status tracking, and result handlers automatically
+- **User-Friendly UI**: Provides a polished, accessible interface for signing operations
+- **Error Handling**: Built-in error states and user feedback
+
+### Customizable Subcomponents
+
+For advanced use cases, you can use individual subcomponents for custom UI:
+
+- **SignatureButton** - Triggers the signature flow
+- **SignatureStatus** - Displays current status and progress
+- **SignatureToast** - Shows toast notifications for signature events
+
+Example of using subcomponents:
+
+```tsx
+import { 
+  Signature,
+  SignatureButton,
+  SignatureStatus,
+  SignatureToast
+} from '@coinbase/onchainkit/signature';
+
+// Custom layout using subcomponents
+<Signature message="Custom message">
+  <SignatureButton />
+  <SignatureStatus />
+  <SignatureToast />
+</Signature>
+```
+
+### Callback Handlers
+
+The component supports various callback handlers:
+
+- `onSuccess` - Called when signature is successfully generated
+- `onError` - Called when signing fails
+- `onStatusChange` - Called when signing status changes
 
 ## EIP-712 Structure
 
@@ -169,11 +327,20 @@ The `onSuccess` callback receives the signature string:
 
 ## Resources
 
-- [OnChainKit Documentation](https://onchainkit.xyz/)
-- [Ethereum Attestation Service](https://attest.sh/)
-- [EIP-712: Typed structured data hashing and signing](https://eips.ethereum.org/EIPS/eip-712)
-- [Viem Documentation](https://viem.sh/)
-- [EAS on Base](https://base.easscan.org/)
+### OnChainKit & Base Documentation
+- [OnChainKit Signature Component Quick Start](https://docs.base.org/onchainkit/latest/components/signature/signature#quick-start) - Official quick start guide
+- [OnChainKit Documentation](https://onchainkit.xyz/) - Full OnChainKit documentation
+- [Base Blockchain](https://base.org/) - Information about Base L2
+
+### Related Technologies
+- [Ethereum Attestation Service (EAS)](https://attest.sh/) - Learn about EAS attestations
+- [EAS on Base](https://base.easscan.org/) - EAS explorer for Base network
+- [EIP-712: Typed structured data hashing and signing](https://eips.ethereum.org/EIPS/eip-712) - EIP-712 specification
+- [Viem Documentation](https://viem.sh/) - TypeScript interface for Ethereum
+
+### Getting Started with OnChainKit
+- [Create Onchain App](https://github.com/coinbase/onchainkit#getting-started) - Quickly scaffold an app with OnChainKit
+- [OnChainKit GitHub Repository](https://github.com/coinbase/onchainkit) - Source code and examples
 
 ## Notes
 
