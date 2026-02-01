@@ -4,6 +4,12 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
 }
+.welcome-message {
+  color: #4CAF50;
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: bold;
+}
 #slot-grid {
   display: grid;
   grid-template-columns: repeat(5, 100px);
