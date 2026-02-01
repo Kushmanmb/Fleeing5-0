@@ -34,6 +34,18 @@ const app = express();
 const sessionStore = new Map();
 
 /**
+ * Converts a Buffer to base64url encoding
+ * @param {Buffer} buffer - The buffer to encode
+ * @returns {string} Base64URL-encoded string
+ */
+function base64UrlEncode(buffer) {
+  return buffer.toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+/**
  * Generates a cryptographically random state string for OAuth2
  * @returns {string} Random hex string
  */
@@ -50,10 +62,7 @@ function generateCodeVerifier() {
   // Generate 96 random bytes: 96 bytes * 4/3 = 128 base64 characters
   // With padding removed, this produces exactly 128 characters
   const buffer = crypto.randomBytes(96);
-  return buffer.toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+  return base64UrlEncode(buffer);
 }
 
 /**
@@ -63,10 +72,7 @@ function generateCodeVerifier() {
  */
 function generateCodeChallenge(codeVerifier) {
   const hash = crypto.createHash('sha256').update(codeVerifier).digest();
-  return hash.toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+  return base64UrlEncode(hash);
 }
 
 /**
@@ -316,20 +322,22 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(config.port, () => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const credentialsSet = config.clientId !== 'YOUR_CLIENT_ID' && config.clientSecret !== 'YOUR_CLIENT_SECRET';
+  
   console.log(`
 ╔════════════════════════════════════════════════════════════════╗
 ║           Coinbase OAuth2 Server Started                      ║
 ╚════════════════════════════════════════════════════════════════╝
 
 Server running at: http://localhost:${config.port}
-
+${!isProduction ? `
 Configuration:
-  • Client ID: ${config.clientId === 'YOUR_CLIENT_ID' ? '⚠️  NOT SET' : '✓ Configured'}
-  • Client Secret: ${config.clientSecret === 'YOUR_CLIENT_SECRET' ? '⚠️  NOT SET' : '✓ Configured'}
   • Redirect URI: ${config.redirectUri}
-
-${config.clientId === 'YOUR_CLIENT_ID' || config.clientSecret === 'YOUR_CLIENT_SECRET' ? 
-`⚠️  WARNING: Please configure your Coinbase OAuth2 credentials in .env file
+  • Credentials: ${credentialsSet ? '✓ Configured' : '⚠️  NOT SET'}
+` : ''}${!credentialsSet && !isProduction ? 
+`
+⚠️  WARNING: Please configure your Coinbase OAuth2 credentials in .env file
    See .env.example for required variables.
 ` : ''}
 To start OAuth flow, open: http://localhost:${config.port}/login
