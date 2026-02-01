@@ -47,8 +47,8 @@ function generateState() {
  */
 function generateCodeVerifier() {
   // RFC 7636 requires code_verifier to be 43-128 characters
-  // Generate 96 random bytes which produces exactly 128 base64url characters
-  // (96 bytes * 4/3 = 128 characters, no padding needed)
+  // Generate 96 random bytes: 96 bytes * 4/3 = 128 base64 characters
+  // With padding removed, this produces exactly 128 characters
   const buffer = crypto.randomBytes(96);
   return buffer.toString('base64')
     .replace(/\+/g, '-')
