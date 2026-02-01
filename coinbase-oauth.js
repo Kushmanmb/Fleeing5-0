@@ -59,8 +59,9 @@ function generateState() {
  */
 function generateCodeVerifier() {
   // RFC 7636 requires code_verifier to be 43-128 characters
-  // Generate 96 random bytes: 96 bytes * 4/3 = 128 base64 characters
-  // With padding removed, this produces exactly 128 characters
+  // 96 bytes encodes to exactly 128 base64 characters (96 * 4/3 = 128)
+  // Since 96 is divisible by 3, no padding is needed in base64 encoding
+  // Base64url encoding removes padding anyway, resulting in exactly 128 chars
   const buffer = crypto.randomBytes(96);
   return base64UrlEncode(buffer);
 }
