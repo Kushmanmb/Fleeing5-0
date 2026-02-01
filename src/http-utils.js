@@ -15,7 +15,7 @@ function makeHttpsPostRequest(url, postData) {
     const urlObj = new URL(url);
     const options = {
       hostname: urlObj.hostname,
-      path: urlObj.pathname,
+      path: urlObj.pathname + urlObj.search,
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
