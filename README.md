@@ -278,7 +278,7 @@ Response (success):
 Responses (error):
 - `400`: Invalid or missing address
 - `401`: Authentication required or invalid token
-- `429`: Cooldown in effect (1 hour between requests per Coinbase user)
+- `429`: Cooldown in effect (1 hour between requests per Coinbase user) or rate limit exceeded
 - `500`: Faucet out of funds or transfer error
 
 ### Faucet Configuration
@@ -289,7 +289,9 @@ Responses (error):
 - **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
 - **Authentication**: OAuth2 with Coinbase (required)
 - **Token Expiration**: JWT tokens expire after 24 hours
-- **Rate Limiting**: 10 authentication attempts per IP per 15 minutes
+- **Rate Limiting**: 
+  - 10 authentication attempts per IP per 15 minutes
+  - 5 faucet requests per IP per hour
 
 ## Performance Improvements
 

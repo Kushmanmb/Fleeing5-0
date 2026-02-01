@@ -65,6 +65,15 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Rate limiting for faucet endpoint to prevent abuse
+const faucetLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // Limit each IP to 5 requests per hour
+  message: 'Too many faucet requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Apply rate limiting to auth endpoints
 app.use('/auth/', authLimiter);
 
@@ -156,7 +165,7 @@ app.get('/auth/coinbase/callback', async (req, res) => {
   }
 });
 
-app.post('/faucet', verifyAuth, async (req, res) => {
+app.post('/faucet', faucetLimiter, verifyAuth, async (req, res) => {
   // Validate request body
   if (!req.body || !req.body.address) {
     return res.status(400).json({ message: 'Address is required in request body.' });
