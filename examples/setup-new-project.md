@@ -156,7 +156,7 @@ async function main() {
     );
     
     const result = await verifyContract({
-        contractAddress: '0xYourContractAddress', // Update this
+        contractAddress: '0x0000000000000000000000000000000000000000', // REPLACE WITH YOUR DEPLOYED CONTRACT ADDRESS
         sourceCode: sourceCode,
         contractName: 'MyContract',
         compilerVersion: 'v0.8.20+commit.a1b79de6', // Update to match deployment

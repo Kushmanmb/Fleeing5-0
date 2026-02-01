@@ -291,10 +291,10 @@ async function main() {
     console.log();
     
     // Update these values with your actual deployment details
-    const contractAddress = '0x1234567890abcdef1234567890abcdef12345678'; // UPDATE THIS
+    const contractAddress = '0x0000000000000000000000000000000000000000'; // REPLACE WITH YOUR DEPLOYED CONTRACT ADDRESS
     const network = process.env.NETWORK || 'sepolia';
     
-    if (contractAddress === '0x1234567890abcdef1234567890abcdef12345678') {
+    if (contractAddress === '0x0000000000000000000000000000000000000000') {
         console.error('✗ Please update the contract address in scripts/verify.js');
         process.exit(1);
     }

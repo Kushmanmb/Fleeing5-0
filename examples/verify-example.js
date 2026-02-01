@@ -39,7 +39,7 @@ async function main() {
   // Step 3: Verify the contract
   // IMPORTANT: Replace these values with your actual deployment details
   const result = await verifyContract({
-    contractAddress: '0x1234567890abcdef1234567890abcdef12345678', // Replace with your contract address
+    contractAddress: '0x0000000000000000000000000000000000000000', // REPLACE WITH YOUR DEPLOYED CONTRACT ADDRESS
     sourceCode: sourceCode,
     contractName: 'SimpleStorage',
     compilerVersion: 'v0.8.20+commit.a1b79de6', // Must match deployment compiler
