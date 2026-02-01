@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { ethers } = require('ethers');
+const { isValidEthereumAddress } = require('./src/validation-utils.js');
 
 const app = express();
 const port = 3000;
@@ -46,7 +47,7 @@ app.post('/faucet', async (req, res) => {
   const userAddress = req.body.address;
 
   // Validate Ethereum address format
-  if (!ethers.utils.isAddress(userAddress)) {
+  if (!isValidEthereumAddress(userAddress)) {
     return res.status(400).json({ message: 'Invalid Ethereum address format.' });
   }
 
