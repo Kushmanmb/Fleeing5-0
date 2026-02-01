@@ -43,10 +43,12 @@ function generateState() {
 
 /**
  * Generates a cryptographically random code verifier for PKCE
- * @returns {string} Base64URL-encoded random string
+ * @returns {string} Base64URL-encoded random string (128 characters)
  */
 function generateCodeVerifier() {
-  // Generate 96 random bytes (128 characters when base64url encoded)
+  // RFC 7636 requires code_verifier to be 43-128 characters
+  // Generate 96 random bytes which produces exactly 128 base64url characters
+  // (96 bytes * 4/3 = 128 characters, no padding needed)
   const buffer = crypto.randomBytes(96);
   return buffer.toString('base64')
     .replace(/\+/g, '-')
