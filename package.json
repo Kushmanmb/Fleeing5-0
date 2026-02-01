@@ -9,7 +9,8 @@
     "test:verify": "node test-verify.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
-    "verify": "node verify-contract.js"
+    "verify": "node verify-contract.js",
+    "create-project": "node examples/create-project.js"
   },
   "keywords": ["game", "slot-machine"],
   "author": "kushmanmb",

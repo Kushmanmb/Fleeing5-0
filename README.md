@@ -81,6 +81,19 @@ yarn test
 
 This repository includes a contract verification tool that allows you to verify smart contracts on Etherscan and other block explorers.
 
+### Quick Start: Create a New Project
+
+To scaffold a new project with verification tools:
+
+```bash
+# Run from the repository root
+node examples/create-project.js my-base-project
+cd my-base-project
+npm install
+```
+
+Or follow the manual setup guide: [examples/setup-new-project.md](examples/setup-new-project.md)
+
 ### Prerequisites
 
 - Etherscan API key (get one from [https://etherscan.io/myapikey](https://etherscan.io/myapikey))
