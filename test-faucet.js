@@ -1,6 +1,8 @@
 // Test script for faucet.js cooldown logic
 // This tests the cooldown constant and logic without requiring actual blockchain connection
 
+const fs = require('fs');
+
 async function runTests() {
   console.log('Testing faucet.js cooldown configuration...\n');
 
@@ -11,11 +13,10 @@ async function runTests() {
   console.log('Test 1: COOLDOWN constant value');
   try {
     // Read the faucet.js file to extract the COOLDOWN constant
-    const fs = require('fs');
     const faucetCode = fs.readFileSync('./faucet.js', 'utf8');
     
-    // Extract COOLDOWN value using regex
-    const cooldownMatch = faucetCode.match(/const COOLDOWN = (\d+);/);
+    // Extract COOLDOWN value using regex (flexible to handle whitespace variations)
+    const cooldownMatch = faucetCode.match(/const\s+COOLDOWN\s*=\s*(\d+)\s*;?/);
     if (!cooldownMatch) {
       throw new Error('Could not find COOLDOWN constant in faucet.js');
     }
@@ -89,7 +90,6 @@ async function runTests() {
   // Test 3: Verify README documentation matches code
   console.log('\nTest 3: README documentation consistency');
   try {
-    const fs = require('fs');
     const readmeContent = fs.readFileSync('./README.md', 'utf8');
     
     // Check for "12 hour" mentions in README
