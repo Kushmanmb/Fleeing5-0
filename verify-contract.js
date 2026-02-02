@@ -1,6 +1,7 @@
 require('dotenv').config();
 const https = require('https');
 const { ethers } = require('ethers');
+const { validateEthereumAddress } = require('./utils/validation');
 
 // Network configurations
 const NETWORKS = {
@@ -47,9 +48,7 @@ async function verifyContract(options) {
   if (!contractAddress) {
     throw new Error('Contract address is required');
   }
-  if (!ethers.utils.isAddress(contractAddress)) {
-    throw new Error('Invalid contract address format');
-  }
+  validateEthereumAddress(contractAddress);
   if (!sourceCode) {
     throw new Error('Source code is required');
   }
