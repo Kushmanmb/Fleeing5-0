@@ -172,6 +172,7 @@ The `onSuccess` callback receives the signature string:
 - [OnChainKit Documentation](https://onchainkit.xyz/)
 - [Ethereum Attestation Service](https://attest.sh/)
 - [EIP-712: Typed structured data hashing and signing](https://eips.ethereum.org/EIPS/eip-712)
+- [EIP-712 Source Specification (ethereum/EIPs)](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md)
 - [Viem Documentation](https://viem.sh/)
 - [EAS on Base](https://base.easscan.org/)
 
