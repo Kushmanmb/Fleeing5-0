@@ -9,6 +9,7 @@ The repository now includes:
 1. **CI/CD Pipeline** - Automated testing and building with yarn
 2. **Configuration Templates** - Reusable templates for documentation
 3. **Coding Guidelines** - Comprehensive coding standards
+4. **Repository Rulesets** - Branch protection and code quality enforcement
 
 ## GitHub Actions Workflow
 
@@ -35,6 +36,43 @@ The new CI/CD workflow includes:
 - **Node.js CI** (`node.js.yml`) - npm-based CI pipeline
 - **Webpack Build** (`webpack.yml`) - Webpack-specific builds
 - **GitHub Pages** (`pages.yml`) - Deploys to GitHub Pages
+
+## Repository Rulesets
+
+Located in `.github/rulesets/`, these JSON configurations enforce branch protection rules:
+
+### Available Rulesets
+
+1. **Main Branch Protection** (`main-branch-protection.json`)
+   - Prevents deletion and force pushes
+   - Requires code owner review
+   - Requires 1 approval minimum
+   - All CI/CD checks must pass
+   - Review threads must be resolved
+
+2. **Develop Branch Protection** (`develop-branch-protection.json`)
+   - Prevents deletion and force pushes
+   - Requires 1 approval (no code owner requirement)
+   - Key CI/CD checks must pass
+
+3. **Release Branches Protection** (`release-branches-protection.json`)
+   - Strictest protection for release/* branches
+   - Requires code owner review and 2 approvals
+   - Requires approval from last push
+   - All CI/CD checks must pass
+   - Enforces semantic commit message format
+
+### Applying Rulesets
+
+To apply these rulesets to your repository:
+
+1. Go to repository **Settings** → **Rules** → **Rulesets**
+2. Click **New ruleset** → **Import a ruleset**
+3. Upload the desired JSON file from `.github/rulesets/`
+4. Review the configuration
+5. Click **Create** to activate
+
+For detailed information, see [rulesets/README.md](./rulesets/README.md).
 
 ## Configuration Templates
 
@@ -201,8 +239,9 @@ npm run webpack
 1. **Keep templates updated** as project evolves
 2. **Review CI/CD pipelines** regularly
 3. **Update guidelines** when adding new patterns
-4. **Document decisions** using the templates
-5. **Share knowledge** through clear documentation
+4. **Review and adjust rulesets** as needed
+5. **Document decisions** using the templates
+6. **Share knowledge** through clear documentation
 
 ### For Code Reviewers
 
@@ -232,6 +271,7 @@ This infrastructure is meant to evolve:
 
 This infrastructure provides:
 - ✅ Automated CI/CD with yarn support
+- ✅ Repository rulesets for branch protection
 - ✅ Reusable templates for consistency
 - ✅ Comprehensive coding guidelines
 - ✅ Clear documentation standards
