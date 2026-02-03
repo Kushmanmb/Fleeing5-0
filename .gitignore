@@ -43,6 +43,15 @@ wallets/
 *.wallet
 mnemonic.txt
 seed.txt
+*mnemonic*.txt
+*seed*.txt
+*.mnemonic
+*.seed
+accounts.json
+account.json
+private-key.txt
+privatekey.txt
+private_key.txt
 
 # Database files
 *.db
@@ -101,3 +110,41 @@ temp/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Hardhat files (if used in future)
+hardhat/
+.hardhat/
+hardhat-cache/
+hardhat-artifacts/
+artifacts/
+hardhat.config.local.js
+hardhat.config.local.ts
+
+# Truffle files (if used in future)
+.truffle/
+truffle-config.local.js
+
+# Foundry files (if used in future)
+foundry-out/
+out/forge/
+cache_forge/
+broadcast/
+
+# Ethereum accounts and private data
+accounts/
+.accounts/
+*.account
+.deployed-contracts
+deployed-contracts.json
+deployment-data.json
+contract-addresses.json
+
+# Gas reporter outputs
+gas-report.txt
+.gas-snapshot
+
+# Alchemy/Infura/API credentials
+alchemy.config.js
+infura.config.js
+api-keys.json
+credentials.json
