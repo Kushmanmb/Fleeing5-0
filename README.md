@@ -278,3 +278,11 @@ The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https:/
 For information about project ownership, component attribution, and licensing, please see [OWNERSHIP.md](OWNERSHIP.md).
 
 Code ownership is managed through the [CODEOWNERS](CODEOWNERS) file.
+
+## License
+
+This project is licensed under a **Proprietary License** that requires authorization from kushmanmb for use.
+
+**Important**: Use of this software is prohibited without prior written authorization from kushmanmb. See the [LICENSE](LICENSE) file for full details.
+
+To request authorization to use this software, please contact kushmanmb through GitHub.
