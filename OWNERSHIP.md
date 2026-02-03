@@ -8,7 +8,7 @@ This project is owned and maintained by **kushmanmb** (GitHub: @Kushmanmb).
 
 - **Repository**: [Kushmanmb/kywmahmb](https://github.com/Kushmanmb/kywmahmb)
 - **Original Name**: fleeing-5-0
-- **License**: ISC
+- **License**: Proprietary - Authorization Required (see LICENSE file)
 - **Author**: kushmanmb
 
 ## Component Ownership
@@ -63,7 +63,14 @@ This project uses the following third-party libraries:
 
 ## Contributing
 
-All contributions to this project are subject to review and approval by the project owner. By contributing, you agree that your contributions will be licensed under the same ISC license as the project.
+All contributions to this project are subject to review and approval by the project owner. 
+
+**Important**: This project is under a proprietary license that requires authorization from kushmanmb for use. By contributing, you agree that:
+- Your contributions will be subject to the same proprietary license terms
+- You have the right to contribute the code
+- kushmanmb retains all rights to the project and contributions
+
+For authorization to use or contribute to this project, please contact kushmanmb through GitHub.
 
 ## Contact
 
