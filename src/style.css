@@ -23,6 +23,7 @@ body {
   font-size: 14px;
   font-weight: bold;
   transition: background 0.3s, transform 0.3s;
+  white-space: nowrap;
 }
 .highlight {
   background: gold !important;
