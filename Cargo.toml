@@ -1,0 +1,10 @@
+[package]
+name = "kywmahmb"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+path = "rust-lib/lib.rs"
+
+[dependencies]
+zkpdf-lib = { git = "https://github.com/privacy-ethereum/zkpdf", branch = "main", subdir = "circuits/lib" }
