@@ -9,6 +9,7 @@ A slot machine game with performance optimizations and Ethereum testnet integrat
 - 📋 [Coding Guidelines](CODING_GUIDELINES.md) - Comprehensive coding standards and best practices
 - 🏗️ [Development Infrastructure](.github/DEVELOPMENT_INFRASTRUCTURE.md) - CI/CD, templates, and tooling guide
 - 📝 [Configuration Templates](.github/) - Templates for roles, communication, and guidelines
+- 🛡️ [Repository Rulesets](.github/rulesets/) - Branch protection rules and configurations
 
 ## Getting Started
 
@@ -272,6 +273,21 @@ This repository uses GitHub Actions for continuous integration and deployment:
 - **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
 
 The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https://kushmanmb.github.io/kywmahmb/)
+
+## Repository Rulesets
+
+This repository uses GitHub rulesets to enforce branch protection and code quality standards. Rulesets are configured as JSON files in `.github/rulesets/`:
+
+- **Main Branch**: Requires code owner review, all CI checks passing, and prevents force pushes
+- **Develop Branch**: Requires at least one approval and key CI checks
+- **Release Branches**: Strictest rules including semantic commit messages and multiple approvals
+
+For detailed information about the rulesets and how to use them, see [.github/rulesets/README.md](.github/rulesets/README.md).
+
+To apply these rulesets to your repository:
+1. Go to repository **Settings** → **Rules** → **Rulesets**
+2. Click **New ruleset** → **Import a ruleset**
+3. Upload the desired JSON file from `.github/rulesets/`
 
 ## Ownership
 
