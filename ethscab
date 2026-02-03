@@ -1,2 +1,129 @@
-curl --request GET \
-  --url https://api.etherscan.io/v2/api
+#!/bin/bash
+# Etherscan API Query Script
+# Fetches blockchain data for a given Ethereum address
+# Usage: ./ethscab <address> [api_key] [network]
+# 
+# Parameters:
+#   address  - Ethereum address to query (required)
+#   api_key  - Etherscan API key (optional, uses ETHERSCAN_API_KEY env var if not provided)
+#   network  - Network to query: mainnet, sepolia, holesky (default: mainnet)
+
+# Check for help flag
+if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ "$1" = "help" ]; then
+  echo "Etherscan API Query Script"
+  echo ""
+  echo "Usage: $0 <address> [api_key] [network]"
+  echo ""
+  echo "Parameters:"
+  echo "  address  - Ethereum address to query (required)"
+  echo "  api_key  - Etherscan API key (optional, uses ETHERSCAN_API_KEY env var)"
+  echo "  network  - Network to query: mainnet, sepolia, holesky (default: mainnet)"
+  echo ""
+  echo "Examples:"
+  echo "  $0 0x1234567890123456789012345678901234567890"
+  echo "  $0 0x1234567890123456789012345678901234567890 YOUR_API_KEY"
+  echo "  $0 0x1234567890123456789012345678901234567890 YOUR_API_KEY sepolia"
+  echo ""
+  echo "Environment Variables:"
+  echo "  ETHERSCAN_API_KEY - API key for Etherscan (optional)"
+  echo ""
+  echo "This script queries the following data for an address:"
+  echo "  - ETH Balance"
+  echo "  - Recent Normal Transactions"
+  echo "  - Recent Internal Transactions"
+  echo "  - Recent ERC20 Token Transfers"
+  echo "  - Recent ERC721 Token Transfers (NFTs)"
+  exit 0
+fi
+
+# Default values
+NETWORK="${3:-mainnet}"
+ADDRESS="$1"
+API_KEY="${2:-$ETHERSCAN_API_KEY}"
+
+# Network API endpoints
+case "$NETWORK" in
+  mainnet)
+    API_URL="https://api.etherscan.io/api"
+    ;;
+  sepolia)
+    API_URL="https://api-sepolia.etherscan.io/api"
+    ;;
+  holesky)
+    API_URL="https://api-holesky.etherscan.io/api"
+    ;;
+  *)
+    echo "Error: Unsupported network '$NETWORK'"
+    echo "Supported networks: mainnet, sepolia, holesky"
+    exit 1
+    ;;
+esac
+
+# Validate inputs
+if [ -z "$ADDRESS" ]; then
+  echo "Error: Ethereum address is required"
+  echo ""
+  echo "Usage: $0 <address> [api_key] [network]"
+  echo ""
+  echo "Example:"
+  echo "  $0 0x1234567890123456789012345678901234567890"
+  echo "  $0 0x1234567890123456789012345678901234567890 YOUR_API_KEY sepolia"
+  echo ""
+  echo "To use environment variable for API key:"
+  echo "  export ETHERSCAN_API_KEY=your_api_key_here"
+  echo "  $0 0x1234567890123456789012345678901234567890"
+  exit 1
+fi
+
+if [ -z "$API_KEY" ]; then
+  echo "Warning: No API key provided. Using public rate limits."
+  echo "For higher rate limits, provide an API key or set ETHERSCAN_API_KEY environment variable."
+  echo ""
+  API_KEY=""
+fi
+
+echo "=========================================="
+echo "Etherscan API Query for Address"
+echo "=========================================="
+echo "Network: $NETWORK"
+echo "Address: $ADDRESS"
+echo ""
+
+# Function to make API call with proper formatting
+make_api_call() {
+  local module=$1
+  local action=$2
+  local extra_params=$3
+  local title=$4
+  
+  echo "----------------------------------------"
+  echo "$title"
+  echo "----------------------------------------"
+  
+  local url="${API_URL}?module=${module}&action=${action}&address=${ADDRESS}${extra_params}"
+  if [ -n "$API_KEY" ]; then
+    url="${url}&apikey=${API_KEY}"
+  fi
+  
+  curl -s "$url" | python3 -m json.tool 2>/dev/null || curl -s "$url"
+  echo ""
+}
+
+# 1. Get ETH Balance
+make_api_call "account" "balance" "&tag=latest" "1. ETH Balance"
+
+# 2. Get Normal Transactions
+make_api_call "account" "txlist" "&startblock=0&endblock=99999999&page=1&offset=10&sort=desc" "2. Recent Transactions (Last 10)"
+
+# 3. Get Internal Transactions
+make_api_call "account" "txlistinternal" "&startblock=0&endblock=99999999&page=1&offset=10&sort=desc" "3. Recent Internal Transactions (Last 10)"
+
+# 4. Get ERC20 Token Transfer Events
+make_api_call "account" "tokentx" "&startblock=0&endblock=99999999&page=1&offset=10&sort=desc" "4. Recent ERC20 Token Transfers (Last 10)"
+
+# 5. Get ERC721 Token Transfer Events (NFTs)
+make_api_call "account" "tokennfttx" "&startblock=0&endblock=99999999&page=1&offset=10&sort=desc" "5. Recent ERC721 Token Transfers (Last 10)"
+
+echo "=========================================="
+echo "Query Complete"
+echo "=========================================="

@@ -33,10 +33,15 @@ The core slot machine game ("Fleeing 5-0") is an original creation by kushmanmb,
 **Note**: This faucet is designed for testnet use only. The smart contracts it interacts with are on Ethereum testnets, not mainnet.
 
 #### Etherscan Integration
-- **File**: `ethscab` (shell script)
+- **Files**: `ethscab` (bash script), `etherscan-query.js` (Node.js tool)
 - **Owner**: kushmanmb
-- **Purpose**: Etherscan API query template for blockchain data retrieval
-- **Note**: This is a curl command template for interacting with Etherscan API v2
+- **Purpose**: Comprehensive Etherscan API query tool for retrieving blockchain data
+- **Features**:
+  - Query ETH balance for any address
+  - Retrieve transaction history (normal, internal, token transfers, NFTs)
+  - Support for multiple networks (Mainnet, Sepolia, Holesky)
+  - Available as both bash script and Node.js tool for flexibility
+- **Note**: This tool queries public blockchain data through Etherscan API. An API key is optional but recommended for higher rate limits.
 
 ## Third-Party Dependencies
 
