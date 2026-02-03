@@ -77,6 +77,69 @@ npm test
 yarn test
 ```
 
+## Etherscan API Query Tool
+
+This repository includes a comprehensive Etherscan API query tool that fetches blockchain data for any Ethereum address.
+
+### Features
+
+- Query ETH balance for any address
+- Retrieve transaction history (normal, internal, token transfers, NFTs)
+- Support for multiple networks (Mainnet, Sepolia, Holesky)
+- Available as both a bash script (`ethscab`) and Node.js tool (`etherscan-query.js`)
+
+### Setup
+
+Add your Etherscan API key to the `.env` file (optional, but recommended for higher rate limits):
+```bash
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
+```
+
+### Usage
+
+#### Using npm script (recommended):
+```bash
+npm run etherscan -- 0xYourAddressHere
+npm run etherscan -- 0xYourAddressHere YOUR_API_KEY sepolia
+```
+
+#### Using Node.js directly:
+```bash
+node etherscan-query.js 0xYourAddressHere
+node etherscan-query.js 0xYourAddressHere YOUR_API_KEY sepolia
+```
+
+#### Using bash script:
+```bash
+./ethscab 0xYourAddressHere
+./ethscab 0xYourAddressHere YOUR_API_KEY sepolia
+```
+
+### What Data is Retrieved
+
+The tool queries the following information for the specified address:
+1. **ETH Balance** - Current balance in Wei
+2. **Recent Transactions** - Last 10 normal transactions
+3. **Recent Internal Transactions** - Last 10 internal transactions
+4. **Recent ERC20 Token Transfers** - Last 10 token transfer events
+5. **Recent ERC721 Token Transfers** - Last 10 NFT transfer events
+
+### Supported Networks
+
+- `mainnet` - Ethereum Mainnet (default)
+- `sepolia` - Sepolia Testnet
+- `holesky` - Holesky Testnet
+
+### Example
+
+```bash
+# Query address on mainnet
+npm run etherscan -- 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+
+# Query address on Sepolia testnet with API key
+npm run etherscan -- 0xYourAddress YOUR_API_KEY sepolia
+```
+
 ## Contract Verification
 
 This repository includes a contract verification tool that allows you to verify smart contracts on Etherscan and other block explorers.

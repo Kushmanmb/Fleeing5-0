@@ -8,9 +8,11 @@
     "test": "node test.js",
     "test:verify": "node test-verify.js",
     "test:faucet": "node test-faucet.js",
+    "test:etherscan": "node test-etherscan.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
-    "verify": "node verify-contract.js"
+    "verify": "node verify-contract.js",
+    "etherscan": "node etherscan-query.js"
   },
   "keywords": ["game", "slot-machine"],
   "author": "kushmanmb",
