@@ -266,13 +266,10 @@ To work on the project:
 
 ## CI/CD Workflows
 
-This repository uses GitHub Actions for continuous integration and deployment:
+This repository uses GitHub Actions for continuous integration:
 
 - **Node.js CI**: Runs tests and builds on Node.js versions 18.x, 20.x, and 22.x
 - **Webpack Build**: Builds the project using Webpack
-- **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
-
-The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https://kushmanmb.github.io/kywmahmb/)
 
 ## Repository Rulesets
 
@@ -294,3 +291,11 @@ To apply these rulesets to your repository:
 For information about project ownership, component attribution, and licensing, please see [OWNERSHIP.md](OWNERSHIP.md).
 
 Code ownership is managed through the [CODEOWNERS](CODEOWNERS) file.
+
+## License
+
+This project is licensed under a **Proprietary License** that requires authorization from kushmanmb for use.
+
+**Important**: Use of this software is prohibited without prior written authorization from kushmanmb. See the [LICENSE](LICENSE) file for full details.
+
+To request authorization to use this software, please contact kushmanmb through GitHub.
