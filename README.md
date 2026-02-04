@@ -9,6 +9,7 @@ A slot machine game with performance optimizations and Ethereum testnet integrat
 - 📋 [Coding Guidelines](CODING_GUIDELINES.md) - Comprehensive coding standards and best practices
 - 🏗️ [Development Infrastructure](.github/DEVELOPMENT_INFRASTRUCTURE.md) - CI/CD, templates, and tooling guide
 - 📝 [Configuration Templates](.github/) - Templates for roles, communication, and guidelines
+- 🔒 [Security Policy](SECURITY.md) - Vulnerability reporting and security best practices
 
 ## Getting Started
 
