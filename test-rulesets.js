@@ -142,7 +142,7 @@ log(`Tests Failed: ${testsFailed}`, testsFailed > 0 ? RED : GREEN);
 
 const totalTests = testsPassed + testsFailed;
 const successRate = totalTests > 0 ? ((testsPassed / totalTests) * 100).toFixed(1) : 0;
-log(`Success Rate: ${successRate}%`, successRate === 100 ? GREEN : YELLOW);
+log(`Success Rate: ${successRate}%`, testsFailed === 0 ? GREEN : YELLOW);
 
 // Exit with appropriate code
 process.exit(testsFailed > 0 ? 1 : 0);
