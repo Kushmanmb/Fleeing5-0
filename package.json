@@ -1,20 +1,21 @@
 {
-  "name": "fleeing-5-0",
+  "name": "kushmanmb",
   "version": "1.0.0",
-  "description": "A slot machine game with performance optimizations",
+  "description": "machine performance optimizations",
   "main": "dist/main.js",
   "scripts": {
     "build": "node build.js",
     "test": "node test.js",
     "test:verify": "node test-verify.js",
     "test:faucet": "node test-faucet.js",
+    "test:rulesets": "node test-rulesets.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
   },
-  "keywords": ["game", "slot-machine"],
+  "keywords": ["", "machine"],
   "author": "kushmanmb",
-  "license": "UNLICENSED",
+  "license": "mit",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
