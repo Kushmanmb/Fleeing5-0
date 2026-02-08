@@ -1,10 +1,10 @@
 /**
- * Test script to validate GitHub ruleset JSON files
+ * Test script to perform basic validation of GitHub ruleset JSON files
  * 
  * This script checks that:
  * 1. All JSON files in .github/rulesets are valid JSON
- * 2. Required fields are present
- * 3. Structure matches GitHub ruleset schema
+ * 2. Required top-level fields are present
+ * 3. Basic structure is consistent with the expected GitHub ruleset format (not full schema validation)
  */
 
 const fs = require('fs');
