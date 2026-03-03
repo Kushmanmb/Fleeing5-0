@@ -241,7 +241,7 @@ The code has been optimized with the following improvements:
 ## Project Structure
 
 ```
-fleeing-5-0/
+kywmahmb/
 ├── src/                 # Source files
 │   ├── main.js          # Main game logic
 │   ├── index.html       # HTML structure
@@ -266,25 +266,13 @@ To work on the project:
 
 ## CI/CD Workflows
 
-This repository uses GitHub Actions for continuous integration:
+This repository uses GitHub Actions for continuous integration and deployment:
 
 - **Node.js CI**: Runs tests and builds on Node.js versions 18.x, 20.x, and 22.x
 - **Webpack Build**: Builds the project using Webpack
+- **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
 
-## Repository Rulesets
-
-This repository uses GitHub rulesets to enforce branch protection and code quality standards. Rulesets are configured as JSON files in `.github/rulesets/`:
-
-- **Main Branch**: Requires code owner review, all CI checks passing, and prevents force pushes
-- **Develop Branch**: Requires at least one approval and key CI checks
-- **Release Branches**: Strictest rules including semantic commit messages and multiple approvals
-
-For detailed information about the rulesets and how to use them, see [.github/rulesets/README.md](.github/rulesets/README.md).
-
-To apply these rulesets to your repository:
-1. Go to repository **Settings** → **Rules** → **Rulesets**
-2. Click **New ruleset** → **Import a ruleset**
-3. Upload the desired JSON file from `.github/rulesets/`
+The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https://kushmanmb.github.io/kywmahmb/)
 
 ## Ownership
 
