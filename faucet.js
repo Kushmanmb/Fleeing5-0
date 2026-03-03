@@ -27,7 +27,7 @@ const USDC_ABI = [
 const usdcContract = new ethers.Contract(USDC_ADDRESS, USDC_ABI, wallet);
 
 // Cooldown and limits
-const COOLDOWN = 3600; // 1 hour in seconds
+const COOLDOWN = 43200; // 12 hours in seconds (12 * 3600)
 const DISPENSE_AMOUNT = ethers.utils.parseUnits('10', 6); // 10 USDC with 6 decimals
 
 // In-memory store for last request times

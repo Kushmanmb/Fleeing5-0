@@ -1,0 +1,78 @@
+{
+  "name": "Release Branches Protection",
+  "target": "branch",
+  "source_type": "Repository",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": ["refs/heads/release/*"]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "require_code_owner_review": true,
+        "require_last_push_approval": true,
+        "dismiss_stale_reviews_on_push": true,
+        "required_approving_review_count": 2,
+        "required_review_thread_resolution": true
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "required_status_checks": [
+          {
+            "context": "Lint and Test (18.x)",
+            "integration_id": 15368
+          },
+          {
+            "context": "Lint and Test (20.x)",
+            "integration_id": 15368
+          },
+          {
+            "context": "Lint and Test (22.x)",
+            "integration_id": 15368
+          },
+          {
+            "context": "Build Project (18.x)",
+            "integration_id": 15368
+          },
+          {
+            "context": "Build Project (20.x)",
+            "integration_id": 15368
+          },
+          {
+            "context": "Build Project (22.x)",
+            "integration_id": 15368
+          }
+        ]
+      }
+    },
+    {
+      "type": "commit_message_pattern",
+      "parameters": {
+        "name": "Semantic Commit Messages",
+        "negate": false,
+        "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
+        "operator": "regex"
+      }
+    }
+  ],
+  "bypass_actors": [
+    {
+      "actor_id": 1,
+      "actor_type": "OrganizationAdmin",
+      "bypass_mode": "always"
+    }
+  ]
+}

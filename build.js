@@ -28,4 +28,24 @@ filesToCopy.forEach(file => {
   }
 });
 
+// Copy .well-known directory
+const wellKnownSrcDir = path.join(sourceDir, '.well-known');
+const wellKnownDistDir = path.join(distDir, '.well-known');
+
+if (fs.existsSync(wellKnownSrcDir)) {
+  if (!fs.existsSync(wellKnownDistDir)) {
+    fs.mkdirSync(wellKnownDistDir, { recursive: true });
+  }
+  
+  const wellKnownFiles = fs.readdirSync(wellKnownSrcDir);
+  wellKnownFiles.forEach(file => {
+    const sourcePath = path.join(wellKnownSrcDir, file);
+    const destPath = path.join(wellKnownDistDir, file);
+    if (fs.statSync(sourcePath).isFile()) {
+      fs.copyFileSync(sourcePath, destPath);
+      console.log(`  ✓ Copied .well-known/${file}`);
+    }
+  });
+}
+
 console.log('Build complete! Files are in the dist/ directory.');
