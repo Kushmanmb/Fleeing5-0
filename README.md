@@ -264,6 +264,14 @@ To work on the project:
 3. Run tests with `npm test` to verify functionality
 4. Open `dist/index.html` in a browser to test the game
 
+## Contributing
+
+Interested in contributing? Check out [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Git workflow and branching strategy
+- Commit message conventions
+- Pull request process
+- Code style and testing requirements
+
 ## CI/CD Workflows
 
 This repository uses GitHub Actions for continuous integration and deployment:
