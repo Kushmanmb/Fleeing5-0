@@ -1,6 +1,7 @@
 require('dotenv').config();
-const https = require('https');
 const { ethers } = require('ethers');
+const { makeHttpsPostRequest, makeHttpsGetRequest } = require('./src/http-utils.js');
+const { validateEthereumAddress } = require('./src/validation-utils.js');
 
 // Network configurations
 const NETWORKS = {
@@ -47,9 +48,7 @@ async function verifyContract(options) {
   if (!contractAddress) {
     throw new Error('Contract address is required');
   }
-  if (!ethers.utils.isAddress(contractAddress)) {
-    throw new Error('Invalid contract address format');
-  }
+  validateEthereumAddress(contractAddress, 'Contract address');
   if (!sourceCode) {
     throw new Error('Source code is required');
   }
@@ -101,7 +100,7 @@ async function verifyContract(options) {
 
   // Submit verification request
   try {
-    const submitResult = await makeRequest(apiUrl, postData);
+    const submitResult = await makeHttpsPostRequest(apiUrl, postData);
     
     if (submitResult.status !== '1') {
       throw new Error(`Verification submission failed: ${submitResult.result}`);
@@ -135,46 +134,6 @@ async function verifyContract(options) {
 }
 
 /**
- * Make HTTPS POST request to Etherscan API
- */
-function makeRequest(url, postData) {
-  return new Promise((resolve, reject) => {
-    const urlObj = new URL(url);
-    const options = {
-      hostname: urlObj.hostname,
-      path: urlObj.pathname,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(postData),
-      },
-    };
-
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-      res.on('end', () => {
-        try {
-          const response = JSON.parse(data);
-          resolve(response);
-        } catch (error) {
-          reject(new Error(`Failed to parse response: ${data}`));
-        }
-      });
-    });
-
-    req.on('error', (error) => {
-      reject(error);
-    });
-
-    req.write(postData);
-    req.end();
-  });
-}
-
-/**
  * Poll Etherscan API for verification status
  */
 async function pollVerificationStatus(apiUrl, apiKey, guid, maxAttempts = 30) {
@@ -184,21 +143,7 @@ async function pollVerificationStatus(apiUrl, apiKey, guid, maxAttempts = 30) {
     const statusUrl = `${apiUrl}?module=contract&action=checkverifystatus&guid=${guid}&apikey=${apiKey}`;
     
     try {
-      const response = await new Promise((resolve, reject) => {
-        https.get(statusUrl, (res) => {
-          let data = '';
-          res.on('data', (chunk) => {
-            data += chunk;
-          });
-          res.on('end', () => {
-            try {
-              resolve(JSON.parse(data));
-            } catch (error) {
-              reject(new Error(`Failed to parse response: ${data}`));
-            }
-          });
-        }).on('error', reject);
-      });
+      const response = await makeHttpsGetRequest(statusUrl);
 
       // Check if verification is complete (success or failure)
       if (response.result !== 'Pending in queue') {

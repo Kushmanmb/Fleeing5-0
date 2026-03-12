@@ -1,3 +1,6 @@
+// Import shared game logic
+const { checkBonusTrigger } = require('./game-logic.js');
+
 const symbols = ["PRISONER", "ROBBER", "COP", "BAR", "7", "CHERRY", "BELL"];
 
 const rows = 6;
@@ -59,24 +62,7 @@ function spin() {
   isSpinning = false;
 }
 
-function checkBonusTrigger(board) {
-  let prisonerOnReel1 = false;
-  let robberOnReel5 = false;
-  let copInMiddle = false;
-  
-  // Single loop through rows instead of multiple some() calls
-  for (let i = 0; i < board.length; i++) {
-    const row = board[i];
-    if (row[0] === "PRISONER") prisonerOnReel1 = true;
-    if (row[4] === "ROBBER") robberOnReel5 = true;
-    if (row[1] === "COP" || row[2] === "COP" || row[3] === "COP") copInMiddle = true;
-    
-    // Early exit if all conditions met
-    if (prisonerOnReel1 && robberOnReel5 && copInMiddle) return true;
-  }
-  
-  return prisonerOnReel1 && robberOnReel5 && copInMiddle;
-}
+// checkBonusTrigger function moved to game-logic.js
 
 function highlightBonusSymbols() {
   // Use cached cell references instead of querySelectorAll
