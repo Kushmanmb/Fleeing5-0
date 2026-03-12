@@ -22,10 +22,8 @@ function spin() {
   board = [];
   cellElements = [];
   
-  // Clear grid efficiently by removing children
-  while (grid.firstChild) {
-    grid.removeChild(grid.firstChild);
-  }
+  // Clear grid using replaceChildren() - fastest method
+  grid.replaceChildren();
   
   // Use DocumentFragment to batch DOM operations
   const fragment = document.createDocumentFragment();
