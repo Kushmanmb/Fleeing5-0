@@ -1,0 +1,60 @@
+name: Workflow Validation
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/**'
+
+jobs:
+  validate-workflows:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate YAML syntax
+      run: |
+        echo "Validating all workflow YAML files..."
+        
+        for workflow in .github/workflows/*.yml; do
+          echo "Checking $workflow..."
+          # Basic YAML syntax validation using Python
+          python3 -c "import yaml; yaml.safe_load(open('$workflow'))" && \
+            echo "✓ $workflow is valid YAML" || \
+            { echo "✗ $workflow has invalid YAML syntax"; exit 1; }
+        done
+        
+        echo "All workflow files have valid YAML syntax"
+    
+    - name: List all workflows
+      run: |
+        echo "Available workflows in this repository:"
+        echo "========================================"
+        for workflow in .github/workflows/*.yml; do
+          name=$(grep -m 1 "^name:" "$workflow" | sed 's/name: //')
+          echo "- $(basename $workflow): $name"
+        done
+    
+    - name: Check for workflow triggers
+      run: |
+        echo "Checking workflow triggers..."
+        
+        for workflow in .github/workflows/*.yml; do
+          echo ""
+          echo "Workflow: $(basename $workflow)"
+          
+          if grep -q "paths:" "$workflow"; then
+            echo "  ✓ Has path-based triggers"
+            grep -A 10 "paths:" "$workflow" | grep "^      -" | sed 's/^      /    /'
+          else
+            echo "  ℹ No path-based triggers (runs on all changes)"
+          fi
+        done

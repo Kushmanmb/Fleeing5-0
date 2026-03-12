@@ -4,13 +4,30 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'src/**'
+      - 'test.js'
+      - 'build.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/node.js.yml'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'src/**'
+      - 'test.js'
+      - 'build.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/node.js.yml'
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
 
     strategy:
       matrix:

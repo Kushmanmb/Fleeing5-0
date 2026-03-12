@@ -266,11 +266,18 @@ To work on the project:
 
 ## CI/CD Workflows
 
-This repository uses GitHub Actions for continuous integration and deployment:
+This repository uses GitHub Actions with **path-based triggers** for optimized continuous integration and deployment. Workflows only run when relevant files are changed, reducing build time and resource usage.
 
-- **Node.js CI**: Runs tests and builds on Node.js versions 18.x, 20.x, and 22.x
-- **Webpack Build**: Builds the project using Webpack
-- **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
+### Available Workflows
+
+- **Node.js CI**: Comprehensive testing and building on Node.js 18.x, 20.x, and 22.x when game code changes
+- **Webpack**: Builds project with Webpack when source or webpack config changes  
+- **Faucet CI**: Validates faucet server code when `faucet.js` changes
+- **Documentation CI**: Validates documentation when markdown files change
+- **GitHub Pages**: Automatically deploys the game when source files change (or manually triggered)
+- **Workflow Validation**: Validates workflow YAML syntax when workflows are modified
+
+For detailed information about workflows and path-based triggers, see [.github/workflows/README.md](.github/workflows/README.md)
 
 The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https://kushmanmb.github.io/kywmahmb/)
 
