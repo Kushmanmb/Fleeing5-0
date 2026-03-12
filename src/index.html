@@ -7,9 +7,41 @@
 </head>
 <body>
   <h1>🎰 Fleeing 5-0 Final</h1>
+  <button id="help-btn" aria-label="Show game help and instructions">❓ Help</button>
   <div id="slot-grid"></div>
   <button id="spin-btn">SPIN</button>
   <p id="status"></p>
+  
+  <!-- Help Modal -->
+  <div id="help-modal" class="modal" role="dialog" aria-labelledby="help-title" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" role="button" aria-label="Close help dialog" tabindex="0">&times;</span>
+      <h2 id="help-title">How to Play</h2>
+      <p>Click the <strong>SPIN</strong> button to spin the slot machine!</p>
+      
+      <h3>🎰 Game Grid</h3>
+      <p>The game displays a 6-row by 5-column grid of symbols:</p>
+      <ul>
+        <li>PRISONER 👤</li>
+        <li>ROBBER 💰</li>
+        <li>COP 👮</li>
+        <li>BAR</li>
+        <li>7</li>
+        <li>CHERRY 🍒</li>
+        <li>BELL 🔔</li>
+      </ul>
+      
+      <h3>🚨 Bonus Trigger</h3>
+      <p>The bonus is triggered when <strong>ALL</strong> of the following conditions are met in any row:</p>
+      <ol>
+        <li><strong>PRISONER</strong> appears in the <strong>leftmost column</strong> (column 1)</li>
+        <li><strong>ROBBER</strong> appears in the <strong>rightmost column</strong> (column 5)</li>
+        <li><strong>COP</strong> appears in <strong>any middle column</strong> (columns 2, 3, or 4)</li>
+      </ol>
+      <p>When the bonus triggers, the symbols will be highlighted and you'll hear a siren! 🚨</p>
+    </div>
+  </div>
+  
   <script src="main.js"></script>
 </body>
 </html>
