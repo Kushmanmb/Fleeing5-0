@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { ethers } = require('ethers');
+const { validateEthereumAddress, normalizeAddress } = require('./utils/validation');
 
 const app = express();
 const port = 3000;
@@ -46,11 +47,13 @@ app.post('/faucet', async (req, res) => {
   const userAddress = req.body.address;
 
   // Validate Ethereum address format
-  if (!ethers.utils.isAddress(userAddress)) {
-    return res.status(400).json({ message: 'Invalid Ethereum address format.' });
+  try {
+    validateEthereumAddress(userAddress);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
   }
 
-  const normalizedAddress = userAddress.toLowerCase();
+  const normalizedAddress = normalizeAddress(userAddress);
   const now = Math.floor(Date.now() / 1000);
   
   // Check cooldown

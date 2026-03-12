@@ -2,16 +2,14 @@
 // This tests the cooldown constant and logic without requiring actual blockchain connection
 
 const fs = require('fs');
+const { createTestRunner } = require('./utils/test-runner');
 
 async function runTests() {
-  console.log('Testing faucet.js cooldown configuration...\n');
-
-  let passed = 0;
-  let failed = 0;
+  const runner = createTestRunner('Testing faucet.js cooldown configuration...');
+  runner.start();
 
   // Test 1: Verify COOLDOWN constant is set to 12 hours
-  console.log('Test 1: COOLDOWN constant value');
-  try {
+  await runner.test('Test 1: COOLDOWN constant value', () => {
     // Read the faucet.js file to extract the COOLDOWN constant
     const faucetCode = fs.readFileSync('./faucet.js', 'utf8');
     
@@ -28,16 +26,11 @@ async function runTests() {
       throw new Error(`COOLDOWN is ${cooldownValue} seconds, expected ${expectedCooldown} seconds (12 hours)`);
     }
     
-    console.log(`✓ COOLDOWN is correctly set to ${cooldownValue} seconds (12 hours)`);
-    passed++;
-  } catch (error) {
-    console.error('✗ COOLDOWN constant test failed:', error.message);
-    failed++;
-  }
+    console.log(`  COOLDOWN is correctly set to ${cooldownValue} seconds (12 hours)`);
+  });
 
   // Test 2: Verify cooldown calculation
-  console.log('\nTest 2: Cooldown calculation logic');
-  try {
+  await runner.test('Test 2: Cooldown calculation logic', () => {
     const COOLDOWN = 43200; // 12 hours
     const now = Math.floor(Date.now() / 1000);
     
@@ -76,20 +69,14 @@ async function runTests() {
       throw new Error('Should allow request at exactly 12 hours');
     }
     
-    console.log('✓ Cooldown calculation logic is correct');
     console.log('  - No previous request: allowed');
     console.log('  - 13 hours ago: allowed');
     console.log('  - 11 hours ago: denied');
     console.log('  - 12 hours ago: allowed');
-    passed++;
-  } catch (error) {
-    console.error('✗ Cooldown calculation test failed:', error.message);
-    failed++;
-  }
+  });
 
   // Test 3: Verify README documentation matches code
-  console.log('\nTest 3: README documentation consistency');
-  try {
+  await runner.test('Test 3: README documentation consistency', () => {
     const readmeContent = fs.readFileSync('./README.md', 'utf8');
     
     // Check for "12 hour" mentions in README
@@ -104,17 +91,11 @@ async function runTests() {
       throw new Error('README still contains outdated "48 hour" references');
     }
     
-    console.log('✓ README documentation is consistent with code');
     console.log(`  - Found ${cooldownMatches.length} correct "12 hour" reference(s)`);
-    passed++;
-  } catch (error) {
-    console.error('✗ README documentation test failed:', error.message);
-    failed++;
-  }
+  });
 
   // Test 4: Verify address normalization
-  console.log('\nTest 4: Address normalization for cooldown tracking');
-  try {
+  await runner.test('Test 4: Address normalization for cooldown tracking', () => {
     // Different case variations of the same address
     const address1 = '0x1234567890123456789012345678901234567890';
     const address2 = '0x1234567890123456789012345678901234567890'.toLowerCase();
@@ -128,28 +109,10 @@ async function runTests() {
       throw new Error('Address normalization is not working correctly');
     }
     
-    console.log('✓ Address normalization works correctly');
     console.log('  - Mixed case, lowercase, and uppercase all normalize to same value');
-    passed++;
-  } catch (error) {
-    console.error('✗ Address normalization test failed:', error.message);
-    failed++;
-  }
+  });
 
-  // Summary
-  console.log('\n' + '='.repeat(50));
-  console.log('Test Summary:');
-  console.log(`  Passed: ${passed}`);
-  console.log(`  Failed: ${failed}`);
-  console.log(`  Total:  ${passed + failed}`);
-
-  if (failed > 0) {
-    console.log('\n✗ Some tests failed');
-    process.exit(1);
-  } else {
-    console.log('\n✓ All tests passed');
-    process.exit(0);
-  }
+  runner.summary();
 }
 
 // Run tests
