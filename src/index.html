@@ -2,16 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fleeing 5-0 Final</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Fleeing 5-0 — a crime-themed cascading cluster slot game."
+  >
+
+  <title>Fleeing 5-0</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>🎰 Fleeing 5-0 Final</h1>
-  <div id="slot-grid"></div>
-  <button id="spin-btn">SPIN</button>
-  <p id="status"></p>
-  <script type="module" src="main.js"></script>
-</body>
-</html>
-<script src="animations.js"></script>
-<script src="main.js"></script>
+
+  <h1>🚨 Fleeing 5-0</h1>
+
+  <div id="slot-grid" aria-label="Fleeing 5-0 game grid"></div>
+
+  <button id="spin-btn" type="button">
+    SPIN
+  </button>
+
+  <p id="status" aria-live="polite">
+    Ready to spin.
+  </p>
+
+  <!-- Animation engine must load BEFORE main.js -->
+  <script src="animations.js"></script>
+  <script src="main.js"></script>
+
