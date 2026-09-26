@@ -68,9 +68,9 @@ For quick local development, you can also open `src/index.html` directly.
 
 The bonus trigger checks each row for all of the following:
 
-- `PRISONER` in column 1
-- `ROBBER` in column 5
-- `COP` in any middle column
+- `PRISONER` in column `0` (leftmost)
+- `ROBBER` in column `4` (rightmost)
+- `COP` in any middle column (`1`, `2`, or `3`)
 
 All three conditions must appear within the same row for the bonus to trigger.
 
@@ -113,7 +113,7 @@ The server listens on `http://localhost:3000`.
 ## Project Structure
 
 ```text
-Fleeing5-0/
+project-root/
 ├── src/                 # Slot game source files
 ├── dist/                # Build output
 ├── build.js             # Build script
