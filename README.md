@@ -1,103 +1,93 @@
-# kywmahmb
+# Fleeing 5-0
 
-A slot machine game with performance optimizations and Ethereum testnet integration.
+Fleeing 5-0 is a browser-based slot machine game built with vanilla JavaScript and optimized for fast DOM updates. A bonus is triggered when the board contains a `PRISONER` on the leftmost reel, a `ROBBER` on the rightmost reel, and a `COP` on one of the middle reels.
 
-> **Note**: For ownership and attribution information, see [OWNERSHIP.md](OWNERSHIP.md)
+> For ownership and attribution details, see [OWNERSHIP.md](OWNERSHIP.md).
 
-## Documentation
+## Features
 
-- 📋 [Coding Guidelines](CODING_GUIDELINES.md) - Comprehensive coding standards and best practices
-- 🏗️ [Development Infrastructure](.github/DEVELOPMENT_INFRASTRUCTURE.md) - CI/CD, templates, and tooling guide
-- 📝 [Configuration Templates](.github/) - Templates for roles, communication, and guidelines
-- 🛡️ [Repository Rulesets](.github/rulesets/) - Branch protection rules and configurations
+- 6x5 slot grid with randomized symbols
+- Bonus detection for the PRISONER / COP / ROBBER pattern
+- Performance-focused rendering with cached DOM references and batched updates
+- Optional Ethereum tooling for contract verification and a testnet USDC faucet
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (version 18.x, 20.x, or 22.x)
-- npm or yarn package manager
+- Node.js 18.x, 20.x, or 22.x
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/Kushmanmb/kywmahmb.git
-```
-
-2. Navigate to the project directory:
-```bash
-cd kywmahmb
-```
-
-3. Install dependencies:
-```bash
-# Using npm
+git clone https://github.com/Kushmanmb/Fleeing5-0.git
+cd Fleeing5-0
 npm install
-
-# Or using yarn
-yarn install
 ```
 
-### Building the Project
+## Available Scripts
 
-Build the project to create distribution files:
+### Build
+
+Copy the source files into `dist/`:
+
 ```bash
-# Using npm
 npm run build
-
-# Or using yarn
-yarn build
 ```
 
-This will copy all necessary files from `src/` to `dist/` directory.
+Create a production bundle with Webpack:
 
-Alternatively, you can use Webpack to bundle the project:
 ```bash
-# Using npm
 npm run webpack
-
-# Or using yarn
-yarn webpack
 ```
 
-### Running the Game
+### Test
 
-After building, open `dist/index.html` in a web browser to play the game.
+Run the slot logic tests:
 
-For development, you can also open `src/index.html` directly in a web browser.
-
-### Running Tests
-
-Run the test suite to verify game logic:
 ```bash
-# Using npm
 npm test
-
-# Or using yarn
-yarn test
 ```
 
-## Contract Verification
+Additional utility tests are also available:
 
-This repository includes a contract verification tool that allows you to verify smart contracts on Etherscan and other block explorers.
+```bash
+npm run test:verify
+npm run test:faucet
+npm run test:rulesets
+```
 
-### Prerequisites
+### Run the Game
 
-- Etherscan API key (get one from [https://etherscan.io/myapikey](https://etherscan.io/myapikey))
-- Contract source code
-- Deployment details (compiler version, optimization settings, constructor arguments)
+After building, open `/home/runner/work/Fleeing5-0/Fleeing5-0/dist/index.html` in a browser.
 
-### Setup
+For quick local development, you can also open `/home/runner/work/Fleeing5-0/Fleeing5-0/src/index.html` directly.
 
-Add your Etherscan API key to the `.env` file:
+## How the Bonus Works
+
+The bonus trigger checks the full board for all of the following:
+
+- `PRISONER` in column 1
+- `ROBBER` in column 5
+- `COP` in any middle column
+
+All three conditions must appear somewhere on the board for the bonus to trigger.
+
+## Optional Ethereum Tooling
+
+This repository also includes Node.js utilities for Ethereum testnet workflows.
+
+### Contract Verification
+
+Set an Etherscan API key in `.env`:
+
 ```bash
 ETHERSCAN_API_KEY=your_etherscan_api_key_here
 ```
 
-### Usage
+Then run:
 
-Verify a deployed contract:
 ```bash
 npm run verify -- \
   --address 0x1234567890abcdef1234567890abcdef12345678 \
@@ -109,181 +99,39 @@ npm run verify -- \
   --runs 200
 ```
 
-### Command Line Options
+### USDC Faucet Server
 
-- `--address` - Contract address (required)
-- `--source` - Path to source code file (required)
-- `--name` - Contract name (required)
-- `--compiler` - Solidity compiler version (required)
-- `--network` - Network name (default: sepolia)
-- `--optimization` - Optimization enabled: 0 or 1 (default: 1)
-- `--runs` - Number of optimization runs (default: 200)
-- `--constructor-args` - ABI-encoded constructor arguments (optional)
-- `--api-key` - Etherscan API key (optional, uses ETHERSCAN_API_KEY env var)
+Copy `.env.example` to `.env`, fill in the required values, then start the faucet:
 
-### Supported Networks
-
-- Ethereum: `mainnet`, `sepolia`, `holesky`
-- Polygon: `polygon`, `amoy`
-- Arbitrum: `arbitrum`
-- Optimism: `optimism`
-- BSC: `bsc`, `bscTestnet`
-
-### Example with Constructor Arguments
-
-If your contract has constructor arguments, you'll need to ABI-encode them. The verification tool includes a helper function:
-
-```javascript
-const { encodeConstructorArgs } = require('./verify-contract.js');
-
-// For a constructor like: constructor(address _owner, uint256 _value)
-const encoded = encodeConstructorArgs(
-  ['address', 'uint256'],
-  ['0x1234...', '1000000000000000000']
-);
-
-console.log(encoded); // Use this value for --constructor-args
-```
-
-### Programmatic Usage
-
-You can also use the verification tool as a module in your Node.js scripts:
-
-```javascript
-const { verifyContract } = require('./verify-contract.js');
-
-const result = await verifyContract({
-  contractAddress: '0x1234567890abcdef1234567890abcdef12345678',
-  sourceCode: fs.readFileSync('./contracts/MyContract.sol', 'utf8'),
-  contractName: 'MyContract',
-  compilerVersion: 'v0.8.20+commit.a1b79de6',
-  optimizationUsed: 1,
-  runs: 200,
-  network: 'sepolia',
-  apiKey: process.env.ETHERSCAN_API_KEY,
-});
-
-if (result.success) {
-  console.log('Verified!', result.explorerUrl);
-} else {
-  console.error('Failed:', result.error);
-}
-```
-
-## USDC Faucet Server
-
-This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
-
-### Setup
-
-1. Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
-```
-
-2. Configure your `.env` file with:
-   - `INFURA_PROJECT_ID`: Your Infura project ID
-   - `PRIVATE_KEY`: Private key of the wallet that will dispense USDC
-   - `USDC_CONTRACT_ADDRESS`: Address of the USDC contract on your testnet (Sepolia, Goerli, etc.)
-   - `ETHERSCAN_API_KEY`: Your Etherscan API key for contract verification (optional, only needed if using verification feature)
-
-### Running the Faucet
-
-Start the faucet server:
-```bash
 npm run faucet
 ```
 
-The server will run at `http://localhost:3000`.
-
-### API Endpoints
-
-**POST /faucet**
-
-Request USDC tokens from the faucet.
-
-Request body:
-```json
-{
-  "address": "0x..."
-}
-```
-
-Response (success):
-```json
-{
-  "message": "USDC dispensed successfully!"
-}
-```
-
-Responses (error):
-- `400`: Invalid or missing address
-- `429`: Cooldown in effect (12 hour between requests)
-- `500`: Faucet out of funds or transfer error
-
-### Faucet Configuration
-
-- **Network**: Sepolia testnet (configurable via Infura)
-- **Dispense Amount**: 1 USDC per request
-- **Cooldown**: 12 hour between requests per address
-- **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
-
-## Performance Improvements
-
-The code has been optimized with the following improvements:
-
-1. **DOM Element Caching** - Frequently accessed DOM elements are cached to avoid repeated `getElementById` calls
-2. **DocumentFragment Usage** - DOM operations are batched using DocumentFragment to reduce reflows and repaints
-3. **Cell Reference Caching** - Cell elements are stored during creation to avoid `querySelectorAll` calls
-4. **Optimized Loop Logic** - Single loop in `checkBonusTrigger` instead of multiple `some()` calls with early exit
-5. **Spin Debouncing** - Prevents multiple simultaneous spins with `isSpinning` flag
+The server listens on `http://localhost:3000`.
 
 ## Project Structure
 
-```
-kywmahmb/
-├── src/                 # Source files
-│   ├── main.js          # Main game logic
-│   ├── index.html       # HTML structure
-│   ├── style.css        # Styles
-│   └── siren.mp3        # Sound effect
-├── dist/                # Build output (generated)
-├── faucet.js            # USDC faucet server
-├── test.js              # Test suite
+```text
+Fleeing5-0/
+├── src/                 # Slot game source files
+├── dist/                # Build output
 ├── build.js             # Build script
-├── webpack.config.js    # Webpack configuration
-└── package.json         # Project dependencies
+├── faucet.js            # Testnet faucet server
+├── test.js              # Slot logic tests
+├── test-faucet.js       # Faucet tests
+├── test-verify.js       # Verification tests
+├── verify-contract.js   # Contract verification utility
+└── webpack.config.js    # Webpack configuration
 ```
 
-## Development
+## Documentation
 
-To work on the project:
-
-1. Make changes to files in the `src/` directory
-2. Build the project with `npm run build`
-3. Run tests with `npm test` to verify functionality
-4. Open `dist/index.html` in a browser to test the game
-
-## CI/CD Workflows
-
-This repository uses GitHub Actions for continuous integration and deployment:
-
-- **Node.js CI**: Runs tests and builds on Node.js versions 18.x, 20.x, and 22.x
-- **Webpack Build**: Builds the project using Webpack
-- **GitHub Pages**: Automatically deploys the game to GitHub Pages on push to main branch
-
-The game is available online at: [https://kushmanmb.github.io/kywmahmb/](https://kushmanmb.github.io/kywmahmb/)
-
-## Ownership
-
-For information about project ownership, component attribution, and licensing, please see [OWNERSHIP.md](OWNERSHIP.md).
-
-Code ownership is managed through the [CODEOWNERS](CODEOWNERS) file.
+- [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
+- [.github/DEVELOPMENT_INFRASTRUCTURE.md](.github/DEVELOPMENT_INFRASTRUCTURE.md)
+- [examples/README.md](examples/README.md)
+- [.github/rulesets/README.md](.github/rulesets/README.md)
 
 ## License
 
-This project is licensed under a **Proprietary License** that requires authorization from kushmanmb for use.
-
-**Important**: Use of this software is prohibited without prior written authorization from kushmanmb. See the [LICENSE](LICENSE) file for full details.
-
-To request authorization to use this software, please contact kushmanmb through GitHub.
+This project is licensed under the proprietary terms in [LICENSE](LICENSE). Authorization from kushmanmb is required before using, copying, modifying, or distributing the software.
