@@ -1,5 +1,3 @@
-const symbols = ["PRISONER", "ROBBER", "COP", "BAR", "7", "CHERRY", "BELL"];
-
 const rows = 6;
 const cols = 5;
 let board = [];
@@ -33,11 +31,13 @@ function spin() {
   for (let r = 0; r < rows; r++) {
     const row = [];
     for (let c = 0; c < cols; c++) {
-      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-      row.push(symbol);
+      const symbolId = SYMBOL_IDS[Math.floor(Math.random() * SYMBOL_IDS.length)];
+      const symbol = SYMBOLS[symbolId];
+      row.push(symbolId);
       const cell = document.createElement("div");
       cell.classList.add("cell");
-      cell.textContent = symbol;
+      cell.dataset.symbolId = symbolId;
+      cell.textContent = symbol.name;
       cellElements.push(cell);
       fragment.appendChild(cell);
     }
@@ -67,9 +67,15 @@ function checkBonusTrigger(board) {
   // Single loop through rows instead of multiple some() calls
   for (let i = 0; i < board.length; i++) {
     const row = board[i];
-    if (row[0] === "PRISONER") prisonerOnReel1 = true;
-    if (row[4] === "ROBBER") robberOnReel5 = true;
-    if (row[1] === "COP" || row[2] === "COP" || row[3] === "COP") copInMiddle = true;
+    if (row[0] === BONUS_SYMBOL_IDS.left) prisonerOnReel1 = true;
+    if (row[4] === BONUS_SYMBOL_IDS.right) robberOnReel5 = true;
+    if (
+      row[1] === BONUS_SYMBOL_IDS.middle ||
+      row[2] === BONUS_SYMBOL_IDS.middle ||
+      row[3] === BONUS_SYMBOL_IDS.middle
+    ) {
+      copInMiddle = true;
+    }
     
     // Early exit if all conditions met
     if (prisonerOnReel1 && robberOnReel5 && copInMiddle) return true;
@@ -82,10 +88,10 @@ function highlightBonusSymbols() {
   // Use cached cell references instead of querySelectorAll
   cellElements.forEach((cell, index) => {
     const col = index % cols;
-    const text = cell.textContent;
-    if ((col === 0 && text === "PRISONER") ||
-        (col === 4 && text === "ROBBER") ||
-        ((col === 1 || col === 2 || col === 3) && text === "COP")) {
+    const symbolId = cell.dataset.symbolId;
+    if ((col === 0 && symbolId === BONUS_SYMBOL_IDS.left) ||
+        (col === 4 && symbolId === BONUS_SYMBOL_IDS.right) ||
+        ((col === 1 || col === 2 || col === 3) && symbolId === BONUS_SYMBOL_IDS.middle)) {
       cell.classList.add("highlight");
     }
   });
