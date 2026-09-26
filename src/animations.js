@@ -1,0 +1,1 @@
+window.FleeingAnimations = window.FleeingAnimations || {};
