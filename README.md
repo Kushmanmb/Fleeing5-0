@@ -112,7 +112,7 @@ Then fill in:
 npm run faucet
 ```
 
-The server listens on `http://localhost:3000`.
+The faucet server listens on `http://localhost:3000` by default.
 
 ## Project Structure
 
