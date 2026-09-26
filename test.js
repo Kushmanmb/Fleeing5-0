@@ -3,7 +3,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const { pathToFileURL } = require('url');
 
 (async () => {
@@ -54,7 +54,7 @@ const { pathToFileURL } = require('url');
   let failed = 0;
 
   try {
-    execSync(`"${process.execPath}" build.js`, { cwd: __dirname, stdio: 'ignore' });
+    execFileSync(process.execPath, ['build.js'], { cwd: __dirname, stdio: 'ignore' });
     const animationsBuildOutput = path.join(__dirname, 'dist', 'animations.js');
     if (fs.existsSync(animationsBuildOutput)) {
       console.log('✓ Test 0: Build output includes dist/animations.js');
