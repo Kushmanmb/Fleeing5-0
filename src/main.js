@@ -1,6 +1,8 @@
-const { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } = globalThis.BONUS_SYMBOL_IDS && globalThis.SYMBOL_DEFINITIONS
-  ? globalThis
-  : require("./symbols.js");
+const { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } = globalThis;
+
+if (!BONUS_SYMBOL_IDS || !SYMBOL_DEFINITIONS) {
+  throw new Error("symbols.js must load before main.js");
+}
 
 const rows = 6;
 const cols = 5;

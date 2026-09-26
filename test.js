@@ -165,6 +165,23 @@ if (checkBonusTrigger(testBoard5)) {
   failed++;
 }
 
+// Test case 6: Should trigger with symbols split across rows
+const testBoard6 = [
+  [BONUS_SYMBOL_IDS.left, filler1, filler2, filler4, filler4],
+  [filler4, filler2, BONUS_SYMBOL_IDS.middle, filler1, filler4],
+  [filler2, filler1, filler4, filler2, BONUS_SYMBOL_IDS.right],
+  [filler3, filler4, filler2, filler1, filler2],
+  [filler2, filler3, filler4, filler4, filler1],
+  [filler4, filler3, filler2, filler2, filler4]
+];
+if (checkBonusTrigger(testBoard6)) {
+  console.log('✓ Test 6: Bonus trigger with qualifying symbols across different rows');
+  passed++;
+} else {
+  console.log('✗ Test 6: FAILED - Should trigger when qualifying symbols are split across rows');
+  failed++;
+}
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 
 if (failed > 0) {
