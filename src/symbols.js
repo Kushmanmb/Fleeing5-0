@@ -4,70 +4,70 @@ const SYMBOLS = Object.freeze({
     name: "Cop",
     value: 10,
     type: "premium",
-    image: "/assets/symbols/cop.png"
+    image: "assets/symbols/cop.png"
   }),
   prisoner: Object.freeze({
     id: "prisoner",
     name: "Prisoner",
     value: 10,
     type: "premium",
-    image: "/assets/symbols/prisoner.png"
+    image: "assets/symbols/prisoner.png"
   }),
   robber: Object.freeze({
     id: "robber",
     name: "Robber",
     value: 10,
     type: "premium",
-    image: "/assets/symbols/robber.png"
+    image: "assets/symbols/robber.png"
   }),
   gold_badge: Object.freeze({
     id: "gold_badge",
     name: "Gold Badge",
     value: 8,
     type: "premium",
-    image: "/assets/symbols/gold_badge.png"
+    image: "assets/symbols/gold_badge.png"
   }),
   silver_badge: Object.freeze({
     id: "silver_badge",
     name: "Silver Badge",
     value: 6,
     type: "premium",
-    image: "/assets/symbols/silver_badge.png"
+    image: "assets/symbols/silver_badge.png"
   }),
   handcuffs: Object.freeze({
     id: "handcuffs",
     name: "Handcuffs",
     value: 5,
     type: "premium",
-    image: "/assets/symbols/handcuffs.png"
+    image: "assets/symbols/handcuffs.png"
   }),
   flashlight: Object.freeze({
     id: "flashlight",
     name: "Flashlight",
     value: 4,
     type: "standard",
-    image: "/assets/symbols/flashlight.png"
+    image: "assets/symbols/flashlight.png"
   }),
   marker: Object.freeze({
     id: "marker",
     name: "Marker",
     value: 3,
     type: "standard",
-    image: "/assets/symbols/marker.png"
+    image: "assets/symbols/marker.png"
   }),
   casings: Object.freeze({
     id: "casings",
     name: "Casings",
     value: 3,
     type: "standard",
-    image: "/assets/symbols/casings.png"
+    image: "assets/symbols/casings.png"
   }),
   a: Object.freeze({
     id: "a",
     name: "A",
     value: 2,
     type: "card",
-    image: "/assets/symbols/a.png"
+    image: "assets/symbols/a.png"
   })
 });
 

@@ -68,6 +68,18 @@ if (fillerSymbols.length >= 4 && fillerSymbols.every((symbolId) => SYMBOL_IDS.in
 
 const [filler1, filler2, filler3, filler4] = fillerSymbols;
 
+const generatedBoard = generateBoard();
+const generatedBoardUsesSharedIds = generatedBoard.length === rows &&
+  generatedBoard.every((row) => row.length === cols && row.every((symbolId) => SYMBOL_IDS.includes(symbolId)));
+
+if (generatedBoardUsesSharedIds) {
+  console.log('✓ Test 0c: Generated boards use only shared catalog symbol ids');
+  passed++;
+} else {
+  console.log('✗ Test 0c: FAILED - Generated boards must contain only shared catalog symbol ids');
+  failed++;
+}
+
 // Test case 1: Should trigger bonus
 const testBoard1 = [
   [BONUS_SYMBOL_IDS.left, filler1, BONUS_SYMBOL_IDS.middle, filler4, BONUS_SYMBOL_IDS.right],

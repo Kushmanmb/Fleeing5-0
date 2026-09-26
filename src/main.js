@@ -1,6 +1,6 @@
-const { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } = typeof require === "function"
-  ? require("./symbols.js")
-  : globalThis;
+const { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } = globalThis.BONUS_SYMBOL_IDS && globalThis.SYMBOL_DEFINITIONS
+  ? globalThis
+  : require("./symbols.js");
 
 const rows = 6;
 const cols = 5;
@@ -40,7 +40,15 @@ function spin() {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.dataset.symbolId = symbol.id;
-      cell.textContent = symbol.name;
+      const image = document.createElement("img");
+      image.classList.add("cell-symbol-image");
+      image.src = symbol.image;
+      image.alt = symbol.name;
+      const label = document.createElement("span");
+      label.classList.add("cell-symbol-name");
+      label.textContent = symbol.name;
+      cell.appendChild(image);
+      cell.appendChild(label);
       cellElements.push(cell);
       fragment.appendChild(cell);
     }
