@@ -1,9 +1,28 @@
+/* ================================
+   FLEEING 5-0
+   Main Game Styles + Animations
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
   background: #111;
   color: #fff;
   font-family: Arial, sans-serif;
   text-align: center;
 }
+
+h1 {
+  margin: 20px 0 10px;
+}
+
+/* ================================
+   SLOT GRID
+================================ */
+
 #slot-grid {
   display: grid;
   grid-template-columns: repeat(5, 100px);
@@ -12,51 +31,528 @@ body {
   justify-content: center;
   margin: 20px auto;
 }
+
+/* ================================
+   SYMBOL CELLS
+================================ */
+
 .cell {
   width: 100px;
   height: 100px;
+
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 6px;
-  box-sizing: border-box;
+
   border: 2px solid #444;
+  border-radius: 8px;
+
   background: #222;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background 0.3s, transform 0.3s;
+
+  overflow: hidden;
+  position: relative;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
-.cell-symbol-image {
-  width: 56px;
-  height: 56px;
+
+.cell img {
+  width: 90%;
+  height: 90%;
   object-fit: contain;
+  user-select: none;
+  pointer-events: none;
 }
-.cell-symbol-name {
-  font-size: 12px;
-  line-height: 1.1;
-}
+
+/* ================================
+   CHAYSE HIGHLIGHT
+================================ */
+
 .highlight {
-  background: gold !important;
-  color: black;
-  animation: flash 0.8s infinite alternate;
-  transform: scale(1.1);
+  background: #ffd700 !important;
+  border-color: #fff;
+  color: #000;
+
+  animation: chayse-pulse 0.5s infinite alternate;
+
+  z-index: 5;
 }
-@keyframes flash {
-  from { background: gold; }
-  to { background: red; color: white; }
+
+/* ================================
+   SPIN
+================================ */
+
+.anim-spin {
+  animation: symbol-spin 0.65s ease-in-out;
 }
+
+@keyframes symbol-spin {
+  0% {
+    transform: translateY(-25px) scale(0.9);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateY(10px) scale(1.05);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ================================
+   LANDING
+================================ */
+
+.anim-land {
+  animation: symbol-land 0.28s ease-out;
+}
+
+@keyframes symbol-land {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+
+  70% {
+    transform: translateY(5px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ================================
+   WIN
+================================ */
+
+.anim-win {
+  animation: win-pulse 0.52s ease-in-out;
+  z-index: 4;
+}
+
+@keyframes win-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px gold;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ================================
+   REMOVE
+================================ */
+
+.anim-remove {
+  animation: symbol-remove 0.36s ease-in forwards;
+}
+
+@keyframes symbol-remove {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* ================================
+   CASCADE
+================================ */
+
+.anim-cascade {
+  animation: symbol-cascade 0.42s ease-out;
+}
+
+@keyframes symbol-cascade {
+  0% {
+    transform: translateY(-80px);
+    opacity: 0;
+  }
+
+  70% {
+    transform: translateY(8px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ================================
+   MULTIPLIER
+================================ */
+
+.anim-multiplier {
+  animation: multiplier-pulse 0.7s ease-in-out;
+}
+
+.anim-multiplier::after {
+  content: attr(data-multiplier);
+
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+  font-weight: 900;
+
+  color: #fff;
+  text-shadow: 0 2px 5px #000;
+
+  pointer-events: none;
+}
+
+@keyframes multiplier-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+    box-shadow: 0 0 40px gold;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ================================
+   CHAYSE BONUS
+================================ */
+
+.anim-chayse {
+  animation: chayse-bonus 1.4s ease-in-out;
+  z-index: 10;
+}
+
+@keyframes chayse-bonus {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 transparent;
+  }
+
+  25% {
+    transform: scale(1.2) rotate(-3deg);
+    box-shadow: 0 0 35px red;
+  }
+
+  50% {
+    transform: scale(1.3) rotate(3deg);
+    box-shadow: 0 0 60px gold;
+  }
+
+  75% {
+    transform: scale(1.2) rotate(-3deg);
+    box-shadow: 0 0 35px red;
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 transparent;
+  }
+}
+
+/* ================================
+   COP
+================================ */
+
+.anim-cop {
+  animation: cop-action 0.9s ease-in-out;
+}
+
+@keyframes cop-action {
+  0% {
+    transform: translateX(0);
+  }
+
+  30% {
+    transform: translateX(-10px) scale(1.08);
+  }
+
+  60% {
+    transform: translateX(10px) scale(1.08);
+  }
+
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* ================================
+   ROBBER
+================================ */
+
+.anim-robber {
+  animation: robber-action 0.9s ease-in-out;
+}
+
+@keyframes robber-action {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(20px) rotate(4deg);
+  }
+
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+}
+
+/* ================================
+   PRISONER
+================================ */
+
+.anim-prisoner {
+  animation: prisoner-action 0.9s ease-in-out;
+}
+
+@keyframes prisoner-action {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15) rotate(-4deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* ================================
+   BADGE / FREE SPINS
+================================ */
+
+.anim-badge {
+  animation: badge-spin 0.9s ease-in-out;
+}
+
+@keyframes badge-spin {
+  0% {
+    transform: scale(1) rotate(0);
+  }
+
+  50% {
+    transform: scale(1.3) rotate(180deg);
+    box-shadow: 0 0 50px gold;
+  }
+
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.anim-free-spins {
+  animation: free-spins-pulse 1s infinite alternate;
+}
+
+@keyframes free-spins-pulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 10px gold;
+  }
+
+  to {
+    transform: scale(1.2);
+    box-shadow: 0 0 50px gold;
+  }
+}
+
+/* ================================
+   250× MAX MULTIPLIER
+================================ */
+
+[data-multiplier="250×"] {
+  animation: max-multiplier 0.7s infinite alternate;
+}
+
+@keyframes max-multiplier {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 20px gold;
+  }
+
+  to {
+    transform: scale(1.3);
+    box-shadow: 0 0 70px gold;
+  }
+}
+
+/* ================================
+   SCREEN SHAKE
+================================ */
+
+.screen-shake {
+  animation: screen-shake 0.5s ease-in-out;
+}
+
+@keyframes screen-shake {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  20% {
+    transform: translate(-8px, 5px);
+  }
+
+  40% {
+    transform: translate(8px, -5px);
+  }
+
+  60% {
+    transform: translate(-6px, -3px);
+  }
+
+  80% {
+    transform: translate(6px, 3px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ================================
+   BIG WIN
+================================ */
+
+.big-win {
+  animation: big-win 1.5s ease-in-out;
+}
+
+@keyframes big-win {
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.04);
+    box-shadow: 0 0 30px gold;
+  }
+
+  60% {
+    transform: scale(1.08);
+    box-shadow: 0 0 70px gold;
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+/* ================================
+   WIN PARTICLES
+================================ */
+
+.win-particle {
+  position: fixed;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  animation: particle-fly 0.9s ease-out forwards;
+
+  z-index: 9999;
+}
+
+@keyframes particle-fly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(var(--particle-x), var(--particle-y))
+      scale(0);
+
+    opacity: 0;
+  }
+}
+
+/* ================================
+   BUTTON
+================================ */
+
 button {
-  padding: 10px 20px;
+  padding: 12px 25px;
+
   margin-top: 20px;
+
   font-size: 18px;
+  font-weight: bold;
+
   cursor: pointer;
+
   background: #28a745;
   color: white;
+
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
 }
+
 button:hover {
-  background: #218838;
+  transform: scale(1.05);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+  #slot-grid {
+    grid-template-columns: repeat(5, 17vw);
+    grid-template-rows: repeat(6, 17vw);
+    gap: 2px;
+  }
+
+  .cell {
+    width: 17vw;
+    height: 17vw;
+  }
+
+  .cell img {
+    width: 90%;
+    height: 90%;
+  }
 }
