@@ -2,6 +2,8 @@
 // Simple test script to verify the JavaScript logic
 
 const path = require('path');
+const fs = require('fs');
+const { execSync } = require('child_process');
 const { pathToFileURL } = require('url');
 
 (async () => {
@@ -50,6 +52,21 @@ const { pathToFileURL } = require('url');
 
   let passed = 0;
   let failed = 0;
+
+  try {
+    execSync('node build.js', { cwd: __dirname, stdio: 'ignore' });
+    const animationsBuildOutput = path.join(__dirname, 'dist', 'animations.js');
+    if (fs.existsSync(animationsBuildOutput)) {
+      console.log('✓ Test 0: Build output includes dist/animations.js');
+      passed++;
+    } else {
+      console.log('✗ Test 0: FAILED - Build output must include dist/animations.js');
+      failed++;
+    }
+  } catch (error) {
+    console.log('✗ Test 0: FAILED - Build step failed while verifying dist/animations.js');
+    failed++;
+  }
 
   if (Object.values(BONUS_SYMBOL_IDS).every((symbolId) => SYMBOL_IDS.includes(symbolId))) {
     console.log('✓ Test 0a: Bonus symbol ids are part of the shared symbol catalog');
