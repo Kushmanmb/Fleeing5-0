@@ -10,7 +10,7 @@
     "test:verify": "node test-verify.js",
     "test:faucet": "node test-faucet.js",
     "test:rulesets": "node test-rulesets.js",
-    "test:all": "npm run test && npm run test:verify && npm run test:faucet && npm run test:rulesets",
+    "test:all": "node test.js && node test-verify.js && node test-faucet.js && node test-rulesets.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
