@@ -113,6 +113,8 @@ npm run faucet
 ## Documentation
 
 - [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
+- [OWNERSHIP.md](OWNERSHIP.md)
+- [CODEOWNERS](CODEOWNERS)
 - [.github/DEVELOPMENT_INFRASTRUCTURE.md](.github/DEVELOPMENT_INFRASTRUCTURE.md)
 - [.github/rulesets/README.md](.github/rulesets/README.md)
 
