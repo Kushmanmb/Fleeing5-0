@@ -7,6 +7,7 @@ Fleeing 5-0 is a browser-based slot machine game built with vanilla JavaScript a
 ## Features
 
 - 6x5 slot grid with randomized symbols
+- Shared symbol catalog with ids, values, types, and image metadata
 - Bonus detection for the PRISONER / COP / ROBBER pattern
 - Performance-focused rendering with cached DOM references and batched updates
 - Optional Ethereum tooling for contract verification and a testnet USDC faucet

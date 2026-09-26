@@ -16,13 +16,26 @@ body {
   width: 100px;
   height: 100px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  padding: 6px;
+  box-sizing: border-box;
   border: 2px solid #444;
   background: #222;
   font-size: 14px;
   font-weight: bold;
   transition: background 0.3s, transform 0.3s;
+}
+.cell-symbol-image {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.cell-symbol-name {
+  font-size: 12px;
+  line-height: 1.1;
 }
 .highlight {
   background: gold !important;
