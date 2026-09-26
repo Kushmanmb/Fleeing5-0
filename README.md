@@ -54,7 +54,7 @@ npm test
 
 ### Run the Game
 
-After `npm run build`, open `dist/index.html` in a browser. `npm run webpack` is optional and only generates a production JavaScript bundle in `dist/`.
+After `npm run build`, open `dist/index.html` in a browser. If you also run `npm run webpack`, note that it only generates a production JavaScript bundle and does not replace `npm run build`, which copies `index.html`, `style.css`, and other static assets into `dist/`.
 
 ## How the Bonus Works
 
