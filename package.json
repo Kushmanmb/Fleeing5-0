@@ -1,21 +1,27 @@
 {
-  "name": "kushmanmb",
+  "name": "fleeing-5-0",
   "version": "1.0.0",
-  "description": "machine performance optimizations",
+  "description": "Fleeing 5-0 slot machine game",
   "main": "dist/main.js",
   "scripts": {
     "build": "node build.js",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "test": "node test.js",
     "test:verify": "node test-verify.js",
     "test:faucet": "node test-faucet.js",
     "test:rulesets": "node test-rulesets.js",
+    "test:all": "yarn test && yarn test:verify && yarn test:faucet && yarn test:rulesets",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
   },
-  "keywords": ["", "machine"],
+  "keywords": [
+    "slot-machine",
+    "game",
+    "fleeing-5-0"
+  ],
   "author": "kushmanmb",
-  "license": "mit",
+  "license": "UNLICENSED",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
