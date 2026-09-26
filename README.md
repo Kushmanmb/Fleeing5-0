@@ -60,19 +60,19 @@ npm run test:rulesets
 
 ### Run the Game
 
-After building, open `/home/runner/work/Fleeing5-0/Fleeing5-0/dist/index.html` in a browser.
+After building, open `dist/index.html` in a browser.
 
-For quick local development, you can also open `/home/runner/work/Fleeing5-0/Fleeing5-0/src/index.html` directly.
+For quick local development, you can also open `src/index.html` directly.
 
 ## How the Bonus Works
 
-The bonus trigger checks the full board for all of the following:
+The bonus trigger checks each row for all of the following:
 
 - `PRISONER` in column 1
 - `ROBBER` in column 5
 - `COP` in any middle column
 
-All three conditions must appear somewhere on the board for the bonus to trigger.
+All three conditions must appear within the same row for the bonus to trigger.
 
 ## Optional Ethereum Tooling
 
