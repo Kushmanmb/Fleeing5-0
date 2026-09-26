@@ -72,6 +72,7 @@ const SYMBOLS = Object.freeze({
 });
 
 const SYMBOL_IDS = Object.freeze(Object.keys(SYMBOLS));
+const SYMBOL_DEFINITIONS = Object.freeze(SYMBOL_IDS.map((symbolId) => SYMBOLS[symbolId]));
 const BONUS_SYMBOL_IDS = Object.freeze({
   left: SYMBOLS.prisoner.id,
   middle: SYMBOLS.cop.id,
@@ -81,6 +82,7 @@ const BONUS_SYMBOL_IDS = Object.freeze({
 if (typeof window !== "undefined") {
   window.SYMBOLS = SYMBOLS;
   window.SYMBOL_IDS = SYMBOL_IDS;
+  window.SYMBOL_DEFINITIONS = SYMBOL_DEFINITIONS;
   window.BONUS_SYMBOL_IDS = BONUS_SYMBOL_IDS;
 }
 
@@ -88,6 +90,7 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     SYMBOLS,
     SYMBOL_IDS,
+    SYMBOL_DEFINITIONS,
     BONUS_SYMBOL_IDS
   };
 }

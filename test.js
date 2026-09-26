@@ -4,6 +4,8 @@
 const { BONUS_SYMBOL_IDS, SYMBOL_IDS } = require('./src/symbols.js');
 const rows = 6;
 const cols = 5;
+const fillerSymbols = SYMBOL_IDS.filter((symbolId) => !Object.values(BONUS_SYMBOL_IDS).includes(symbolId));
+const [filler1, filler2, filler3, filler4] = fillerSymbols;
 
 // Mock function to generate board
 function generateBoard() {
@@ -51,12 +53,12 @@ let failed = 0;
 
 // Test case 1: Should trigger bonus
 const testBoard1 = [
-  ["prisoner", "gold_badge", "cop", "a", "robber"],
-  ["a", "marker", "flashlight", "gold_badge", "a"],
-  ["casings", "gold_badge", "a", "marker", "flashlight"],
-  ["flashlight", "a", "casings", "gold_badge", "marker"],
-  ["marker", "casings", "flashlight", "a", "gold_badge"],
-  ["a", "flashlight", "marker", "casings", "a"]
+  [BONUS_SYMBOL_IDS.left, filler1, BONUS_SYMBOL_IDS.middle, filler4, BONUS_SYMBOL_IDS.right],
+  [filler4, filler2, filler3, filler1, filler4],
+  [filler2, filler1, filler4, filler2, filler3],
+  [filler3, filler4, filler2, filler1, filler2],
+  [filler2, filler3, filler4, filler4, filler1],
+  [filler4, filler3, filler2, filler2, filler4]
 ];
 if (checkBonusTrigger(testBoard1)) {
   console.log('✓ Test 1: Bonus trigger detection (positive case)');
@@ -68,12 +70,12 @@ if (checkBonusTrigger(testBoard1)) {
 
 // Test case 2: Should not trigger (no PRISONER)
 const testBoard2 = [
-  ["gold_badge", "gold_badge", "cop", "a", "robber"],
-  ["a", "marker", "flashlight", "gold_badge", "a"],
-  ["casings", "gold_badge", "a", "marker", "flashlight"],
-  ["flashlight", "a", "casings", "gold_badge", "marker"],
-  ["marker", "casings", "flashlight", "a", "gold_badge"],
-  ["a", "flashlight", "marker", "casings", "a"]
+  [filler1, filler1, BONUS_SYMBOL_IDS.middle, filler4, BONUS_SYMBOL_IDS.right],
+  [filler4, filler2, filler3, filler1, filler4],
+  [filler2, filler1, filler4, filler2, filler3],
+  [filler3, filler4, filler2, filler1, filler2],
+  [filler2, filler3, filler4, filler4, filler1],
+  [filler4, filler3, filler2, filler2, filler4]
 ];
 if (!checkBonusTrigger(testBoard2)) {
   console.log('✓ Test 2: No trigger without PRISONER');
@@ -85,12 +87,12 @@ if (!checkBonusTrigger(testBoard2)) {
 
 // Test case 3: Should not trigger (no ROBBER)
 const testBoard3 = [
-  ["prisoner", "gold_badge", "cop", "a", "a"],
-  ["a", "marker", "flashlight", "gold_badge", "a"],
-  ["casings", "gold_badge", "a", "marker", "flashlight"],
-  ["flashlight", "a", "casings", "gold_badge", "marker"],
-  ["marker", "casings", "flashlight", "a", "gold_badge"],
-  ["a", "flashlight", "marker", "casings", "a"]
+  [BONUS_SYMBOL_IDS.left, filler1, BONUS_SYMBOL_IDS.middle, filler4, filler4],
+  [filler4, filler2, filler3, filler1, filler4],
+  [filler2, filler1, filler4, filler2, filler3],
+  [filler3, filler4, filler2, filler1, filler2],
+  [filler2, filler3, filler4, filler4, filler1],
+  [filler4, filler3, filler2, filler2, filler4]
 ];
 if (!checkBonusTrigger(testBoard3)) {
   console.log('✓ Test 3: No trigger without ROBBER');
@@ -102,12 +104,12 @@ if (!checkBonusTrigger(testBoard3)) {
 
 // Test case 4: Should not trigger (no COP in middle)
 const testBoard4 = [
-  ["prisoner", "gold_badge", "marker", "a", "robber"],
-  ["a", "marker", "flashlight", "gold_badge", "a"],
-  ["casings", "gold_badge", "a", "marker", "flashlight"],
-  ["flashlight", "a", "casings", "gold_badge", "marker"],
-  ["marker", "casings", "flashlight", "a", "gold_badge"],
-  ["a", "flashlight", "marker", "casings", "a"]
+  [BONUS_SYMBOL_IDS.left, filler1, filler2, filler4, BONUS_SYMBOL_IDS.right],
+  [filler4, filler2, filler3, filler1, filler4],
+  [filler2, filler1, filler4, filler2, filler3],
+  [filler3, filler4, filler2, filler1, filler2],
+  [filler2, filler3, filler4, filler4, filler1],
+  [filler4, filler3, filler2, filler2, filler4]
 ];
 if (!checkBonusTrigger(testBoard4)) {
   console.log('✓ Test 4: No trigger without COP in middle');
@@ -119,12 +121,12 @@ if (!checkBonusTrigger(testBoard4)) {
 
 // Test case 5: Should trigger with all conditions in last row
 const testBoard5 = [
-  ["gold_badge", "marker", "flashlight", "a", "a"],
-  ["a", "marker", "flashlight", "gold_badge", "a"],
-  ["casings", "gold_badge", "a", "marker", "flashlight"],
-  ["flashlight", "a", "casings", "gold_badge", "marker"],
-  ["marker", "casings", "flashlight", "a", "gold_badge"],
-  ["prisoner", "flashlight", "cop", "marker", "robber"]
+  [filler1, filler2, filler3, filler4, filler4],
+  [filler4, filler2, filler3, filler1, filler4],
+  [filler2, filler1, filler4, filler2, filler3],
+  [filler3, filler4, filler2, filler1, filler2],
+  [filler2, filler3, filler4, filler4, filler1],
+  [BONUS_SYMBOL_IDS.left, filler3, BONUS_SYMBOL_IDS.middle, filler2, BONUS_SYMBOL_IDS.right]
 ];
 if (checkBonusTrigger(testBoard5)) {
   console.log('✓ Test 5: Bonus trigger with all conditions in last row');

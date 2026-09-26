@@ -1,3 +1,7 @@
+if (typeof require === "function") {
+  require("./symbols.js");
+}
+
 const rows = 6;
 const cols = 5;
 let board = [];
@@ -31,12 +35,11 @@ function spin() {
   for (let r = 0; r < rows; r++) {
     const row = [];
     for (let c = 0; c < cols; c++) {
-      const symbolId = SYMBOL_IDS[Math.floor(Math.random() * SYMBOL_IDS.length)];
-      const symbol = SYMBOLS[symbolId];
-      row.push(symbolId);
+      const symbol = SYMBOL_DEFINITIONS[Math.floor(Math.random() * SYMBOL_DEFINITIONS.length)];
+      row.push(symbol.id);
       const cell = document.createElement("div");
       cell.classList.add("cell");
-      cell.dataset.symbolId = symbolId;
+      cell.dataset.symbolId = symbol.id;
       cell.textContent = symbol.name;
       cellElements.push(cell);
       fragment.appendChild(cell);
