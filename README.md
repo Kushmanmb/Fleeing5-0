@@ -56,7 +56,7 @@ npm test
 
 After `npm run build`, open `dist/index.html` in a browser.
 
-For quick local iteration without rebuilding, you can also open `src/index.html` directly.
+For quick source-only browser checks without rebuilding, you can also open `src/index.html` directly.
 
 ## How the Bonus Works
 
@@ -73,6 +73,8 @@ All three conditions must appear within the same row for the bonus to trigger.
 This repository also includes Node.js utilities for Ethereum testnet workflows.
 
 ### Contract Verification
+
+The verification utility is implemented in the repository root as `verify-contract.js`. The `--source` argument should point to your contract source file.
 
 Set an Etherscan API key in `.env`:
 
@@ -111,6 +113,8 @@ Then fill in:
 ```bash
 npm run faucet
 ```
+
+This starts the local faucet API. Send a `POST` request to `/faucet` with a JSON body containing an `address` field to request tokens.
 
 ## Documentation
 
