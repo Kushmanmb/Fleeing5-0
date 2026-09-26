@@ -114,7 +114,6 @@ npm run faucet
 
 - [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
 - [.github/DEVELOPMENT_INFRASTRUCTURE.md](.github/DEVELOPMENT_INFRASTRUCTURE.md)
-- [.github/](.github/)
 - [.github/rulesets/README.md](.github/rulesets/README.md)
 
 ## License
