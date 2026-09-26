@@ -122,6 +122,7 @@ project-root/
 ├── dist/                # Build output
 ├── build.js             # Build script
 ├── faucet.js            # Testnet faucet server
+├── package.json         # npm scripts and dependencies
 ├── test.js              # Slot logic tests
 ├── test-faucet.js       # Faucet tests
 ├── test-verify.js       # Verification tests
