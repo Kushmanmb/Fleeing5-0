@@ -54,7 +54,7 @@ const { pathToFileURL } = require('url');
   let failed = 0;
 
   try {
-    execSync('node build.js', { cwd: __dirname, stdio: 'ignore' });
+    execSync(`"${process.execPath}" build.js`, { cwd: __dirname, stdio: 'ignore' });
     const animationsBuildOutput = path.join(__dirname, 'dist', 'animations.js');
     if (fs.existsSync(animationsBuildOutput)) {
       console.log('✓ Test 0: Build output includes dist/animations.js');
