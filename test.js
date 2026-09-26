@@ -5,7 +5,7 @@ const path = require('path');
 const { pathToFileURL } = require('url');
 
 (async () => {
-  const { BONUS_SYMBOL_IDS, SYMBOL_IDS } = await import(pathToFileURL(path.join(__dirname, 'src/symbols.mjs')).href);
+  const { BONUS_SYMBOL_IDS, SYMBOL_IDS, SYMBOLS } = await import(pathToFileURL(path.join(__dirname, 'src/symbols.mjs')).href);
   const rows = 6;
   const cols = 5;
   const fillerSymbols = SYMBOL_IDS.filter((symbolId) => !Object.values(BONUS_SYMBOL_IDS).includes(symbolId));
@@ -67,6 +67,21 @@ const { pathToFileURL } = require('url');
     failed++;
   }
 
+  const requiredCardSymbols = ['j', 'q', 'k'];
+  const requiredCardSymbolsPresent = requiredCardSymbols.every((symbolId) =>
+    SYMBOL_IDS.includes(symbolId) &&
+    SYMBOLS[symbolId] &&
+    SYMBOLS[symbolId].image === `assets/symbols/${symbolId}.png`
+  );
+
+  if (requiredCardSymbolsPresent) {
+    console.log('✓ Test 0c: Required card symbols map to expected asset files');
+    passed++;
+  } else {
+    console.log('✗ Test 0c: FAILED - j/q/k symbols must map to assets/symbols/{id}.png');
+    failed++;
+  }
+
   const [filler1, filler2, filler3, filler4] = fillerSymbols;
 
   const generatedBoard = generateBoard();
@@ -74,10 +89,10 @@ const { pathToFileURL } = require('url');
     generatedBoard.every((row) => row.length === cols && row.every((symbolId) => SYMBOL_IDS.includes(symbolId)));
 
   if (generatedBoardUsesSharedIds) {
-    console.log('✓ Test 0c: Generated boards use only shared catalog symbol ids');
+    console.log('✓ Test 0d: Generated boards use only shared catalog symbol ids');
     passed++;
   } else {
-    console.log('✗ Test 0c: FAILED - Generated boards must contain only shared catalog symbol ids');
+    console.log('✗ Test 0d: FAILED - Generated boards must contain only shared catalog symbol ids');
     failed++;
   }
 
