@@ -20,6 +20,8 @@ Fleeing 5-0 is a browser-based slot machine game built with vanilla JavaScript a
 
 ### Installation
 
+The game title is **Fleeing 5-0** and the repository slug is `Fleeing5-0`.
+
 ```bash
 git clone https://github.com/Kushmanmb/Fleeing5-0.git
 cd Fleeing5-0
@@ -93,7 +95,13 @@ npm run verify -- \
 
 ### USDC Faucet Server
 
-Copy `.env.example` to `.env`, fill in the required values, then start the faucet:
+Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Then fill in:
 
 - `INFURA_PROJECT_ID`
 - `PRIVATE_KEY`
@@ -101,7 +109,6 @@ Copy `.env.example` to `.env`, fill in the required values, then start the fauce
 - `ETHERSCAN_API_KEY` (optional, only needed for verification)
 
 ```bash
-cp .env.example .env
 npm run faucet
 ```
 
