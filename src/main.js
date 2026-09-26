@@ -1,8 +1,4 @@
-const { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } = globalThis;
-
-if (!BONUS_SYMBOL_IDS || !SYMBOL_DEFINITIONS) {
-  throw new Error("symbols.js must load before main.js");
-}
+import { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } from "./symbols.mjs";
 
 const rows = 6;
 const cols = 5;
