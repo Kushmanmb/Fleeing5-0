@@ -112,8 +112,6 @@ Then fill in:
 npm run faucet
 ```
 
-The faucet server listens on `http://localhost:3000` by default.
-
 ## Project Structure
 
 ```text
