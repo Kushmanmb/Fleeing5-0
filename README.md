@@ -56,8 +56,6 @@ npm test
 
 After building, open `dist/index.html` in a browser.
 
-For quick local development, you can also open `src/index.html` directly.
-
 ## How the Bonus Works
 
 The bonus trigger checks each row for all of the following:
