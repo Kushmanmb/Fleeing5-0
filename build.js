@@ -35,7 +35,7 @@ if (!fs.existsSync(distDir)) {
 }
 
 // Copy files
-const filesToCopy = ['index.html', 'main.js', 'symbols.mjs', 'style.css', 'siren.mp3'];
+const filesToCopy = ['index.html', 'main.js', 'animations.js', 'symbols.mjs', 'style.css', 'siren.mp3'];
 
 console.log('Building project...');
 

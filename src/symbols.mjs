@@ -68,6 +68,27 @@ export const SYMBOLS = Object.freeze({
     value: 2,
     type: "card",
     image: "assets/symbols/a.png"
+  }),
+  k: Object.freeze({
+    id: "k",
+    name: "K",
+    value: 2,
+    type: "card",
+    image: "assets/symbols/k.png"
+  }),
+  q: Object.freeze({
+    id: "q",
+    name: "Q",
+    value: 2,
+    type: "card",
+    image: "assets/symbols/q.png"
+  }),
+  j: Object.freeze({
+    id: "j",
+    name: "J",
+    value: 2,
+    type: "card",
+    image: "assets/symbols/j.png"
   })
 });
 
