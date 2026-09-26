@@ -20,11 +20,11 @@ Fleeing 5-0 is a browser-based slot machine game built with vanilla JavaScript a
 
 ### Installation
 
-The game title is **Fleeing 5-0** and the repository slug is `Fleeing5-0`.
+The game title is **Fleeing 5-0** and the GitHub repository slug is `Fleeing5-0`.
 
 ```bash
-git clone https://github.com/Kushmanmb/Fleeing5-0.git
-cd Fleeing5-0
+git clone https://github.com/Kushmanmb/Fleeing5-0.git fleeing-5-0
+cd fleeing-5-0
 npm install
 ```
 
