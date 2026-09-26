@@ -55,7 +55,6 @@ Additional utility tests are also available:
 ```bash
 npm run test:verify
 npm run test:faucet
-npm run test:rulesets
 ```
 
 ### Run the Game
@@ -129,7 +128,6 @@ project-root/
 
 - [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
 - [.github/DEVELOPMENT_INFRASTRUCTURE.md](.github/DEVELOPMENT_INFRASTRUCTURE.md)
-- [examples/README.md](examples/README.md)
 - [.github/rulesets/README.md](.github/rulesets/README.md)
 
 ## License
