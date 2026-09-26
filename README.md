@@ -56,6 +56,8 @@ npm test
 
 After `npm run build`, open `dist/index.html` in a browser.
 
+For quick local iteration without rebuilding, you can also open `src/index.html` directly.
+
 ## How the Bonus Works
 
 The bonus trigger checks each row for all of the following:
