@@ -54,7 +54,7 @@ npm test
 
 ### Run the Game
 
-After building, open `dist/index.html` in a browser.
+After `npm run build`, open `dist/index.html` in a browser. `npm run webpack` is optional and only generates a production JavaScript bundle in `dist/`.
 
 ## How the Bonus Works
 
@@ -108,21 +108,6 @@ Then fill in:
 
 ```bash
 npm run faucet
-```
-
-## Project Structure
-
-```text
-project-root/
-├── .env.example         # Environment template for faucet and verification
-├── src/                 # Slot game source files
-├── dist/                # Build output
-├── build.js             # Build script
-├── faucet.js            # Testnet faucet server
-├── package.json         # npm scripts and dependencies
-├── test.js              # Slot logic tests
-├── verify-contract.js   # Contract verification utility
-└── webpack.config.js    # Webpack configuration
 ```
 
 ## Documentation
