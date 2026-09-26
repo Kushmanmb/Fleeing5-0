@@ -114,11 +114,14 @@ npm run faucet
 
 ```text
 project-root/
+├── .env.example         # Environment template for faucet and verification
 ├── src/                 # Slot game source files
 ├── dist/                # Build output
 ├── build.js             # Build script
+├── faucet.js            # Testnet faucet server
 ├── package.json         # npm scripts and dependencies
 ├── test.js              # Slot logic tests
+├── verify-contract.js   # Contract verification utility
 └── webpack.config.js    # Webpack configuration
 ```
 
