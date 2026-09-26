@@ -1,6 +1,6 @@
-if (typeof require === "function") {
-  require("./symbols.js");
-}
+const { BONUS_SYMBOL_IDS, SYMBOL_DEFINITIONS } = typeof require === "function"
+  ? require("./symbols.js")
+  : globalThis;
 
 const rows = 6;
 const cols = 5;

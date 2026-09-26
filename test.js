@@ -5,7 +5,6 @@ const { BONUS_SYMBOL_IDS, SYMBOL_IDS } = require('./src/symbols.js');
 const rows = 6;
 const cols = 5;
 const fillerSymbols = SYMBOL_IDS.filter((symbolId) => !Object.values(BONUS_SYMBOL_IDS).includes(symbolId));
-const [filler1, filler2, filler3, filler4] = fillerSymbols;
 
 // Mock function to generate board
 function generateBoard() {
@@ -50,6 +49,24 @@ console.log('Running tests...\n');
 
 let passed = 0;
 let failed = 0;
+
+if (Object.values(BONUS_SYMBOL_IDS).every((symbolId) => SYMBOL_IDS.includes(symbolId))) {
+  console.log('✓ Test 0a: Bonus symbol ids are part of the shared symbol catalog');
+  passed++;
+} else {
+  console.log('✗ Test 0a: FAILED - Bonus symbol ids must be present in the shared catalog');
+  failed++;
+}
+
+if (fillerSymbols.length >= 4 && fillerSymbols.every((symbolId) => SYMBOL_IDS.includes(symbolId))) {
+  console.log('✓ Test 0b: Non-bonus filler symbols are valid shared symbol ids');
+  passed++;
+} else {
+  console.log('✗ Test 0b: FAILED - Need at least four valid non-bonus shared symbol ids');
+  failed++;
+}
+
+const [filler1, filler2, filler3, filler4] = fillerSymbols;
 
 // Test case 1: Should trigger bonus
 const testBoard1 = [
