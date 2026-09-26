@@ -54,7 +54,7 @@ npm test
 
 ### Run the Game
 
-After `npm run build`, open `dist/index.html` in a browser. `npm run webpack` creates a production JavaScript bundle in `dist/`, but you still need `npm run build` to copy `index.html`, `style.css`, and other static assets into that directory.
+After `npm run build`, open `dist/index.html` in a browser. `npm run webpack` creates a production JavaScript bundle in `dist/`, but you still need `npm run build` to copy the required static files from `src/` into that directory.
 
 ## How the Bonus Works
 
