@@ -54,7 +54,7 @@ npm test
 
 ### Run the Game
 
-After `npm run build`, open `dist/index.html` in a browser. If you also run `npm run webpack`, note that it only generates a production JavaScript bundle and does not replace `npm run build`, which copies `index.html`, `style.css`, and other static assets into `dist/`.
+After `npm run build`, open `dist/index.html` in a browser. `npm run webpack` writes `dist/bundle.js` for a production JavaScript bundle, but you still need `npm run build` to copy `index.html`, `style.css`, and other static assets into `dist/`.
 
 ## How the Bonus Works
 
@@ -114,6 +114,7 @@ npm run faucet
 
 - [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
 - [.github/DEVELOPMENT_INFRASTRUCTURE.md](.github/DEVELOPMENT_INFRASTRUCTURE.md)
+- [.github/](.github/)
 - [.github/rulesets/README.md](.github/rulesets/README.md)
 
 ## License
