@@ -50,13 +50,6 @@ Run the slot logic tests:
 npm test
 ```
 
-Additional utility tests are also available:
-
-```bash
-npm run test:verify
-npm run test:faucet
-```
-
 ### Run the Game
 
 After building, open `dist/index.html` in a browser.
@@ -101,6 +94,11 @@ npm run verify -- \
 ### USDC Faucet Server
 
 Copy `.env.example` to `.env`, fill in the required values, then start the faucet:
+
+- `INFURA_PROJECT_ID`
+- `PRIVATE_KEY`
+- `USDC_CONTRACT_ADDRESS`
+- `ETHERSCAN_API_KEY` (optional, only needed for verification)
 
 ```bash
 cp .env.example .env
