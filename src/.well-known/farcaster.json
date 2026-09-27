@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "_comment": "IMPORTANT: Replace these placeholder values with actual cryptographic signatures generated for your Farcaster account before production deployment. Use the Base Build Account Association Tool to generate valid credentials.",
+    "header": "eyJmaWQiOjEyMzQ1LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4MTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3OCJ9",
+    "payload": "eyJkb21haW4iOiJrdXNobWFubWIuZ2l0aHViLmlvIn0",
+    "signature": "MHg1ZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZGVmMTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZGVmMTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODk"
+  },
+  "miniapp": {
+    "_comment": "IMPORTANT: Update URLs to your deployment domain. These placeholder URLs are for local development only.",
+    "version": "1",
+    "name": "Fleeing 5-0",
+    "homeUrl": "https://localhost:8080/",
+    "iconUrl": "https://localhost:8080/icon.png",
+    "splashImageUrl": "https://localhost:8080/splash.png",
+    "splashBackgroundColor": "#1a1a2e",
+    "subtitle": "A thrilling slot machine game",
+    "description": "Fleeing 5-0 is a performance-optimized slot machine game featuring a 6-row by 5-column grid of symbols. Trigger bonuses when PRISONER, ROBBER, and COP symbols align in the right positions!",
+    "screenshotUrls": [
+      "https://localhost:8080/screenshot1.png"
+    ],
+    "primaryCategory": "games",
+    "tags": ["game", "slot-machine", "casino", "entertainment"],
+    "heroImageUrl": "https://localhost:8080/hero.png",
+    "tagline": "Spin to win and escape!",
+    "ogTitle": "Fleeing 5-0 - Slot Machine Game",
+    "ogDescription": "A thrilling slot machine game with bonus triggers. Spin and match PRISONER, ROBBER, and COP symbols to win!",
+    "ogImageUrl": "https://localhost:8080/og-image.png",
+    "noindex": false
+  }
+}

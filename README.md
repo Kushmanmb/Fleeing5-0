@@ -1,147 +1,130 @@
-# fleeing-5-0
+# Fleeing 5-0
 
-A slot machine game with performance optimizations.
+Fleeing 5-0 is a browser-based slot machine game built with vanilla JavaScript and optimized for fast DOM updates. A bonus is triggered when the board contains a `PRISONER` on the leftmost reel, a `ROBBER` on the rightmost reel, and a `COP` on one of the middle reels.
+
+> For ownership and attribution details, see [OWNERSHIP.md](OWNERSHIP.md).
+
+## Features
+
+- 6x5 slot grid with randomized symbols
+- Shared symbol catalog with ids, values, types, and image metadata
+- Bonus detection for the PRISONER / COP / ROBBER pattern
+- Performance-focused rendering with cached DOM references and batched updates
+- Optional Ethereum tooling for contract verification and a testnet USDC faucet
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (version 18.x, 20.x, or 22.x)
-- npm (comes with Node.js)
+- Node.js 18.x, 20.x, or 22.x
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/Kushmanmb/fleeing-5-0.git
-```
+The game title is **Fleeing 5-0** and the GitHub repository slug is `Fleeing5-0`.
 
-2. Navigate to the project directory:
 ```bash
+git clone https://github.com/Kushmanmb/Fleeing5-0.git fleeing-5-0
 cd fleeing-5-0
-```
-
-3. Install dependencies:
-```bash
 npm install
 ```
 
-### Building the Project
+## Available Scripts
 
-Build the project to create distribution files:
+### Build
+
+Copy the source files into `dist/`:
+
 ```bash
 npm run build
 ```
 
-This will copy all necessary files from `src/` to `dist/` directory.
+Create a production bundle with Webpack:
 
-Alternatively, you can use Webpack to bundle the project:
 ```bash
 npm run webpack
 ```
 
-### Running the Game
+### Test
 
-After building, open `dist/index.html` in a web browser to play the game.
+Run the slot logic tests:
 
-For development, you can also open `src/index.html` directly in a web browser.
-
-### Running Tests
-
-Run the test suite to verify game logic:
 ```bash
 npm test
 ```
 
-## USDC Faucet Server
+### Run the Game
 
-This repository also includes a USDC faucet server for dispensing USDC tokens on Ethereum testnet.
+After `npm run build`, open `dist/index.html` in a browser.
 
-### Setup
+For quick source-only browser checks without rebuilding, you can also open `src/index.html` directly.
 
-1. Copy `.env.example` to `.env`:
+## How the Bonus Works
+
+The bonus trigger checks each row for all of the following:
+
+- `PRISONER` in column `0` (leftmost)
+- `ROBBER` in column `4` (rightmost)
+- `COP` in any middle column (`1`, `2`, or `3`)
+
+All three conditions must appear within the same row for the bonus to trigger.
+
+## Optional Ethereum Tooling
+
+This repository also includes Node.js utilities for Ethereum testnet workflows.
+
+### Contract Verification
+
+The verification utility is implemented in the repository root as `verify-contract.js`. The `--source` argument should point to your contract source file.
+
+Set an Etherscan API key in `.env`:
+
+```bash
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
+```
+
+Then run:
+
+```bash
+npm run verify -- \
+  --address 0x1234567890abcdef1234567890abcdef12345678 \
+  --source ./contracts/MyContract.sol \
+  --name MyContract \
+  --compiler v0.8.20+commit.a1b79de6 \
+  --network sepolia \
+  --optimization 1 \
+  --runs 200
+```
+
+### USDC Faucet Server
+
+Copy `.env.example` to `.env`:
+
 ```bash
 cp .env.example .env
 ```
 
-2. Configure your `.env` file with:
-   - `INFURA_PROJECT_ID`: Your Infura project ID
-   - `PRIVATE_KEY`: Private key of the wallet that will dispense USDC
-   - `USDC_CONTRACT_ADDRESS`: Address of the USDC contract on your testnet (Sepolia, Goerli, etc.)
+Then fill in:
 
-### Running the Faucet
+- `INFURA_PROJECT_ID`
+- `PRIVATE_KEY`
+- `USDC_CONTRACT_ADDRESS`
+- `ETHERSCAN_API_KEY` (optional, only needed for verification)
 
-Start the faucet server:
 ```bash
 npm run faucet
 ```
 
-The server will run at `http://localhost:3000`.
+This starts the local faucet API. Send a `POST` request to `/faucet` with a JSON body containing an `address` field to request tokens.
 
-### API Endpoints
+## Documentation
 
-**POST /faucet**
+- [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
+- [OWNERSHIP.md](OWNERSHIP.md)
+- [CODEOWNERS](CODEOWNERS)
+- [.github/DEVELOPMENT_INFRASTRUCTURE.md](.github/DEVELOPMENT_INFRASTRUCTURE.md)
+- [.github/rulesets/README.md](.github/rulesets/README.md)
 
-Request USDC tokens from the faucet.
+## License
 
-Request body:
-```json
-{
-  "address": "0x..."
-}
-```
-
-Response (success):
-```json
-{
-  "message": "USDC dispensed successfully!"
-}
-```
-
-Responses (error):
-- `400`: Invalid or missing address
-- `429`: Cooldown in effect (48 hour between requests)
-- `500`: Faucet out of funds or transfer error
-
-### Faucet Configuration
-
-- **Network**: Sepolia testnet (configurable via Infura)
-- **Dispense Amount**: 1 USDC per request
-- **Cooldown**: 12 hour between requests per address
-- **USDC Contract**: Configurable via `USDC_CONTRACT_ADDRESS` environment variable
-
-## Performance Improvements
-
-The code has been optimized with the following improvements:
-
-1. **DOM Element Caching** - Frequently accessed DOM elements are cached to avoid repeated `getElementById` calls
-2. **DocumentFragment Usage** - DOM operations are batched using DocumentFragment to reduce reflows and repaints
-3. **Cell Reference Caching** - Cell elements are stored during creation to avoid `querySelectorAll` calls
-4. **Optimized Loop Logic** - Single loop in `checkBonusTrigger` instead of multiple `some()` calls with early exit
-5. **Spin Debouncing** - Prevents multiple simultaneous spins with `isSpinning` flag
-
-## Project Structure
-
-```
-fleeing-5-0/
-├── src/                 # Source files
-│   ├── main.js          # Main game logic
-│   ├── index.html       # HTML structure
-│   ├── style.css        # Styles
-│   └── siren.mp3        # Sound effect
-├── dist/                # Build output (generated)
-├── faucet.js            # USDC faucet server
-├── test.js              # Test suite
-├── build.js             # Build script
-├── webpack.config.js    # Webpack configuration
-└── package.json         # Project dependencies
-```
-
-## Development
-
-To work on the project:
-
-1. Make changes to files in the `src/` directory
-2. Build the project with `npm run build`
-3. Run tests with `npm test` to verify functionality
-4. Open `dist/index.html` in a browser to test the game
+This project is licensed under the proprietary terms in [LICENSE](LICENSE). Authorization from kushmanmb is required before using, copying, modifying, or distributing the software.

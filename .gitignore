@@ -1,5 +1,150 @@
+# Dependencies
 node_modules/
+package-lock.json.tmp
+
+# Build outputs
 dist/
+build/
+*.bundle.js
+*.bundle.js.map
+
+# Logs
 *.log
-.DS_Store
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment variables and secrets
 .env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+secrets.*
+.secrets
+
+# Private keys and certificates
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+*.csr
+*.der
+
+# Wallet and keystore files
+keystore/
+wallets/
+*.keystore
+*.wallet
+mnemonic.txt
+seed.txt
+*mnemonic*.txt
+*seed*.txt
+*.mnemonic
+*.seed
+accounts.json
+account.json
+private-key.txt
+privatekey.txt
+private_key.txt
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+data/
+db/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.swp
+*~
+
+# Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE and editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.classpath
+.settings/
+
+# Cache and temporary files
+.cache/
+*.cache
+.tmp/
+tmp/
+temp/
+.temp/
+
+# Yarn
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Hardhat files (if used in future)
+hardhat/
+.hardhat/
+hardhat-cache/
+hardhat-artifacts/
+artifacts/
+hardhat.config.local.js
+hardhat.config.local.ts
+
+# Truffle files (if used in future)
+.truffle/
+truffle-config.local.js
+
+# Foundry files (if used in future)
+foundry-out/
+out/forge/
+cache_forge/
+broadcast/
+
+# Ethereum accounts and private data
+accounts/
+.accounts/
+*.account
+.deployed-contracts
+deployed-contracts.json
+deployment-data.json
+contract-addresses.json
+
+# Gas reporter outputs
+gas-report.txt
+.gas-snapshot
+
+# Alchemy/Infura/API credentials
+alchemy.config.js
+infura.config.js
+api-keys.json
+credentials.json
