@@ -1,0 +1,219 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #080b10;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+main {
+  width: min(96vw, 900px);
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 10px 0 20px;
+  font-size: clamp(28px, 6vw, 52px);
+}
+
+#slot-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 20px;
+  padding: 10px;
+  background: #151a22;
+  border: 2px solid #303947;
+  border-radius: 14px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.cell {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #202631;
+  border: 1px solid #394352;
+  border-radius: 10px;
+}
+
+.cell img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.cell.highlight {
+  border-color: #ffd43b;
+  box-shadow:
+    0 0 10px #ffd43b,
+    inset 0 0 15px rgba(255, 212, 59, 0.3);
+}
+
+#spin-btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 42px;
+  background: #d71920;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #8c0f14;
+}
+
+#spin-btn:hover {
+  filter: brightness(1.15);
+}
+
+#spin-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #8c0f14;
+}
+
+#spin-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#status {
+  min-height: 24px;
+  font-weight: 700;
+}
+
+/* Spin */
+.anim-spin {
+  animation: spinPulse 0.65s ease-in-out;
+}
+
+@keyframes spinPulse {
+  0% {
+    transform: scale(1);
+    filter: blur(0);
+  }
+
+  50% {
+    transform: scale(0.94);
+    filter: blur(2px);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Winning symbols */
+.anim-win {
+  animation: winPulse 0.52s ease-in-out;
+}
+
+@keyframes winPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+/* Chayse */
+.anim-chayse {
+  animation: chayseFlash 1.4s ease-in-out;
+}
+
+@keyframes chayseFlash {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.18);
+    filter: brightness(1.8);
+  }
+}
+
+/* Screen shake */
+.screen-shake {
+  animation: screenShake 0.5s ease-in-out;
+}
+
+@keyframes screenShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px);
+  }
+
+  40% {
+    transform: translateX(6px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+/* Big win */
+.big-win {
+  animation: bigWin 1.5s ease-in-out;
+}
+
+@keyframes bigWin {
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(255, 212, 59, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 45px rgba(255, 212, 59, 0.9);
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  #slot-grid {
+    gap: 4px;
+    padding: 5px;
+  }
+
+  .cell {
+    border-radius: 6px;
+  }
+
+  #spin-btn {
+    width: 100%;
+  }
+}
