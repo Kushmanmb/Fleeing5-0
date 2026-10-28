@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node build.js",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "test": "node test.js",
+    "test": "node test.js && node math/test-avalanche.js",
     "test:verify": "node test-verify.js",
     "test:faucet": "node test-faucet.js",
     "test:rulesets": "node test-rulesets.js",
