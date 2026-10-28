@@ -5,7 +5,12 @@ const cfg = require("./avalanche-config");
 function applyGravity(board, matches, drawSymbol) {
   const removed = new Set(
     matches.flatMap(m =>
-      m.positions.map(([r, c]) => `${r},${c}`)
+      [
+        ...m.positions,
+        ...(m.wildPositions || []).filter(
+          ([r, c]) => board[r][c] === "regular_wild"
+        )
+      ].map(([r, c]) => `${r},${c}`)
     )
   );
 

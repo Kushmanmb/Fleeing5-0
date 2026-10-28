@@ -5,7 +5,6 @@ const SYMBOL_WEIGHTS = Object.freeze({
   prisoner: 1,
   robber: 1,
   gold_badge: 1,
-  silver_badge: 1,
   handcuffs: 1,
   flashlight: 4,
   marker: 4,

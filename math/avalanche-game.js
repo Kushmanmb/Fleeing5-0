@@ -14,6 +14,13 @@ function playGameRound(rng) {
     () => Array.from({length:cfg.COLS},draw)
   );
 
+  // Place one regular WILD on every opening board.
+  const wildIndex = Math.floor(rng() * cfg.ROWS * cfg.COLS);
+  const wildRow = Math.floor(wildIndex / cfg.COLS);
+  const wildCol = wildIndex % cfg.COLS;
+
+  initialBoard[wildRow][wildCol] = "regular_wild";
+
   // Evaluate CHAYSE once, on the initial board.
   const chayse = evaluateChayse(initialBoard);
 
@@ -23,21 +30,27 @@ function playGameRound(rng) {
     ? pickChayseAward(rng)
     : 0;
 
+  // Guaranteed 1x or 2x multiplier, base game only.
+  const multiplier = rng() < 0.5 ? 1 : 2;
+  const baseWin = Math.min(
+    cfg.MAX_WIN, base.totalWin * multiplier
+  );
   const totalWin = Math.min(
-    cfg.MAX_WIN,
-    base.totalWin + bonusAward
+    cfg.MAX_WIN, baseWin + bonusAward
   );
 
   return {
     initialBoard,
     cascades:base.cascades,
     finalBoard:base.finalBoard,
-    baseWin:base.totalWin,
+    rawBaseWin:base.totalWin,
+    multiplier,
+    baseWin,
     chayse:{
       triggered:chayse.triggered,
       cells:chayse.cells,
       award:bonusAward,
-      paid:totalWin-base.totalWin
+      paid:totalWin-baseWin
     },
     totalWin,
     payoutMultiplier:totalWin/100,

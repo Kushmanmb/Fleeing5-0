@@ -11,10 +11,10 @@ function findMatches(board) {
   }
 
   const matches = [];
-  const wild = cfg.STICKY_WILD;
+  const isWild = s => s === cfg.STICKY_WILD || s === "regular_wild";
 
   const symbols = [...new Set(
-    board.flat().filter(s => s !== wild)
+    board.flat().filter(s => !isWild(s))
   )];
 
   for (const symbol of symbols) {
@@ -27,7 +27,7 @@ function findMatches(board) {
         if (visited.has(start)) continue;
 
         if (board[r][c] !== symbol &&
-            board[r][c] !== wild) continue;
+            !isWild(board[r][c])) continue;
 
         const queue = [[r, c]];
         const positions = [];
@@ -38,7 +38,7 @@ function findMatches(board) {
         while (queue.length) {
           const [y, x] = queue.pop();
 
-          if (board[y][x] === wild) {
+          if (isWild(board[y][x])) {
             wildPositions.push([y, x]);
           } else {
             positions.push([y, x]);
@@ -58,7 +58,7 @@ function findMatches(board) {
             if (visited.has(key)) continue;
 
             if (board[ny][nx] === symbol ||
-                board[ny][nx] === wild) {
+                isWild(board[ny][nx])) {
               visited.add(key);
               queue.push([ny, nx]);
             }
