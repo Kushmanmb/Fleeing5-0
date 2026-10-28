@@ -1,5 +1,8 @@
 "use strict";
 
+const {pickMultiplier}=require("./avalanche-multipliers");
+
+
 const cfg = require("./avalanche-config");
 const {createDrawSymbol} = require("./avalanche-symbols");
 const {playAvalancheRound} = require("./avalanche-round");
@@ -31,7 +34,7 @@ function playGameRound(rng) {
     : 0;
 
   // Guaranteed 1x or 2x multiplier, base game only.
-  const multiplier = rng() < 0.5 ? 1 : 2;
+  const multiplier = pickMultiplier(rng);
   const baseWin = Math.min(
     cfg.MAX_WIN, base.totalWin * multiplier
   );

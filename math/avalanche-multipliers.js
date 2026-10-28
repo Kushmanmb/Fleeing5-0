@@ -4,8 +4,8 @@ const economy = require("./avalanche-economy");
 
 // PROVISIONAL weights: not yet RTP-calibrated.
 const WEIGHTS = Object.freeze({
-  1: 550000,
-  2: 375000,
+  1: 667000,
+  2: 258000,
   5: 60000,
   10: 11500,
   25: 2500,
