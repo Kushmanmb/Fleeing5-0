@@ -28,42 +28,19 @@ let isSpinning = false;
    DOM
 ================================ */
 
+const $ = (id) => document.getElementById(id);
 const grid = document.getElementById("slot-grid");
 const statusElement = document.getElementById("status");
 const spinButton = document.getElementById("spin-btn");
+const balanceEl = $("balance");
+const winEl = $("win");
+const betSelect = $("bet-select");
+const soundBtn = $("sound-btn");
+const rulesDialog = $("rules-dialog");
 
 const siren = new Audio("siren.mp3");
 siren.preload = "auto";
-
-/* ================================
-   RANDOM SYMBOL
-================================ */
-
-function randomSymbol() {
-  return SYMBOLS[
-    Math.floor(Math.random() * SYMBOLS.length)
-  ];
-}
-
-/* ================================
-   CREATE BOARD
-================================ */
-
-function generateBoard() {
-  const newBoard = [];
-
-  for (let row = 0; row < ROWS; row++) {
-    const currentRow = [];
-
-    for (let col = 0; col < COLS; col++) {
-      currentRow.push(randomSymbol());
-    }
-
-    newBoard.push(currentRow);
-  }
-
-  return newBoard;
-}
+let soundOn = true;
 
 /* ================================
    RENDER BOARD
@@ -121,93 +98,22 @@ function getCellsForSymbol(symbolId) {
 }
 
 /* ================================
-   CHAYSE BONUS
+   CHAYSE BONUS CELLS (from RGS event)
 ================================ */
 
-/*
-   Prisoner = reel 1
-   Robber   = reel 5
-   Cop      = reels 2, 3 or 4
-
-   Vertical position does NOT matter.
-*/
-
-function checkChayseBonus() {
-
-  let prisonerOnReel1 = false;
-  let robberOnReel5 = false;
-  let copInMiddle = false;
-
-  for (let row = 0; row < ROWS; row++) {
-
-    if (board[row][0].id === "prisoner") {
-      prisonerOnReel1 = true;
-    }
-
-    if (board[row][4].id === "robber") {
-      robberOnReel5 = true;
-    }
-
-    if (
-      board[row][1].id === "cop" ||
-      board[row][2].id === "cop" ||
-      board[row][3].id === "cop"
-    ) {
-      copInMiddle = true;
-    }
-  }
-
-  return (
-    prisonerOnReel1 &&
-    robberOnReel5 &&
-    copInMiddle
-  );
-}
-
-/* ================================
-   BONUS CELLS
-================================ */
-
-function getChayseCells() {
-
-  const cells = [];
-
-  cellElements.forEach(cell => {
-
-    const row = Number(cell.dataset.row);
-    const col = Number(cell.dataset.col);
-
-    const symbol = board[row][col];
-
-    const prisoner =
-      col === 0 &&
-      symbol.id === "prisoner";
-
-    const robber =
-      col === 4 &&
-      symbol.id === "robber";
-
-    const cop =
-      (col === 1 ||
-       col === 2 ||
-       col === 3) &&
-      symbol.id === "cop";
-
-    if (prisoner || robber || cop) {
-      cells.push(cell);
-    }
-  });
-
-  return cells;
+function getChayseCells(positions) {
+  return positions
+    .map(([row, col]) => cellElements[row * COLS + col])
+    .filter(Boolean);
 }
 
 /* ================================
    HIGHLIGHT BONUS
 ================================ */
 
-function highlightChayse() {
+function highlightChayse(positions) {
 
-  const cells = getChayseCells();
+  const cells = getChayseCells(positions);
 
   cells.forEach(cell => {
     cell.classList.add("highlight");
@@ -221,6 +127,10 @@ function highlightChayse() {
 ================================ */
 
 function playSiren() {
+
+  if (!soundOn) {
+    return;
+  }
 
   siren.currentTime = 0;
 
@@ -266,11 +176,11 @@ async function animateSpin() {
    CHAYSE ANIMATION
 ================================ */
 
-async function animateChayseBonus() {
+async function animateChayseBonus(positions) {
 
   const engine = animations();
 
-  const cells = highlightChayse();
+  const cells = highlightChayse(positions);
 
   playSiren();
 
@@ -288,54 +198,181 @@ async function animateChayseBonus() {
 }
 
 /* ================================
-   SPIN
+   RGS-DRIVEN GAME FLOW
+   Outcomes come only from the Stake Engine RGS.
 ================================ */
 
-async function spin() {
+const params = FleeingRgs.parseParams(window.location.search);
+const I18N = window.FleeingI18n;
+const tr = (key) => I18N.t(params.lang, params.social, key);
+const SYMBOL_BY_ID = Object.fromEntries(SYMBOLS.map((s) => [s.id, s]));
+const fmt = (n) => n.toFixed(2);
 
-  if (isSpinning) {
+let client = null;
+let balance = 0;
+let betLevels = [];
+
+function showError(error) {
+  const message = error && error.code ? tr(error.code) : tr("generic");
+  statusElement.textContent = error && message === error.code ? tr("generic") : message;
+}
+
+function setBalance(b) {
+  if (b && typeof b.amount === "number") {
+    balance = FleeingRgs.fromApi(b.amount);
+    balanceEl.textContent = fmt(balance);
+  }
+}
+
+function selectedBet() {
+  return Number(betSelect.value);
+}
+
+function applyLabels() {
+  $("balance-label").textContent = tr("balance");
+  $("bet-label").textContent = tr("bet");
+  $("win-label").textContent = tr("win");
+  spinButton.textContent = tr("spin");
+  $("rules-btn").textContent = tr("rules");
+  $("rules-close").textContent = tr("close");
+  soundBtn.textContent = `🔊 ${tr("sound")}`;
+  $("rules-body").replaceChildren(
+    ...I18N.rules(params.social).map((line) => {
+      const p = document.createElement("p");
+      p.textContent = line;
+      return p;
+    })
+  );
+}
+
+function boardFromEvent(event) {
+  return event.board.map((row) => row.map((id) => SYMBOL_BY_ID[id]));
+}
+
+/* Renders RGS events. The multiplier shown is the RGS payout, never computed here. */
+async function renderRound(events, round) {
+  const bet = round && round.amount ? FleeingRgs.fromApi(round.amount) : selectedBet();
+  let chayseCells = null;
+
+  for (const event of events) {
+    if (event.type === "reveal") {
+      board = boardFromEvent(event);
+      renderBoard();
+      await animateSpin();
+    } else if (event.type === "chayseTrigger") {
+      chayseCells = event.cells;
+    }
+  }
+
+  const multiplier = FleeingRgs.finalWinMultiplier(round);
+  winEl.textContent = fmt(multiplier * bet);
+
+  if (chayseCells) {
+    statusElement.textContent = tr("chayse");
+    await animateChayseBonus(chayseCells);
+  } else {
+    statusElement.textContent = multiplier > 0
+      ? `${tr("totalWin")}: ${fmt(multiplier * bet)} (${multiplier}x)`
+      : tr("noWin");
+  }
+}
+
+async function spin() {
+  if (isSpinning || !client) {
     return;
   }
 
   isSpinning = true;
-
   spinButton.disabled = true;
+  winEl.textContent = fmt(0);
+  statusElement.textContent = tr("spinning");
 
-  statusElement.textContent =
-    "Spinning...";
-
-  board = generateBoard();
-
-  renderBoard();
-
-  await animateSpin();
-
-  const chayseTriggered =
-    checkChayseBonus();
-
-  if (chayseTriggered) {
-
-    statusElement.textContent =
-      "🚨 CHAYSE BONUS TRIGGERED! 🚨";
-
-    await animateChayseBonus();
-
-  } else {
-
-    statusElement.textContent =
-      "No bonus this spin.";
+  try {
+    const bet = selectedBet();
+    FleeingRgs.validateBet(bet, authConfig, balance);
+    const result = await FleeingRgs.playRound(client, bet, renderRound);
+    setBalance(result.balance);
+  } catch (error) {
+    showError(error);
+    // The round may be open on the server (e.g. end-round failed): refresh state.
+    try { await initSession(); } catch (e) { /* keep error shown */ }
   }
 
   isSpinning = false;
+  spinButton.disabled = !client;
+}
 
+let authConfig = null;
+
+async function initSession() {
+  statusElement.textContent = tr("connecting");
+  const auth = await client.authenticate();
+  authConfig = auth.config || {};
+  setBalance(auth.balance);
+
+  betLevels = (authConfig.betLevels || []).map(FleeingRgs.fromApi);
+  betSelect.replaceChildren(
+    ...betLevels.map((level) => {
+      const option = document.createElement("option");
+      option.value = String(level);
+      option.textContent = fmt(level);
+      return option;
+    })
+  );
+  if (authConfig.defaultBetLevel) {
+    betSelect.value = String(FleeingRgs.fromApi(authConfig.defaultBetLevel));
+  }
+  betSelect.disabled = false;
+
+  if (auth.round && auth.round.active !== false) {
+    statusElement.textContent = tr("recovering");
+    const recovered = await FleeingRgs.recoverRound(client, auth, renderRound);
+    if (recovered) {
+      setBalance(recovered.balance);
+    }
+  } else {
+    statusElement.textContent = tr("ready");
+  }
   spinButton.disabled = false;
 }
 
-/* ================================
-   START GAME
-================================ */
+async function startReplay() {
+  $("replay-banner").hidden = false;
+  $("replay-banner").textContent = tr("replay");
+  spinButton.disabled = true;
+  const rgs = new FleeingRgs.RgsClient({ rgsUrl: params.rgsUrl, sessionID: "replay" });
+  const data = await rgs.replay(params);
+  const round = { state: data.state, payoutMultiplier: data.payoutMultiplier, amount: FleeingRgs.toApi(data.costMultiplier || 1) };
+  await renderRound(FleeingRgs.roundEvents(round), round);
+  spinButton.disabled = false;
+}
 
-spinButton.addEventListener(
-  "click",
-  spin
-);
+async function boot() {
+  applyLabels();
+  soundBtn.addEventListener("click", () => {
+    soundOn = !soundOn;
+    soundBtn.setAttribute("aria-pressed", String(soundOn));
+    soundBtn.textContent = `${soundOn ? "🔊" : "🔇"} ${tr("sound")}`;
+  });
+  $("rules-btn").addEventListener("click", () => rulesDialog.showModal());
+  $("rules-close").addEventListener("click", () => rulesDialog.close());
+
+  if (params.replay) {
+    spinButton.addEventListener("click", () => startReplay().catch(showError));
+    return startReplay();
+  }
+  if (!params.sessionID || !params.rgsUrl) {
+    statusElement.textContent = tr("errMissing");
+    return;
+  }
+  client = new FleeingRgs.RgsClient({
+    rgsUrl: params.rgsUrl,
+    sessionID: params.sessionID,
+    lang: params.lang,
+    currency: params.currency
+  });
+  spinButton.addEventListener("click", spin);
+  await initSession();
+}
+
+boot().catch(showError);

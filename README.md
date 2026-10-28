@@ -61,13 +61,13 @@ For quick source-only browser checks without rebuilding, you can also open `src/
 
 ## How the Bonus Works
 
-The bonus trigger checks each row for all of the following:
+The CHAYSE bonus triggers when all of the following appear anywhere on the board:
 
-- `PRISONER` in column `0` (leftmost)
-- `ROBBER` in column `4` (rightmost)
-- `COP` in any middle column (`1`, `2`, or `3`)
+- `PRISONER` in column `0` (leftmost), in any row
+- `ROBBER` in column `4` (rightmost), in any row
+- `COP` in any middle column (`1`, `2`, or `3`), in any row
 
-All three conditions must appear within the same row for the bonus to trigger.
+The symbols may be in different rows (vertical position does not matter). Outcomes are produced by the Stake Engine RGS; see [math/SPEC.md](math/SPEC.md) for the game math, generated-file workflow (`npm run math:generate`), RGS integration and approval blockers.
 
 ## Optional Ethereum Tooling
 
