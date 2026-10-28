@@ -48,3 +48,37 @@ console.log("PASS: 100 complete Feature Buys");
 console.log("PASS: 10 spins and 3 multipliers each");
 console.log("PASS: 150x pricing and additive multipliers");
 console.log("PASS: Maximum payout enforced");
+
+// Full regular-game multiplier regression tests.
+{
+  const {WEIGHTS,pickMultiplier}=
+    require("./avalanche-multipliers");
+  const {playGameRound}=
+    require("./avalanche-game");
+
+  const allowed=[1,2,5,10,25,50,250,500,5000,10000];
+
+  assert.deepEqual(
+    Object.keys(WEIGHTS).map(Number),allowed
+  );
+
+  assert.equal(
+    Object.values(WEIGHTS).reduce((a,b)=>a+b,0),
+    1000000
+  );
+
+  assert.equal(pickMultiplier(()=>0),1);
+  assert.equal(pickMultiplier(()=>0.999999),10000);
+
+  const testRng=mulberry32(2026);
+
+  for(let i=0;i<1000;i++){
+    const spin=playGameRound(testRng);
+    assert.ok(allowed.includes(spin.multiplier));
+    assert.ok(spin.totalWin>=0);
+  }
+
+  console.log("PASS: All 10 regular multipliers");
+  console.log("PASS: Rare 10000x selection");
+  console.log("PASS: 1000 complete regular spins");
+}
