@@ -47,7 +47,7 @@ async function verifyContract(options) {
   if (!contractAddress) {
     throw new Error('Contract address is required');
   }
-  if (!ethers.utils.isAddress(contractAddress)) {
+  if (!ethers.isAddress(contractAddress)) {
     throw new Error('Invalid contract address format');
   }
   if (!sourceCode) {
@@ -250,7 +250,7 @@ function encodeConstructorArgs(types, values) {
     return '';
   }
 
-  const encoded = ethers.utils.defaultAbiCoder.encode(types, values);
+  const encoded = ethers.AbiCoder.defaultAbiCoder().encode(types, values);
   // Remove '0x' prefix as Etherscan expects it without
   return encoded.slice(2);
 }
