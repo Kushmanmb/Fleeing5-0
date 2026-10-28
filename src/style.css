@@ -556,3 +556,17 @@ button:disabled {
     height: 90%;
   }
 }
+
+/* ===== Stake Engine HUD / controls ===== */
+#hud { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
+.hud-item { display: flex; flex-direction: column; align-items: center; min-width: 96px; }
+.hud-item span, .hud-item label { font-size: 0.75rem; opacity: 0.8; }
+#controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+#controls button, #bet-select { min-height: 44px; min-width: 44px; font-size: 1rem; }
+#replay-banner { text-align: center; font-weight: bold; margin: 8px 0; }
+#rules-dialog { max-width: min(90vw, 480px); }
+@media (max-width: 600px) {
+  #hud { gap: 6px; }
+  .hud-item { min-width: 80px; }
+  #spin-btn { flex: 1 1 100%; }
+}

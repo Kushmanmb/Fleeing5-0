@@ -24,9 +24,28 @@
 
   <div id="slot-grid" aria-label="Fleeing 5-0 game grid"></div>
 
-  <button id="spin-btn" type="button">
-    SPIN
-  </button>
+  <div id="hud">
+    <div class="hud-item"><span id="balance-label">BALANCE</span><strong id="balance">-</strong></div>
+    <div class="hud-item">
+      <label id="bet-label" for="bet-select">BET</label>
+      <select id="bet-select" disabled></select>
+    </div>
+    <div class="hud-item"><span id="win-label">WIN</span><strong id="win">0.00</strong></div>
+  </div>
+
+  <div id="controls">
+    <button id="spin-btn" type="button" disabled>SPIN</button>
+    <button id="sound-btn" type="button" aria-pressed="true">🔊 Sound</button>
+    <button id="rules-btn" type="button">Rules</button>
+  </div>
+
+  <div id="replay-banner" hidden>REPLAY</div>
+
+  <dialog id="rules-dialog">
+    <h2 id="rules-title">Rules</h2>
+    <div id="rules-body"></div>
+    <button id="rules-close" type="button">Close</button>
+  </dialog>
 
   <p id="status" aria-live="polite">
     Ready to spin.
@@ -34,5 +53,7 @@
 
   <!-- Animation engine must load BEFORE main.js -->
   <script src="animations.js"></script>
+  <script src="i18n.js"></script>
+  <script src="rgs.js"></script>
   <script src="main.js"></script>
 

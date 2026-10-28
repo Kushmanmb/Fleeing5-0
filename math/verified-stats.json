@@ -1,0 +1,18 @@
+{
+  "rows": 100000,
+  "totalWeight": 100000,
+  "rtp": 0.9375785999999999,
+  "hitFrequency": 0.68903,
+  "volatilityStdDev": 4.4089712998410455,
+  "maxWinMultiplier": 1000,
+  "maxWinCapMultiplier": 5000,
+  "maxWinProbability": 0.00001,
+  "volatilityLabel": "medium",
+  "analytic": {
+    "waysRtp": 0.8261688591863456,
+    "chayseTriggerProbability": 0.003972984785486818,
+    "chayseRtp": 0.1438220492346228,
+    "rtpUncapped": 0.9699909084209685
+  },
+  "seed": 5050
+}
