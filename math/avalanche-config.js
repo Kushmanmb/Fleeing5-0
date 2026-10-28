@@ -8,6 +8,6 @@ module.exports = {
   STICKY_WILD: "squad_wild",
   MAX_CASCADES: 50,
   STICKY_WILD_MAX_CASCADES: 3,
-  MAX_WIN: 500000,
+  MAX_WIN: 1602496,
   TARGET_RTP: 0.96
 };
