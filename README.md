@@ -117,6 +117,8 @@ npm run faucet
 
 This starts the local faucet API. Send a `POST` request to `/faucet` with a JSON body containing an `address` field to request tokens.
 
+The Sepolia testnet USDC faucet enforces a **12 hour cooldown** per address.
+
 ## Documentation
 
 - [CODING_GUIDELINES.md](CODING_GUIDELINES.md)
