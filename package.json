@@ -10,7 +10,10 @@
     "test:verify": "node test-verify.js",
     "test:faucet": "node test-faucet.js",
     "test:rulesets": "node test-rulesets.js",
-    "test:all": "node test.js && node test-verify.js && node test-faucet.js && node test-rulesets.js",
+    "test:stake": "node test-stake.js",
+    "test:all": "node test.js && node test-verify.js && node test-faucet.js && node test-rulesets.js && node test-stake.js",
+    "math:generate": "node math/generate.js",
+    "math:verify": "node math/verify.js",
     "webpack": "webpack --mode production",
     "faucet": "node faucet.js",
     "verify": "node verify-contract.js"
